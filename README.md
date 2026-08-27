@@ -14,6 +14,7 @@
 | [Awesome Nano Banana Pro Prompts](https://github.com/YouMind-OpenLab/awesome-nano-banana-pro-prompts) | 生图能力地图、提示词结构、身份锚定与案例资产系统 | `verified` | `ready-local` | 本地：`studies/awesome-nano-banana-pro-prompts/` · `docs/nano-banana-pro/` |
 | [shuohao-skills](https://github.com/eternityspring/shuohao-skills) | 面向 Agent 的小说改编、角色美术、结构化剧本和 H3 分镜投产技能 | `verified` | `ready-local` | 本地：`studies/shuohao-skills/` · `docs/shuohao-skills/` |
 | [Scientific Illustrator](https://github.com/icebird1998/scientific-illustrator) | 大模型通过 MCP 生成、检查并修正可编辑科研图源文件 | `verified` | `published` | [研究记录](studies/scientific-illustrator/README.md) · [完整案例](studies/scientific-illustrator/CASE-STUDY.md) · [Web 演示](https://yydshly.github.io/0827_githubcode_study/scientific-illustrator/) |
+| [ChatHub](https://github.com/chathub-dev/chathub) | 以官方 API 与浏览器登录会话双路径接入模型，统一流式协议并支持模型切换和并行回答 | `verified` | `published` | [研究记录](studies/chathub/README.md) · [Web 页面](https://yydshly.github.io/0827_githubcode_study/chathub/) |
 
 ## Featured：Scientific Illustrator 完整案例
 

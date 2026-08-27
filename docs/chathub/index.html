@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ChatHub 源码研究：官方 API、浏览器会话、Provider 适配、流式标准化与多模型调度的真实边界。">
+  <title>ChatHub 研究结论 · GitHub Code Study</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg:#070b0e;
+      --surface:#0e151a;
+      --surface-2:#131e25;
+      --text:#f2f6f7;
+      --muted:#96a8b0;
+      --line:#25333a;
+      --cyan:#78dfdd;
+      --green:#9ae6b4;
+      --amber:#f0c36f;
+      --red:#ff9c96;
+      --ink:#062526;
+      --max:1160px;
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      margin:0;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 12% -8%,rgba(32,150,152,.22),transparent 35rem),
+        linear-gradient(rgba(120,223,221,.027) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(120,223,221,.027) 1px,transparent 1px),
+        var(--bg);
+      background-size:auto,32px 32px,32px 32px,auto;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;
+      line-height:1.65;
+    }
+    a { color:inherit; }
+    code,pre,.mono { font-family:ui-monospace,SFMono-Regular,Consolas,monospace; }
+    .wrap { width:min(calc(100% - 40px),var(--max)); margin-inline:auto; }
+    header { position:sticky; top:0; z-index:20; border-bottom:1px solid rgba(120,223,221,.13); background:rgba(7,11,14,.87); backdrop-filter:blur(18px); }
+    nav { min-height:64px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+    .brand { color:var(--cyan); text-decoration:none; font:760 12px/1 ui-monospace,monospace; letter-spacing:.13em; }
+    .nav-links { display:flex; gap:20px; color:var(--muted); font-size:14px; }
+    .nav-links a { text-decoration:none; }
+    .nav-links a:hover,.nav-links a:focus-visible { color:var(--cyan); }
+    .hero { padding:102px 0 72px; }
+    .eyebrow { color:var(--cyan); font:720 12px/1.3 ui-monospace,monospace; letter-spacing:.16em; text-transform:uppercase; }
+    h1 { max-width:950px; margin:20px 0 24px; font-size:clamp(50px,8vw,96px); line-height:.96; letter-spacing:-.062em; }
+    h1 span { color:var(--cyan); }
+    .lead { max-width:830px; margin:0; color:#cbd6da; font-size:clamp(18px,2.2vw,24px); }
+    .verdict { display:grid; grid-template-columns:auto 1fr; gap:18px; align-items:start; margin-top:34px; padding:22px; border:1px solid rgba(120,223,221,.25); border-radius:16px; background:rgba(15,32,36,.78); }
+    .verdict strong { display:inline-flex; padding:6px 10px; border-radius:999px; color:var(--ink); background:var(--cyan); font:800 11px/1 ui-monospace,monospace; text-transform:uppercase; }
+    .verdict p { margin:0; color:#d5e3e4; }
+    .meta { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1px; margin-top:54px; border:1px solid var(--line); border-radius:16px; overflow:hidden; background:var(--line); }
+    .meta div { padding:18px 20px; background:rgba(14,21,26,.96); }
+    .meta span { display:block; color:var(--muted); font-size:12px; }
+    .meta strong { display:block; margin-top:4px; font-size:15px; overflow-wrap:anywhere; }
+    section { padding:76px 0; border-top:1px solid rgba(37,51,58,.78); }
+    .section-head { display:grid; grid-template-columns:minmax(220px,.8fr) minmax(0,1.35fr); gap:50px; margin-bottom:36px; }
+    h2 { margin:0; font-size:clamp(32px,4.5vw,54px); line-height:1.04; letter-spacing:-.045em; }
+    .section-head p { margin:0; color:var(--muted); font-size:17px; }
+    .grid-2 { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+    .card,.panel { padding:28px; border:1px solid var(--line); border-radius:18px; background:linear-gradient(150deg,rgba(19,30,37,.95),rgba(10,16,20,.98)); }
+    .card small { color:var(--cyan); font:700 11px ui-monospace,monospace; letter-spacing:.12em; }
+    .card h3,.panel h3 { margin:20px 0 10px; font-size:25px; line-height:1.15; }
+    .card p,.panel p { margin:0; color:var(--muted); }
+    .card ul,.panel ul { margin:16px 0 0; padding-left:20px; color:#c7d3d7; }
+    .flow { display:grid; grid-template-columns:1fr auto 1fr auto 1fr auto 1fr; gap:12px; align-items:center; }
+    .flow-box { min-height:148px; padding:22px; border:1px solid var(--line); border-radius:16px; background:var(--surface); }
+    .flow-box strong { display:block; color:var(--cyan); font-size:14px; }
+    .flow-box p { margin:10px 0 0; color:var(--muted); font-size:14px; }
+    .arrow { color:var(--amber); font-size:25px; }
+    .paths { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+    .path { padding:28px; border:1px solid var(--line); border-radius:18px; background:var(--surface); }
+    .path.api { border-top:3px solid var(--green); }
+    .path.web { border-top:3px solid var(--amber); }
+    .path-label { font:800 11px ui-monospace,monospace; letter-spacing:.12em; }
+    .api .path-label { color:var(--green); }
+    .web .path-label { color:var(--amber); }
+    .path h3 { margin:12px 0 12px; font-size:28px; }
+    .steps { display:grid; gap:0; margin-top:22px; counter-reset:steps; }
+    .step { display:grid; grid-template-columns:34px 1fr; gap:12px; padding:14px 0; border-top:1px solid var(--line); }
+    .step::before { counter-increment:steps; content:counter(steps,decimal-leading-zero); color:var(--cyan); font:700 11px ui-monospace,monospace; }
+    .step span { color:#c4d0d4; font-size:14px; }
+    .notice { margin-top:18px; padding:15px 17px; border-radius:12px; color:#ded2b9; background:rgba(240,195,111,.08); border:1px solid rgba(240,195,111,.22); font-size:14px; }
+    .modes { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    pre { margin:0; padding:22px; overflow-x:auto; border:1px solid var(--line); border-radius:14px; background:#05090b; color:#c5efeb; font-size:13px; line-height:1.75; }
+    table { width:100%; border-collapse:collapse; border:1px solid var(--line); background:rgba(14,21,26,.85); }
+    th,td { padding:16px 18px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+    th { color:var(--cyan); font:750 12px ui-monospace,monospace; letter-spacing:.07em; background:rgba(120,223,221,.04); }
+    td { color:#c9d4d7; }
+    td:first-child { color:var(--text); font-weight:700; }
+    .high { color:var(--green); }
+    .medium { color:var(--amber); }
+    .low { color:var(--red); }
+    .stack { display:grid; gap:10px; }
+    .stack-row { display:grid; grid-template-columns:150px 1fr; gap:18px; align-items:start; padding:20px; border:1px solid var(--line); border-radius:14px; background:var(--surface); }
+    .stack-row strong { color:var(--cyan); font-size:14px; }
+    .stack-row p { margin:0; color:var(--muted); }
+    .decision { display:grid; grid-template-columns:.9fr 1.1fr; gap:18px; }
+    .decision .panel:first-child { border-color:rgba(154,230,180,.25); }
+    .decision .panel:last-child { border-color:rgba(255,156,150,.22); }
+    .source-links { display:flex; flex-wrap:wrap; gap:9px; margin-top:26px; }
+    .source-links a { padding:8px 11px; border:1px solid var(--line); border-radius:9px; color:var(--muted); text-decoration:none; font-size:13px; }
+    .source-links a:hover,.source-links a:focus-visible { color:var(--cyan); border-color:var(--cyan); }
+    footer { padding:38px 0 56px; color:var(--muted); font-size:13px; }
+    @media (max-width:900px) {
+      .section-head,.decision { grid-template-columns:1fr; gap:20px; }
+      .flow { grid-template-columns:1fr; }
+      .arrow { transform:rotate(90deg); justify-self:center; }
+    }
+    @media (max-width:700px) {
+      .wrap { width:min(calc(100% - 28px),var(--max)); }
+      .nav-links a:first-child { display:none; }
+      .hero { padding:76px 0 56px; }
+      .grid-2,.paths,.modes,.meta { grid-template-columns:1fr; }
+      .verdict { grid-template-columns:1fr; }
+      .stack-row { grid-template-columns:1fr; gap:7px; }
+      section { padding:58px 0; }
+      th,td { padding:13px 12px; }
+    }
+    @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="wrap" aria-label="主导航">
+      <a class="brand" href="../">CODE STUDY // CHATHUB</a>
+      <div class="nav-links">
+        <a href="#architecture">实现机制</a>
+        <a href="#value">研究价值</a>
+        <a href="https://github.com/chathub-dev/chathub">上游仓库 ↗</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hero wrap">
+      <div class="eyebrow">Source-verified capability study</div>
+      <h1>ChatHub<br><span>多模型接入的真实边界</span></h1>
+      <p class="lead">它不是新的模型，也不是企业级智能网关。它是一个浏览器端多模型客户端：用统一 Adapter 同时容纳官方 API 和网页登录会话，再把不同流式协议归一给同一个上层界面。</p>
+      <div class="verdict">
+        <strong>reference-only</strong>
+        <p>适合提炼 Provider Adapter、Browser Bridge、统一流式事件和并发执行方式；不建议直接 Fork 为生产底座，也不值得继续修复仓库中的旧模型和网页私有接口。</p>
+      </div>
+      <div class="meta" aria-label="研究元数据">
+        <div><span>上游基准</span><strong class="mono">a7a2bd6e</strong></div>
+        <div><span>源码版本</span><strong>Manifest 1.45.7</strong></div>
+        <div><span>许可证</span><strong>GPL-3.0</strong></div>
+        <div><span>验证方式</span><strong>源码静态验证</strong></div>
+      </div>
+    </div>
+
+    <section id="architecture">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>四层，而不是一个“万能调度器”</h2>
+          <p>API Key 或 Cookie 只解决鉴权；每家模型仍要适配请求、流式事件、上下文、工具、文件、能力和错误。真正的调度位于这些 Adapter 之上。</p>
+        </div>
+        <div class="flow" aria-label="四层架构">
+          <div class="flow-box"><strong>01 / AUTH</strong><p>API Key、OAuth、Cookie、Session、Access Token、CSRF。</p></div>
+          <div class="arrow">→</div>
+          <div class="flow-box"><strong>02 / ADAPTER</strong><p>把统一消息转换成 OpenAI、Claude、Gemini 或网页内部协议。</p></div>
+          <div class="arrow">→</div>
+          <div class="flow-box"><strong>03 / STREAM</strong><p>归一 SSE、ReadableStream、WebSocket、工具参数和错误事件。</p></div>
+          <div class="arrow">→</div>
+          <div class="flow-box"><strong>04 / ROUTER</strong><p>负责选择、切换、并发、取消、重试、fallback 和成本策略。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <h2>两条接入路径</h2>
+          <p>ChatHub 的核心不是只使用 API Key。它同时实现官方 API Adapter 和 Browser Session Adapter；两者共享上层 Bot 接口，但稳定性、权限和适用范围不同。</p>
+        </div>
+        <div class="paths">
+          <article class="path api">
+            <div class="path-label">PATH A / OFFICIAL API</div>
+            <h3>API Key 与官方协议</h3>
+            <p>通过 OpenAI、Azure、Anthropic、Gemini、OpenRouter 等 API 或 SDK，按官方文档适配。</p>
+            <div class="steps">
+              <div class="step"><span>读取平台托管 Key 或用户自带 API Key。</span></div>
+              <div class="step"><span>根据 modelId 选择对应 Provider Adapter。</span></div>
+              <div class="step"><span>转换消息、图片、文件、工具和生成参数。</span></div>
+              <div class="step"><span>解析流式事件并转换成统一事件。</span></div>
+            </div>
+          </article>
+          <article class="path web">
+            <div class="path-label">PATH B / BROWSER SESSION</div>
+            <h3>Cookie 与网页登录会话</h3>
+            <p>用户先在浏览器登录目标网站，扩展复用 Cookie/Session，获取 Token 或在页面上下文调用内部接口。</p>
+            <div class="steps">
+              <div class="step"><span>检测用户登录状态和目标网页标签页。</span></div>
+              <div class="step"><span>获取 Access Token、CSRF 或 Conversation 信息。</span></div>
+              <div class="step"><span>必要时由 Content Script 在页面上下文代理请求。</span></div>
+              <div class="step"><span>通过 Runtime Port 把流式结果传回扩展 UI。</span></div>
+            </div>
+            <div class="notice">这条路径通常没有公开稳定的官方手册，依赖网页内部协议分析；适合本地实验，不应默认成为生产架构。</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <h2>切换与并发</h2>
+          <p>两种产品效果建立在同一个模型注册表和统一 Adapter 上。区别只是调用一个 Adapter，还是同时启动多个独立流。</p>
+        </div>
+        <div class="modes">
+          <pre><strong>自由切换模型</strong>
+
+currentModel = "chatgpt"
+        ↓ 用户切换
+currentModel = "claude"
+        ↓
+createBotInstance("claude")
+        ↓
+后续请求由 Claude Adapter 处理</pre>
+          <pre><strong>一个入口，多模型回复</strong>
+
+同一个 prompt
+  ├─ ChatGPT Adapter → Stream A
+  ├─ Claude Adapter  → Stream B
+  └─ Gemini Adapter  → Stream C
+
+三个请求独立并发、独立取消、独立计费</pre>
+        </div>
+        <div class="notice">ChatHub 按 Bot 分开保存状态，更接近切换不同模型自己的会话。若要在同一对话中无缝换模型，必须由我们的系统保存统一消息历史并逐家转换。</div>
+      </div>
+    </section>
+
+    <section id="value">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>对我们的意义</h2>
+          <p>不是继续研究 ChatHub 的旧接口，而是把它展示出的通用边界重建为可测试、可维护、与厂商解耦的内部能力。</p>
+        </div>
+        <table>
+          <thead><tr><th>能力</th><th>研究价值</th><th>采用判断</th></tr></thead>
+          <tbody>
+            <tr><td>Provider Adapter 规范</td><td class="high">高</td><td>统一请求、模型发现、能力声明和流式输出，是上层应用解耦的基础。</td></tr>
+            <tr><td>Browser Bridge</td><td class="high">中高</td><td>Content Script、页面上下文代理和 Runtime Port 可迁移到本地浏览器助手。</td></tr>
+            <tr><td>统一流式事件</td><td class="high">高</td><td>支撑切换、并发、工具调用、取消、错误和用量统计。</td></tr>
+            <tr><td>多模型并发</td><td class="medium">中</td><td>实现简单；真正价值来自路由、裁判、综合与成本控制。</td></tr>
+            <tr><td>现有具体 Adapter</td><td class="low">低</td><td>模型名、私有 URL 和网页协议已经明显老化，只能作为历史样例。</td></tr>
+            <tr><td>企业生产底座</td><td class="low">低</td><td>缺少服务端密钥、RBAC、审计、配额、测试、观测和合规治理。</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <h2>后期应沉淀什么</h2>
+          <p>建议把研究产物转化为六个独立模块。官方 API 是主路径，浏览器会话必须隔离成可选实验能力。</p>
+        </div>
+        <div class="stack">
+          <div class="stack-row"><strong>Provider SDK</strong><p>统一 `validateAuth`、`listModels`、`streamChat`、错误码和生命周期。</p></div>
+          <div class="stack-row"><strong>Auth Strategies</strong><p>托管 API Key、BYOK、官方 OAuth、Browser Session 四种认证策略。</p></div>
+          <div class="stack-row"><strong>Unified Protocol</strong><p>统一 Message、Content、Tool Call、Stream Event、Usage 和附件协议。</p></div>
+          <div class="stack-row"><strong>Model Registry</strong><p>记录模型能力、上下文、价格、可用性和厂商版本，不再硬编码 UI。</p></div>
+          <div class="stack-row"><strong>Model Executor</strong><p>实现 single、parallel、fallback、race、route、judge 和 synthesize。</p></div>
+          <div class="stack-row"><strong>Browser Bridge</strong><p>抽离页面注入、会话检测、请求代理、消息校验和权限治理。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="section-head">
+          <h2>研究收束判断</h2>
+          <p>ChatHub 本身进入 reference-only：保留证据和架构结论，不继续追踪旧 Bot；未来研究转向我们的统一协议和三家官方 API 验证。</p>
+        </div>
+        <div class="decision">
+          <div class="panel">
+            <h3>继续研究</h3>
+            <ul>
+              <li>OpenAI、Anthropic、Gemini 官方流式协议。</li>
+              <li>同一对话跨模型继续。</li>
+              <li>Tool Call、文件、用量和错误标准化。</li>
+              <li>Browser Bridge 的最小权限实验。</li>
+              <li>fallback、成本路由、模型裁判与综合。</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>停止投入</h3>
+            <ul>
+              <li>修复 GPT-3.5、Claude 2、Bard 和旧 Bing。</li>
+              <li>复用硬编码网页 URL、Headers 和模型列表。</li>
+              <li>把 Web Cookie 路径包装成稳定生产能力。</li>
+              <li>沿用项目的正则解析式单工具 Agent。</li>
+              <li>直接 Fork 上游并作为闭源产品继续开发。</li>
+            </ul>
+          </div>
+        </div>
+        <div class="source-links">
+          <a href="https://github.com/chathub-dev/chathub/tree/a7a2bd6e12050d6a39fcaf30868bdfd7ccf78f22">固定源码基准 ↗</a>
+          <a href="https://github.com/chathub-dev/chathub/blob/a7a2bd6e12050d6a39fcaf30868bdfd7ccf78f22/src/app/bots/abstract-bot.ts">统一 Bot 抽象 ↗</a>
+          <a href="https://github.com/chathub-dev/chathub/blob/a7a2bd6e12050d6a39fcaf30868bdfd7ccf78f22/src/app/pages/MultiBotChatPanel.tsx">多模型并发 ↗</a>
+          <a href="https://github.com/chathub-dev/chathub/blob/a7a2bd6e12050d6a39fcaf30868bdfd7ccf78f22/src/app/bots/chatgpt-webapp/requesters.ts">页面代理 ↗</a>
+          <a href="https://github.com/yydshly/0827_githubcode_study/blob/main/studies/chathub/README.md">完整研究记录 ↗</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">GitHub Code Study · ChatHub · 源码事实与采用判断分开记录 · 2026-08-27</footer>
+</body>
+</html>
