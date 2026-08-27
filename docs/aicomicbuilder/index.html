@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="AIComicBuilder 能力、Agent 驱动关系、适用场景与研究结论。">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23071116'/%3E%3Cpath d='M17 45 29 17h7l12 28h-8l-2-6H27l-2 6Zm13-13h6l-3-8Z' fill='%2370e1cf'/%3E%3C/svg%3E">
+  <title>AIComicBuilder · Agent 驱动的短剧生产工作台</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #071116; --surface: #0d1b21; --line: #24424b;
+      --text: #edf8f5; --muted: #9bb4b6; --cyan: #70e1cf;
+      --amber: #f1c36a; --max: 1160px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; color: var(--text); line-height: 1.68;
+      background: radial-gradient(circle at 12% -8%, rgba(55,177,157,.2), transparent 31rem), radial-gradient(circle at 90% 9%, rgba(241,195,106,.11), transparent 25rem), var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+    }
+    a { color: inherit; }
+    .wrap { width: min(calc(100% - 40px), var(--max)); margin-inline: auto; }
+    header { position: sticky; top: 0; z-index: 10; background: rgba(7,17,22,.88); border-bottom: 1px solid rgba(112,225,207,.15); backdrop-filter: blur(18px); }
+    nav { min-height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { font-weight: 760; letter-spacing: .02em; text-decoration: none; }
+    .nav-links { display: flex; gap: 20px; color: var(--muted); font-size: 14px; }
+    .nav-links a:hover, .nav-links a:focus-visible { color: var(--cyan); }
+    main { overflow: hidden; }
+    .hero { padding: 104px 0 74px; }
+    .eyebrow { color: var(--cyan); font: 700 12px/1.2 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .16em; text-transform: uppercase; }
+    h1 { max-width: 900px; margin: 20px 0 24px; font-size: clamp(42px, 7vw, 82px); line-height: 1.02; letter-spacing: -.055em; }
+    h1 span { color: var(--cyan); }
+    .lead { max-width: 790px; color: #c5d8d7; font-size: clamp(18px, 2.2vw, 24px); }
+    .verdict { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 34px; }
+    .pill { padding: 9px 13px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); background: rgba(18,37,44,.65); font-size: 13px; }
+    .pill strong { color: var(--text); }
+    section { padding: 76px 0; border-top: 1px solid rgba(36,66,75,.55); }
+    .section-head { display: grid; grid-template-columns: minmax(180px,.7fr) minmax(0,1.5fr); gap: 50px; margin-bottom: 36px; }
+    .section-head h2 { margin: 0; font-size: clamp(28px,4vw,48px); line-height: 1.1; letter-spacing: -.035em; }
+    .section-head p { margin: 0; color: var(--muted); font-size: 17px; }
+    .architecture { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 12px; }
+    .node { position: relative; min-height: 230px; padding: 24px; border: 1px solid var(--line); border-radius: 18px; background: linear-gradient(145deg,rgba(18,37,44,.96),rgba(10,25,31,.96)); }
+    .node:not(:last-child)::after { content: "→"; position: absolute; right: -19px; top: 48%; z-index: 2; color: var(--cyan); font-size: 20px; }
+    .node .index { color: var(--cyan); font: 700 12px ui-monospace, monospace; }
+    .node h3 { margin: 26px 0 12px; font-size: 21px; }
+    .node p { margin: 0; color: var(--muted); font-size: 14px; }
+    .node.primary { border-color: rgba(112,225,207,.55); box-shadow: inset 0 0 0 1px rgba(112,225,207,.08); }
+    .loop { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; counter-reset: step; }
+    .step { display: grid; grid-template-columns: 44px 1fr; gap: 16px; padding: 22px; border-bottom: 1px solid var(--line); background: rgba(13,27,33,.5); }
+    .step::before { counter-increment: step; content: counter(step,decimal-leading-zero); color: var(--cyan); font: 700 13px ui-monospace, monospace; }
+    .step strong { display: block; margin-bottom: 4px; }
+    .step span { color: var(--muted); font-size: 14px; }
+    .decision { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .decision article { padding: 28px; border-radius: 18px; border: 1px solid var(--line); background: var(--surface); }
+    .decision h3 { margin: 0 0 18px; font-size: 22px; }
+    .decision ul { margin: 0; padding-left: 20px; color: var(--muted); }
+    .yes h3 { color: var(--cyan); } .no h3 { color: var(--amber); }
+    .evidence { margin-top: 38px; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; background: #081318; }
+    .evidence img { display: block; width: 100%; height: auto; }
+    .caption { padding: 14px 18px; color: var(--muted); border-top: 1px solid var(--line); font-size: 13px; }
+    .callout { padding: 36px; border: 1px solid rgba(241,195,106,.35); border-radius: 20px; background: linear-gradient(135deg,rgba(241,195,106,.1),rgba(13,27,33,.8)); }
+    .callout h2 { margin: 0 0 12px; font-size: clamp(30px,4vw,48px); }
+    .callout p { max-width: 760px; margin: 0; color: #d6d5c5; }
+    .links { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+    .button { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 10px; border: 1px solid var(--line); text-decoration: none; font-weight: 700; font-size: 14px; }
+    .button.primary { color: #04231e; background: var(--cyan); border-color: var(--cyan); }
+    .button:hover, .button:focus-visible { transform: translateY(-1px); outline: 2px solid var(--amber); outline-offset: 3px; }
+    footer { padding: 36px 0 60px; color: var(--muted); font-size: 13px; }
+    code { color: #bff5e9; }
+    @media (max-width: 860px) { .architecture { grid-template-columns: 1fr 1fr; } .node:not(:last-child)::after { display: none; } .section-head { grid-template-columns: 1fr; gap: 16px; } }
+    @media (max-width: 600px) { .wrap { width: min(calc(100% - 28px),var(--max)); } .hero { padding: 70px 0 54px; } h1 { font-size: clamp(38px,13vw,58px); } nav { min-height: 56px; } .nav-links a:not(:last-child) { display: none; } section { padding: 54px 0; } .architecture,.loop,.decision { grid-template-columns: 1fr; } .node { min-height: auto; } .callout { padding: 24px; } }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *,*::before,*::after { transition: none !important; } }
+  </style>
+</head>
+<body>
+  <header><nav class="wrap" aria-label="页面导航"><a class="brand" href="#top">AIComicBuilder / 研究归档</a><div class="nav-links"><a href="#relation">Agent 关系</a><a href="#decision">采用判断</a><a href="https://github.com/LingyiChen-AI/AIComicBuilder">上游仓库 ↗</a></div></nav></header>
+  <main id="top">
+    <div class="hero wrap">
+      <div class="eyebrow">Archived research · 2026-08-27</div>
+      <h1>用 Agent 驱动的<br><span>短剧生产工作台</span></h1>
+      <p class="lead">AIComicBuilder 不是底层视频模型，也不是万能 Agent。它控制整个生产流程，在关键节点指挥 Agent 和生成模型执行任务，持续保存结果、推进审核与返工，最终实现目标短剧视频。</p>
+      <div class="verdict" aria-label="核心判断"><span class="pill"><strong>输入：</strong>创意、小说改编稿、剧本</span><span class="pill"><strong>控制：</strong>任务队列 + 状态 + 资产版本</span><span class="pill"><strong>执行：</strong>Agent + 图像/视频模型</span><span class="pill"><strong>输出：</strong>逐镜视频 + FFmpeg 成片</span></div>
+    </div>
+    <section id="relation"><div class="wrap">
+      <div class="section-head"><h2>谁在驱动谁？</h2><p>基础模式下，AIComicBuilder 是流程控制者，Agent 是可插拔的智能执行节点。Agent 返回结构化结果后，工作台写入数据库并决定进入下一步还是返工。</p></div>
+      <div class="architecture">
+        <article class="node primary"><div class="index">01 / CONTROL</div><h3>AIComicBuilder</h3><p>决定当前工序、准备上下文、创建任务、保存版本、展示审核状态。</p></article>
+        <article class="node"><div class="index">02 / REASON</div><h3>我们的 Agent</h3><p>完成小说改编、角色分析、导演分镜、提示词和质量判断。</p></article>
+        <article class="node"><div class="index">03 / GENERATE</div><h3>生成模型</h3><p>OpenAI、Gemini、Kling、Seedance、Veo、Wan 等生成文字、图片和视频。</p></article>
+        <article class="node"><div class="index">04 / DELIVER</div><h3>目标视频</h3><p>逐镜结果经字幕、转场、BGM、片头片尾和 FFmpeg 合成为短剧。</p></article>
+      </div>
+    </div></section>
+    <section><div class="wrap">
+      <div class="section-head"><h2>它如何推进工作</h2><p>按钮或“一键续跑”只是入口，真正的核心是任务状态和可重复执行的生产节点。</p></div>
+      <div class="loop">
+        <div class="step"><div><strong>输入小说改编稿或剧本</strong><span>小说需要先完成章节选择、压缩、分集和剧本化。</span></div></div>
+        <div class="step"><div><strong>创建待执行任务</strong><span>任务记录类型、项目、分集、输入、状态、重试和错误。</span></div></div>
+        <div class="step"><div><strong>调用 Agent 或模型</strong><span>可使用内置提示词，也可按类别绑定百炼、Dify、Coze Agent。</span></div></div>
+        <div class="step"><div><strong>写入结构化结果</strong><span>保存角色、关系、场景、分镜、对白、动作和资产版本。</span></div></div>
+        <div class="step"><div><strong>审核、返修、继续</strong><span>失败镜头可单独重做，已有项目状态和上游资产不会丢失。</span></div></div>
+        <div class="step"><div><strong>逐镜生成并合片</strong><span>首尾帧或参考图驱动视频模型，最后由 FFmpeg 输出成片。</span></div></div>
+      </div>
+    </div></section>
+    <section id="decision"><div class="wrap">
+      <div class="section-head"><h2>什么时候有意义</h2><p>它的价值不是让单次生成更快，而是让长期的 Agent 生产过程可见、可控、可审核、可返工。</p></div>
+      <div class="decision">
+        <article class="yes"><h3>适合采用</h3><ul><li>小说漫改、连续短剧、多集生产</li><li>角色和场景需要跨镜头保持一致</li><li>需要版本、审核、失败重试和逐镜返修</li><li>多个 Agent 与多家模型需要统一上下文</li></ul></article>
+        <article class="no"><h3>不必采用</h3><ul><li>只做一次性样片或单条短视频</li><li>现有 Agent 脚本已能完成简单闭环</li><li>已经拥有成熟任务编排、资产库和审核后台</li><li>尚未决定进入短剧生产业务</li></ul></article>
+      </div>
+      <div class="evidence"><img src="storyboard.png" alt="AIComicBuilder 原生分镜工作台，展示三个镜头及首尾帧控制"><div class="caption">本地验证：原创概念样例已走通剧本、角色、场景、3 个分镜和 6 张首尾帧；未配置付费视频模型，因此未将静态关键帧冒充成 AI 视频。</div></div>
+    </div></section>
+    <section><div class="wrap callout"><div class="eyebrow">Final decision</div><h2>现在归档，需要做短剧时再启用。</h2><p>重新启动研究的条件：我们正式进入小说短剧生产，并且单次 Agent 流程已经出现多集、角色一致性、版本和返修管理瓶颈。届时首先验证小说改编 Agent、TTS/口型、严格质检和成本路由。</p><div class="links"><a class="button primary" href="https://github.com/yydshly/0827_githubcode_study/tree/main/studies/aicomicbuilder">查看完整研究记录</a><a class="button" href="https://github.com/LingyiChen-AI/AIComicBuilder">查看上游项目</a></div></div></section>
+  </main>
+  <footer class="wrap">AIComicBuilder capability study · 固定上游版本 <code>e01e7dd</code> · 研究结论不等同于生产承诺</footer>
+</body>
+</html>
