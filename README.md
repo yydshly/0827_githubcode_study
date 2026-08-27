@@ -15,6 +15,35 @@
 | [shuohao-skills](https://github.com/eternityspring/shuohao-skills) | 面向 Agent 的小说改编、角色美术、结构化剧本和 H3 分镜投产技能 | `verified` | `ready-local` | 本地：`studies/shuohao-skills/` · `docs/shuohao-skills/` |
 | [Scientific Illustrator](https://github.com/icebird1998/scientific-illustrator) | 大模型通过 MCP 生成、检查并修正可编辑科研图源文件 | `verified` | `published` | [研究记录](studies/scientific-illustrator/README.md) · [完整案例](studies/scientific-illustrator/CASE-STUDY.md) · [Web 演示](https://yydshly.github.io/0827_githubcode_study/scientific-illustrator/) |
 | [ChatHub](https://github.com/chathub-dev/chathub) | 以官方 API 与浏览器登录会话双路径接入模型，统一流式协议并支持模型切换和并行回答 | `verified` | `published` | [研究记录](studies/chathub/README.md) · [Web 页面](https://yydshly.github.io/0827_githubcode_study/chathub/) |
+| [Comp AI CRM](https://github.com/trycompai/crm) | 以结构化业务数据、Evidence、持久任务和受控工具支撑长期运行 Agent 的 Agentic CRM | `researching` | `researching` | [研究记录](studies/trycompai-crm/README.md) · [架构图](studies/trycompai-crm/architecture.svg) |
+
+## Featured：Comp AI CRM Agentic 架构研究
+
+它不是“给大模型准备一张数据库表”，也不只是传统 CRM 加聊天框。它的核心参考价值，是把长期运行的业务 Agent 所需能力拆成一套可治理的系统：数据库保存事实、关系、任务与执行状态；Evidence 和规则约束事实如何被采用；大模型负责理解与规划；持久任务保证工作可恢复；受控工具负责执行外部动作；结果和审计记录再回写系统。
+
+```mermaid
+flowchart LR
+    A[业务信息与外部信号] --> B[Agent-ready Database<br/>事实·关系·任务·权限]
+    B --> C[Evidence / Policy<br/>证据·规则·冲突处理]
+    C --> D[Durable Agent<br/>理解·规划·租约·重试]
+    D --> E[Controlled Tools<br/>受控读写与外部动作]
+    E --> F[执行结果与审计]
+    F --> B
+```
+
+本轮源码级研究确认的关键技术价值：
+
+- **Agent-ready 业务记忆**：沉淀的不只是文本，而是业务事实、实体关系、证据、待办任务、权限与审计状态。
+- **可追溯事实治理**：Evidence 将工具观测与业务事实关联，并通过确定性规则处理应用、提案与冲突，降低模型直接改写核心事实的风险。
+- **可恢复的长任务执行**：任务队列、租约、重新检查和重试机制，使 Agent 不依赖一次对话完成工作。
+- **受控能力接口**：工具网关统一暴露 Agent 可调用的读写动作，便于做权限、校验、幂等与审计。
+- **可演进的 Agent 配置**：Manifest、Builder 生命周期和 Action Ledger 让 Agent 的版本、行为与执行结果能够被管理和复盘。
+
+对我们的采用建议：优先沉淀 **Evidence 模型、持久任务、工具网关、Manifest 和 Action Ledger** 这五类通用能力；下一步应通过本地运行验证 Evidence 写入链路、并发任务租约与恢复、工具调用幂等性。单租户鉴权、固定销售流程和供应商绑定不宜直接照搬，应按我们的业务边界重新设计。
+
+当前状态为 `researching`：以上结论来自源码与结构分析，尚未完成完整运行验证。
+
+[查看完整研究结论](studies/trycompai-crm/README.md) · [查看架构图](studies/trycompai-crm/architecture.svg)
 
 ## Featured：Awesome Nano Banana Pro Prompts 研究
 
