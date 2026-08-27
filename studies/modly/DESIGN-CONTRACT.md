@@ -42,5 +42,5 @@ Observable completion criteria: 页面在桌面、平板和 390px 手机可读�
 | 多端适配 | 桌面、平板、390px 手机 | 1440 / 768 / 390 | 截图、溢出检查 | Stage 7 | pass | 三视口截图且 overflowX=0 |
 | 可访问性 | 键盘、焦点、语义、reduced-motion | 导航与交互控件 | 键盘路径、DOM/样式检查 | Stage 7 | pass | 键盘、焦点、Escape 与 reduced-motion 已验证 |
 | 文档入口 | 项目研究 README、总 README、门户 | 仓库文件 | 链接和 diff 检查 | Stage 9 | pass | 研究文档、外层 README 与门户入口已形成 |
-| 远端发布 | 独立提交、推送、Pages 成功 | main / GitHub Pages | commit、push、Actions、线上 URL | Stage 9 | continue | 完成提交与线上检查 |
+| 远端发布 | 独立提交、推送、Pages 成功 | main / GitHub Pages | commit、push、Actions、线上 URL | Stage 9 | pass | 90742e2 已推送；Validate 与 Pages 成功；线上返回 200 |
 

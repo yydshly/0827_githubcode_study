@@ -3,7 +3,7 @@
 ## 项目与阶段
 
 - 项目：Modly 图生 3D 能力研究站。
-- 当前阶段：Stage 9，等待独立提交、远端推送与 GitHub Pages 线上复检。
+- 当前阶段：Stage 9 已完成；本次范围已关闭。
 - 体验架构：Editorial Flow，单一深色主题。
 - 主要旅程：核心结论 → 适配原理 → 算力依赖 → 模型地图 → 选型决策 → 后期探索。
 
@@ -66,9 +66,15 @@ Validation timestamp:
 
 仓库内其他已修改或未跟踪的文件属于现有工作，不纳入本次提交。
 
-## 尚待完成
+## 远端发布结果
 
-- 创建独立 Modly 提交并推送 `origin/main`。
-- 等待 Pages 工作流完成，复检线上 `/modly/` URL 与门户入口。
-- 完成后将设计契约和本记录中的最后状态收束为 `pass`。
+- 页面提交：`90742e2 docs: publish Modly 3D capability study`。
+- 推送目标：`origin/main`，成功。
+- Validate repository：[Actions run 33082966002](https://github.com/yydshly/0827_githubcode_study/actions/runs/33082966002)，`success`。
+- Deploy GitHub Pages：[Actions run 33082965956](https://github.com/yydshly/0827_githubcode_study/actions/runs/33082965956)，`success`。
+- 线上页面：[Modly 图生 3D 能力研究](https://yydshly.github.io/0827_githubcode_study/modly/)，HTTP 200。
+- 线上复检：标题正确，模型筛选显示 3 个现成扩展，`overflowX=0`，无 console error 或 page error。
+- 门户复检：[研究门户](https://yydshly.github.io/0827_githubcode_study/)，HTTP 200，存在唯一 Modly 卡片与入口。
+
+所有覆盖项均为 `pass`，无 `continue`、`defer` 或 `blocked`；本次交付范围关闭。
 
