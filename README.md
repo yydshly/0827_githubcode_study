@@ -1,44 +1,68 @@
 # GitHub Code Study
 
-这是一个面向长期积累的开源项目研究仓库，用来拆解多个子项目的能力、实现方式与可复用经验，并通过 GitHub README 和 GitHub Pages 持续展示研究过程。
+面向长期积累的开源项目能力研究仓库。这里不只收藏链接，而是固定上游版本、拆解真实能力、验证运行边界，并把结论整理成可以快速决策的研究记录和 Web 页面。
 
-## 研究索引
+**统一入口：** [打开 GitHub Code Study Web 门户](https://yydshly.github.io/0827_githubcode_study/)
 
-| 子项目 | 上游仓库 | 研究重点 | 当前阶段 | 研究记录 | 在线展示 |
-| --- | --- | --- | --- | --- | --- |
-| 待添加 | — | — | `planned` | — | — |
+## 项目索引
 
-> 每开始一个新项目，请复制 [`templates/study/README.md`](templates/study/README.md)，并同步更新上方索引。
+研究状态描述“结论完成到什么程度”，页面状态描述“是否已在 GitHub Pages 上线”，两者分开维护。
+
+| 子项目 | 核心定位 | 研究状态 | 页面状态 | 研究记录 / 页面 |
+|---|---|---|---|---|
+| [AIComicBuilder](https://github.com/LingyiChen-AI/AIComicBuilder) | 借助 Agent 和生成模型执行节点的短剧生产工作台；管理任务、角色、分镜、资产版本与合片流程 | `archived` | `published` | [研究结论](studies/aicomicbuilder/README.md) · [Web 页面](https://yydshly.github.io/0827_githubcode_study/aicomicbuilder/) |
+| [Awesome Nano Banana Pro Prompts](https://github.com/YouMind-OpenLab/awesome-nano-banana-pro-prompts) | 生图能力地图、提示词结构、身份锚定与案例资产系统 | `verified` | `ready-local` | 本地：`studies/awesome-nano-banana-pro-prompts/` · `docs/nano-banana-pro/` |
+| [shuohao-skills](https://github.com/eternityspring/shuohao-skills) | 面向 Agent 的小说改编、角色美术、结构化剧本和 H3 分镜投产技能 | `verified` | `ready-local` | 本地：`studies/shuohao-skills/` · `docs/shuohao-skills/` |
+| [Scientific Illustrator](https://github.com/icebird1998/scientific-illustrator) | 可编辑科研图重建、draw.io/PowerPoint/WPS 后端和结构/渲染质量审计 | `researching` | `researching` | 本地：`studies/scientific-illustrator/` · `docs/scientific-illustrator/` |
+
+## 状态说明
+
+研究状态：
+
+- `planned`：已列入计划，尚未开始。
+- `researching`：正在阅读、实验和记录。
+- `verified`：关键结论已有可复现证据。
+- `archived`：研究已收束，达到重新启用条件前不再投入。
+
+页面状态：
+
+- `published`：页面已合入 `main`，GitHub Pages 可访问。
+- `ready-local`：本地页面已经形成，等待独立审阅和提交。
+- `researching`：页面仍随研究变化，暂不对外发布。
+
+## 统一目录约定
+
+每个新研究项目使用同一个 slug，并维护两个入口：
+
+```text
+studies/<project-slug>/README.md   # 研究结论、版本、证据与采用判断
+docs/<project-slug>/index.html     # 面向浏览者的 GitHub Pages 页面
+```
+
+新增或发布项目时同步完成：
+
+1. 固定上游仓库和 commit/release。
+2. 更新本 README 的项目索引与两个状态。
+3. 更新 `docs/index.html` 的门户卡片。
+4. 确认页面使用相对路径，不依赖本地服务和本地绝对路径。
+5. 在桌面和移动端验证后，独立提交并推送。
 
 ## 仓库结构
 
 ```text
 .
-├── README.md                 # 对外总入口与研究索引
-├── studies/                  # 每个子项目的研究记录、实验和演示
-│   └── README.md
-├── templates/
-│   └── study/README.md       # 新研究项目模板
-├── docs/                     # GitHub Pages 展示站点
-├── .github/workflows/        # 自动校验与 Pages 发布
-└── CONTRIBUTING.md           # 研究记录与提交约定
+├── README.md                 # 对外总览、项目索引和维护约定
+├── studies/                  # 各项目研究记录与固定上游源码
+├── docs/
+│   ├── index.html            # 整体 Web 门户
+│   └── <project-slug>/       # 各研究项目独立页面
+├── templates/                # 新研究项目模板
+└── .github/workflows/        # GitHub Pages 发布流程
 ```
 
-建议每个子项目使用 `studies/<project-slug>/` 作为独立研究单元。若需要保留上游源码引用，优先记录固定的 commit、release 或链接；只有确实需要联动源码时再引入 Git submodule，避免主仓库快速膨胀。
+## GitHub Pages
 
-## 研究流程
-
-1. 从模板创建 `studies/<project-slug>/README.md`。
-2. 记录上游仓库、基准版本、研究问题和可复现实验。
-3. 把阶段性结论、截图或演示放在该研究单元内。
-4. 更新本页索引和 [`docs/index.md`](docs/index.md)。
-5. 通过 Pull Request 或提交记录保留研究演进过程。
-
-阶段状态统一使用：`planned`、`researching`、`verified`、`archived`。
-
-## GitHub 展示
-
-仓库包含 GitHub Pages 自动发布工作流。首次启用时，在仓库的 **Settings → Pages → Build and deployment → Source** 中选择 **GitHub Actions**。之后推送到 `main` 且 `docs/` 有变更时，站点会自动更新。
+推送 `docs/**` 到 `main` 后，工作流会通过 Jekyll 构建并发布整个 `docs/` 目录。门户地址保持不变，各项目页面使用 `/<project-slug>/` 路径，方便后续持续增加页面。
 
 ## License
 
