@@ -1,0 +1,350 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1900" height="2200" viewBox="0 0 1900 2200" role="img" aria-labelledby="title desc">
+  <title id="title">Claude Code Everything You Need to Know 详细能力与架构图</title>
+  <desc id="desc">展示仓库的五种驱动方式、Claude Code 运行时、八个 Skills、五个项目 Agent、十个专业角色提示词、四个 Hooks、一个 Workflow 和四类 MCP 能力。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07111f"/>
+      <stop offset="0.55" stop-color="#0b1830"/>
+      <stop offset="1" stop-color="#10162a"/>
+    </linearGradient>
+    <linearGradient id="runtime" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0f3d6e"/>
+      <stop offset="0.5" stop-color="#15569a"/>
+      <stop offset="1" stop-color="#143b70"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity="0.28"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,5 L0,10 z" fill="#70b7ff"/>
+    </marker>
+    <style>
+      .title{font:700 42px 'Microsoft YaHei','PingFang SC','Noto Sans CJK SC',Arial,sans-serif;fill:#f7fbff}
+      .subtitle{font:400 20px 'Microsoft YaHei','PingFang SC','Noto Sans CJK SC',Arial,sans-serif;fill:#a9bad0}
+      .section{font:700 25px 'Microsoft YaHei','PingFang SC','Noto Sans CJK SC',Arial,sans-serif;fill:#f3f8ff}
+      .panelTitle{font:700 23px 'Microsoft YaHei','PingFang SC','Noto Sans CJK SC',Arial,sans-serif;fill:#f8fbff}
+      .cardTitle{font:700 18px 'Microsoft YaHei','PingFang SC','Noto Sans CJK SC',Arial,sans-serif;fill:#ffffff}
+      .body{font:400 16px 'Microsoft YaHei','PingFang SC','Noto Sans CJK SC',Arial,sans-serif;fill:#cad7e7}
+      .small{font:400 14px 'Microsoft YaHei','PingFang SC','Noto Sans CJK SC',Arial,sans-serif;fill:#b8c7d9}
+      .tiny{font:400 13px 'Microsoft YaHei','PingFang SC','Noto Sans CJK SC',Arial,sans-serif;fill:#aebed2}
+      .mono{font:600 14px Consolas,'Cascadia Mono',monospace;fill:#9ed7ff}
+      .pill{font:700 13px 'Microsoft YaHei','PingFang SC','Noto Sans CJK SC',Arial,sans-serif;fill:#07111f}
+      .panel{fill:#101f35;stroke:#304a68;stroke-width:1.4}
+      .softCard{fill:#201d3d;stroke:#7467c9;stroke-width:1.2}
+      .agentCard{fill:#172c43;stroke:#46789e;stroke-width:1.2}
+      .hookCard{fill:#142f2c;stroke:#3f9d82;stroke-width:1.2}
+      .flowCard{fill:#3a2917;stroke:#d2933f;stroke-width:1.2}
+      .mcpCard{fill:#12313a;stroke:#3aa2b8;stroke-width:1.2}
+      .trigger{fill:#12233b;stroke:#365b80;stroke-width:1.2}
+      .connector{stroke:#70b7ff;stroke-width:2.2;fill:none;marker-end:url(#arrow);opacity:.9}
+      .mutedConnector{stroke:#526d88;stroke-width:1.6;fill:none;stroke-dasharray:7 6;marker-end:url(#arrow);opacity:.72}
+    </style>
+  </defs>
+
+  <rect width="1900" height="2200" fill="url(#bg)"/>
+  <circle cx="1740" cy="120" r="230" fill="#2c4c86" opacity="0.12"/>
+  <circle cx="150" cy="2050" r="300" fill="#503d88" opacity="0.10"/>
+
+  <!-- Header -->
+  <text x="60" y="72" class="title">Claude Code 工程化脚手架：详细能力与内部架构</text>
+  <text x="60" y="112" class="subtitle">仓库：Claude-Code-Everything-You-Need-to-Know ｜ 核心定位：在 Claude Code Runtime 之上组织、驱动、约束与扩展大模型</text>
+  <rect x="1550" y="48" width="290" height="48" rx="24" fill="#d9f2ff"/>
+  <text x="1695" y="78" text-anchor="middle" class="pill">参考架构 · 不是独立 Runtime</text>
+
+  <!-- Trigger layer -->
+  <rect x="40" y="150" width="1820" height="190" rx="22" class="panel" filter="url(#shadow)"/>
+  <text x="70" y="190" class="section">① 驱动入口：任务如何启动</text>
+
+  <g>
+    <rect x="70" y="215" width="320" height="92" rx="16" class="trigger"/>
+    <text x="92" y="246" class="cardTitle">人工驱动</text>
+    <text x="92" y="273" class="body">自然语言、/pr、/review、/tdd…</text>
+    <text x="92" y="296" class="tiny">由人明确选择入口和任务目标</text>
+  </g>
+  <g>
+    <rect x="425" y="215" width="320" height="92" rx="16" class="trigger"/>
+    <text x="447" y="246" class="cardTitle">模型语义驱动</text>
+    <text x="447" y="273" class="body">匹配 Skill description</text>
+    <text x="447" y="296" class="tiny">按需加载完整 SKILL.md</text>
+  </g>
+  <g>
+    <rect x="780" y="215" width="320" height="92" rx="16" class="trigger"/>
+    <text x="802" y="246" class="cardTitle">事件驱动</text>
+    <text x="802" y="273" class="body">Tool / Notification / Stop 事件</text>
+    <text x="802" y="296" class="tiny">settings.json 绑定 Python Hooks</text>
+  </g>
+  <g>
+    <rect x="1135" y="215" width="320" height="92" rx="16" class="trigger"/>
+    <text x="1157" y="246" class="cardTitle">编排驱动</text>
+    <text x="1157" y="273" class="body">pipeline · parallel · agent</text>
+    <text x="1157" y="296" class="tiny">拆解、并行、验证、聚合</text>
+  </g>
+  <g>
+    <rect x="1490" y="215" width="320" height="92" rx="16" class="trigger"/>
+    <text x="1512" y="246" class="cardTitle">外部工具驱动</text>
+    <text x="1512" y="273" class="body">MCP Tool schema 与工具调用</text>
+    <text x="1512" y="296" class="tiny">浏览器、记忆、代码索引等</text>
+  </g>
+
+  <!-- Runtime band -->
+  <path d="M230 307 L230 382" class="connector"/>
+  <path d="M585 307 L585 382" class="connector"/>
+  <path d="M940 307 L940 382" class="connector"/>
+  <path d="M1295 307 L1295 382" class="connector"/>
+  <path d="M1650 307 L1650 382" class="connector"/>
+
+  <rect x="40" y="385" width="1820" height="250" rx="22" fill="url(#runtime)" stroke="#4e8fd0" stroke-width="1.8" filter="url(#shadow)"/>
+  <text x="75" y="430" class="section">② Claude Code Runtime：真正的执行引擎</text>
+  <text x="75" y="462" class="subtitle">仓库不实现模型或工具系统；它通过配置与 Prompt 驾驭 Runtime</text>
+
+  <g>
+    <rect x="80" y="490" width="370" height="108" rx="16" fill="#0b294c" stroke="#65a9ea"/>
+    <text x="104" y="524" class="cardTitle">上下文装载</text>
+    <text x="104" y="552" class="body">CLAUDE.md 常驻 · Skill 按需</text>
+    <text x="104" y="578" class="body">Subagent 独立上下文</text>
+  </g>
+  <g>
+    <rect x="485" y="490" width="390" height="108" rx="16" fill="#0b294c" stroke="#65a9ea"/>
+    <text x="509" y="524" class="cardTitle">Agentic Loop</text>
+    <text x="509" y="552" class="body">理解 → 搜索 → 调用工具 → 观察结果</text>
+    <text x="509" y="578" class="body">编辑 → 测试 → 继续推理 → 验证</text>
+  </g>
+  <g>
+    <rect x="910" y="490" width="390" height="108" rx="16" fill="#0b294c" stroke="#65a9ea"/>
+    <text x="934" y="524" class="cardTitle">内置工具</text>
+    <text x="934" y="552" class="body">Read · Edit · Search · Shell · Git</text>
+    <text x="934" y="578" class="body">Web · Agent · 权限审批</text>
+  </g>
+  <g>
+    <rect x="1335" y="490" width="445" height="108" rx="16" fill="#0b294c" stroke="#65a9ea"/>
+    <text x="1359" y="524" class="cardTitle">结果与状态</text>
+    <text x="1359" y="552" class="body">代码变更 · 测试结果 · PR · 审计日志</text>
+    <text x="1359" y="578" class="body">结构化 JSON · 文档 · 用户反馈</text>
+  </g>
+
+  <!-- Detailed inventory -->
+  <text x="40" y="688" class="section">③ 仓库内部能力清单</text>
+
+  <!-- Skills panel -->
+  <rect x="40" y="715" width="800" height="1040" rx="22" class="panel" filter="url(#shadow)"/>
+  <rect x="40" y="715" width="800" height="64" rx="22" fill="#372d65"/>
+  <rect x="40" y="757" width="800" height="22" fill="#372d65"/>
+  <text x="70" y="756" class="panelTitle">A. Skills / Commands（8 个）— 可复用的“软控制”能力</text>
+
+  <!-- Skill cards row 1 -->
+  <g>
+    <rect x="70" y="805" width="350" height="182" rx="16" class="softCard"/>
+    <text x="92" y="839" class="cardTitle">/pr</text>
+    <text x="348" y="839" text-anchor="end" class="mono">commands/pr.md</text>
+    <text x="92" y="870" class="body">• 创建分支、格式化修改文件</text>
+    <text x="92" y="898" class="body">• 按逻辑单元拆分提交</text>
+    <text x="92" y="926" class="body">• 推送远端并创建 PR</text>
+    <text x="92" y="954" class="body">• 生成摘要与测试计划</text>
+  </g>
+  <g>
+    <rect x="455" y="805" width="350" height="182" rx="16" class="softCard"/>
+    <text x="477" y="839" class="cardTitle">/review</text>
+    <text x="783" y="839" text-anchor="end" class="mono">commands/review.md</text>
+    <text x="477" y="870" class="body">• 多视角 PR 审查</text>
+    <text x="477" y="898" class="body">• PM · 开发 · QA · 安全</text>
+    <text x="477" y="926" class="body">• DevOps · UI/UX</text>
+    <text x="477" y="954" class="body">• 汇总并发布到 GitHub</text>
+  </g>
+
+  <!-- Skill cards row 2 -->
+  <g>
+    <rect x="70" y="1010" width="350" height="182" rx="16" class="softCard"/>
+    <text x="92" y="1044" class="cardTitle">/tdd</text>
+    <text x="398" y="1044" text-anchor="end" class="mono">commands/tdd.md</text>
+    <text x="92" y="1075" class="body">• 理解需求、创建功能分支</text>
+    <text x="92" y="1103" class="body">• Red：先写失败测试</text>
+    <text x="92" y="1131" class="body">• Green：最小实现通过测试</text>
+    <text x="92" y="1159" class="body">• Refactor → 提交 → PR</text>
+  </g>
+  <g>
+    <rect x="455" y="1010" width="350" height="182" rx="16" class="softCard"/>
+    <text x="477" y="1044" class="cardTitle">/test</text>
+    <text x="783" y="1044" text-anchor="end" class="mono">commands/test.md</text>
+    <text x="477" y="1075" class="body">• 单元测试生成检查清单</text>
+    <text x="477" y="1103" class="body">• Given–When–Then</text>
+    <text x="477" y="1131" class="body">• 边界/异常/并发/副作用</text>
+    <text x="477" y="1159" class="body">• 隔离 I/O，避免过度 Mock</text>
+  </g>
+
+  <!-- Skill cards row 3 -->
+  <g>
+    <rect x="70" y="1215" width="350" height="182" rx="16" class="softCard"/>
+    <text x="92" y="1249" class="cardTitle">/five</text>
+    <text x="398" y="1249" text-anchor="end" class="mono">commands/five.md</text>
+    <text x="92" y="1280" class="body">• Five Whys 根因分析</text>
+    <text x="92" y="1308" class="body">• 从现象连续追问“为什么”</text>
+    <text x="92" y="1336" class="body">• 反向验证根因链路</text>
+    <text x="92" y="1364" class="body">• 输出系统性解决方案</text>
+  </g>
+  <g>
+    <rect x="455" y="1215" width="350" height="182" rx="16" class="softCard"/>
+    <text x="477" y="1249" class="cardTitle">/ux</text>
+    <text x="783" y="1249" text-anchor="end" class="mono">commands/ux.md</text>
+    <text x="477" y="1280" class="body">• UX Designer 人格与方法</text>
+    <text x="477" y="1308" class="body">• 用户研究与共情视角</text>
+    <text x="477" y="1336" class="body">• 用户旅程、交互与可用性</text>
+    <text x="477" y="1364" class="body">• 以用户为中心的设计建议</text>
+  </g>
+
+  <!-- Skill cards row 4 -->
+  <g>
+    <rect x="70" y="1420" width="350" height="230" rx="16" class="softCard"/>
+    <text x="92" y="1454" class="cardTitle">/todo</text>
+    <text x="398" y="1454" text-anchor="end" class="mono">commands/todo.md</text>
+    <text x="92" y="1485" class="body">• 在项目根目录维护 todos.md</text>
+    <text x="92" y="1513" class="body">• add · complete · remove · undo</text>
+    <text x="92" y="1541" class="body">• due · past due · next · list</text>
+    <text x="92" y="1569" class="body">• 到期日排序与完成时间</text>
+    <text x="92" y="1600" class="tiny">类型：本地 Markdown 状态管理</text>
+  </g>
+  <g>
+    <rect x="455" y="1420" width="350" height="230" rx="16" class="softCard"/>
+    <text x="477" y="1454" class="cardTitle">/claude-md-review</text>
+    <text x="783" y="1454" text-anchor="end" class="mono">skills/.../SKILL.md</text>
+    <text x="477" y="1485" class="body">• 审计 CLAUDE.md 指令质量</text>
+    <text x="477" y="1513" class="body">• 模糊规则 · 死路径 · 过时命令</text>
+    <text x="477" y="1541" class="body">• 上下文膨胀 · 冲突指令</text>
+    <text x="477" y="1569" class="body">• 仅允许 Read / Glob / Grep</text>
+    <text x="477" y="1600" class="tiny">类型：Agent Skill，可语义自动触发</text>
+  </g>
+
+  <rect x="70" y="1680" width="735" height="48" rx="12" fill="#2b2652"/>
+  <text x="88" y="1710" class="small">加载机制：Slash Skills 由用户显式调用；Agent Skill 先加载 metadata，匹配任务后再加载正文</text>
+
+  <!-- Agents panel -->
+  <rect x="860" y="715" width="470" height="1040" rx="22" class="panel" filter="url(#shadow)"/>
+  <rect x="860" y="715" width="470" height="64" rx="22" fill="#204463"/>
+  <rect x="860" y="757" width="470" height="22" fill="#204463"/>
+  <text x="890" y="756" class="panelTitle">B. Agents — 独立上下文与角色分工</text>
+
+  <text x="890" y="816" class="cardTitle">项目级可运行 Agent（5 个）</text>
+  <g>
+    <rect x="890" y="840" width="410" height="92" rx="14" class="agentCard"/>
+    <text x="910" y="870" class="cardTitle">tech-lead-architect</text>
+    <text x="910" y="898" class="body">架构方案、技术决策、边界与质量把关</text>
+    <text x="910" y="920" class="tiny">.claude/agents/tech-lead-architect.md</text>
+  </g>
+  <g>
+    <rect x="890" y="948" width="410" height="92" rx="14" class="agentCard"/>
+    <text x="910" y="978" class="cardTitle">frontend-engineer</text>
+    <text x="910" y="1006" class="body">前端实现、组件、状态、性能与可访问性</text>
+    <text x="910" y="1028" class="tiny">.claude/agents/frontend-engineer.md</text>
+  </g>
+  <g>
+    <rect x="890" y="1056" width="410" height="92" rx="14" class="agentCard"/>
+    <text x="910" y="1086" class="cardTitle">ux-designer</text>
+    <text x="910" y="1114" class="body">用户体验、交互路径、可用性与设计建议</text>
+    <text x="910" y="1136" class="tiny">.claude/agents/ux-designer.md</text>
+  </g>
+  <g>
+    <rect x="890" y="1164" width="410" height="92" rx="14" class="agentCard"/>
+    <text x="910" y="1194" class="cardTitle">project-manager</text>
+    <text x="910" y="1222" class="body">范围、计划、协调、风险和交付物管理</text>
+    <text x="910" y="1244" class="tiny">.claude/agents/project-manager.md</text>
+  </g>
+  <g>
+    <rect x="890" y="1272" width="410" height="92" rx="14" class="agentCard"/>
+    <text x="910" y="1302" class="cardTitle">coder-reviewer</text>
+    <text x="910" y="1330" class="body">质量、性能、测试、文档与标准合规审查</text>
+    <text x="910" y="1352" class="tiny">.claude/agents/coder-reviewer.md</text>
+  </g>
+
+  <text x="890" y="1412" class="cardTitle">专业角色 Prompt 库（10 个，参考资产）</text>
+  <rect x="890" y="1435" width="410" height="245" rx="14" fill="#14283d" stroke="#3f6c8e"/>
+  <text x="912" y="1470" class="body">① Business Analyst　② Project Manager</text>
+  <text x="912" y="1504" class="body">③ Tech Lead　　　 ④ UX Engineer</text>
+  <text x="912" y="1538" class="body">⑤ Frontend Engineer ⑥ Backend Engineer</text>
+  <text x="912" y="1572" class="body">⑦ Database Engineer ⑧ Code Reviewer</text>
+  <text x="912" y="1606" class="body">⑨ Security Reviewer ⑩ Design Reviewer</text>
+  <text x="912" y="1646" class="tiny">specialized-agents/system-prompts/*.md</text>
+  <rect x="890" y="1695" width="410" height="34" rx="10" fill="#1d3851"/>
+  <text x="1095" y="1718" text-anchor="middle" class="tiny">Agent = 独立上下文 + 角色 Prompt + 工具 + 任务</text>
+
+  <!-- Automation / Integration panel -->
+  <rect x="1350" y="715" width="510" height="1040" rx="22" class="panel" filter="url(#shadow)"/>
+  <rect x="1350" y="715" width="510" height="64" rx="22" fill="#215341"/>
+  <rect x="1350" y="757" width="510" height="22" fill="#215341"/>
+  <text x="1380" y="756" class="panelTitle">C. 自动化、编排与外部工具</text>
+
+  <text x="1380" y="816" class="cardTitle">settings.json：权限与 Hook Wiring</text>
+  <rect x="1380" y="838" width="450" height="96" rx="14" fill="#19283a" stroke="#55718d"/>
+  <text x="1402" y="870" class="body">Allow：Write · Edit · Bash(mkdir/uv/find/mv…)</text>
+  <text x="1402" y="898" class="body">MCP：Playwright screenshot / resize</text>
+  <text x="1402" y="920" class="tiny">注意：示例 deny 为空，生产环境需收紧</text>
+
+  <text x="1380" y="974" class="cardTitle">Hooks（4 个 Python 脚本）</text>
+  <g>
+    <rect x="1380" y="992" width="450" height="70" rx="13" class="hookCard"/>
+    <text x="1402" y="1021" class="cardTitle">PostToolUse → post_tool_use.py</text>
+    <text x="1402" y="1048" class="small">记录工具事件 JSON 到 logs/post_tool_use.json</text>
+  </g>
+  <g>
+    <rect x="1380" y="1076" width="450" height="70" rx="13" class="hookCard"/>
+    <text x="1402" y="1105" class="cardTitle">Notification → notification.py</text>
+    <text x="1402" y="1132" class="small">记录通知；可通过 ElevenLabs/OpenAI/本地 TTS 播报</text>
+  </g>
+  <g>
+    <rect x="1380" y="1160" width="450" height="70" rx="13" class="hookCard"/>
+    <text x="1402" y="1189" class="cardTitle">Stop → stop.py</text>
+    <text x="1402" y="1216" class="small">主 Agent 完成时记录并进行聊天结束提醒</text>
+  </g>
+  <g>
+    <rect x="1380" y="1244" width="450" height="70" rx="13" class="hookCard"/>
+    <text x="1402" y="1273" class="cardTitle">SubagentStop → subagent_stop.py</text>
+    <text x="1402" y="1300" class="small">子 Agent 完成事件记录与通知</text>
+  </g>
+
+  <text x="1380" y="1355" class="cardTitle">Workflow（1 个 JavaScript 编排）</text>
+  <rect x="1380" y="1375" width="450" height="152" rx="14" class="flowCard"/>
+  <text x="1402" y="1407" class="cardTitle">/stale-docs-audit</text>
+  <text x="1402" y="1436" class="body">Scan：每文件一个 Agent，提取易过期声明</text>
+  <text x="1402" y="1464" class="body">Verify：每声明一个怀疑者 Agent 尝试反证</text>
+  <text x="1402" y="1492" class="body">JSON Schema → 过滤 → 排序 → 聚合</text>
+  <text x="1402" y="1515" class="tiny">pipeline + parallel + agent；降低“似是而非”误报</text>
+
+  <text x="1380" y="1567" class="cardTitle">MCP 集成指南（4 类，服务本体来自外部）</text>
+  <rect x="1380" y="1587" width="450" height="138" rx="14" class="mcpCard"/>
+  <text x="1402" y="1620" class="body">Serena：LSP、符号导航、项目索引、语义编辑</text>
+  <text x="1402" y="1648" class="body">Sequential Thinking：问题拆解与结构化推理</text>
+  <text x="1402" y="1676" class="body">Memory：跨会话记忆与项目偏好</text>
+  <text x="1402" y="1704" class="body">Playwright：浏览器自动化、E2E、截图与模拟</text>
+
+  <!-- Bottom architecture interpretation -->
+  <rect x="40" y="1790" width="1820" height="350" rx="22" class="panel" filter="url(#shadow)"/>
+  <text x="70" y="1835" class="section">④ 控制逻辑与完整运行链路</text>
+
+  <g>
+    <rect x="70" y="1870" width="480" height="108" rx="16" fill="#271f49" stroke="#7667cf"/>
+    <text x="94" y="1904" class="cardTitle">软控制：模型解释执行</text>
+    <text x="94" y="1934" class="body">CLAUDE.md · Commands · Skills · Agent Prompt</text>
+    <text x="94" y="1962" class="small">用于知识、方法、角色、检查清单；结果具有概率性</text>
+  </g>
+  <g>
+    <rect x="710" y="1870" width="480" height="108" rx="16" fill="#17372f" stroke="#4cb694"/>
+    <text x="734" y="1904" class="cardTitle">硬控制：确定性执行与阻断</text>
+    <text x="734" y="1934" class="body">Permissions · Hooks · Shell Script · CI / Approval</text>
+    <text x="734" y="1962" class="small">用于权限、敏感路径、审计、格式化和安全门禁</text>
+  </g>
+  <g>
+    <rect x="1350" y="1870" width="480" height="108" rx="16" fill="#17343f" stroke="#46aabd"/>
+    <text x="1374" y="1904" class="cardTitle">能力扩展：外部系统工具化</text>
+    <text x="1374" y="1934" class="body">MCP Server → Tool Schema → 模型选择调用</text>
+    <text x="1374" y="1962" class="small">把浏览器、DB、Git、文档、监控变成 Agent 工具</text>
+  </g>
+
+  <path d="M550 1924 L705 1924" class="connector"/>
+  <path d="M1190 1924 L1345 1924" class="connector"/>
+
+  <rect x="70" y="2010" width="1760" height="92" rx="16" fill="#0d2846" stroke="#4783bc"/>
+  <text x="950" y="2043" text-anchor="middle" class="cardTitle">端到端主链路</text>
+  <text x="950" y="2078" text-anchor="middle" class="body">用户目标 → 入口路由 → 上下文加载 → 主 Agent / Subagent → 工具执行 → Hook 检查 → 测试/反证 → 结果聚合 → PR / 文档 / 日志</text>
+
+  <!-- Footer -->
+  <text x="60" y="2180" class="tiny">解读：最有参考价值的是“控制面—执行面—治理面—集成面”的分层，以及人工、模型、事件、编排、外部工具五种驱动方式。</text>
+  <text x="1840" y="2180" text-anchor="end" class="tiny">生成日期：2026-08-27</text>
+</svg>

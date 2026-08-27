@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Claude Code 从入门到精通的中文指导文档、交互式能力地图与实践实验室"
+    />
+    <title>Claude Code 从入门到精通｜能力解剖与实践实验室</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到主要内容</a>
+
+    <header class="topbar">
+      <a class="brand" href="#overview" aria-label="回到概览">
+        <span class="brand-mark" aria-hidden="true">CC</span>
+        <span>
+          <strong>能力解剖室</strong>
+          <small>从提示词到 Agent 工程</small>
+        </span>
+      </a>
+
+      <nav class="topnav" aria-label="主要导航">
+        <a href="#architecture">架构</a>
+        <a href="#capabilities">能力</a>
+        <a href="#practice">练习</a>
+        <a href="#extract">提取</a>
+        <a href="../">研究门户</a>
+      </nav>
+
+      <div class="progress-pill" title="练习进度">
+        <span id="headerProgress">0 / 8</span>
+        <span class="progress-mini"><i id="headerProgressBar"></i></span>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero section" id="overview">
+        <div class="hero-copy reveal">
+          <div class="eyebrow"><span></span> REPOSITORY FIELD GUIDE · 2026</div>
+          <h1>Claude Code<br /><em>从入门到精通</em></h1>
+          <p class="hero-lead">
+            一份把项目规则、重复工作流、专业角色、生命周期控制和外部工具接入整理成可运行样例的工程化指导文档。它不是可直接部署的平台成品；后续应按需理解、逐项实践、选择性采用。
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#architecture">先看执行链路 <span>→</span></a>
+            <a class="button ghost" href="#practice">直接开始练习</a>
+          </div>
+          <div class="truth-note">
+            <span class="truth-icon">!</span>
+            <p><strong>一句话判断：</strong>Claude Code 是发动机；这个仓库展示的是方向盘、仪表盘、操作规程和外挂接口。</p>
+          </div>
+        </div>
+
+        <aside class="hero-panel reveal" aria-label="仓库能力统计">
+          <div class="panel-head">
+            <span>REPO / ANATOMY</span>
+            <span class="live-dot">已核对</span>
+          </div>
+          <div class="radar-wrap">
+            <div class="radar-ring ring-1"></div>
+            <div class="radar-ring ring-2"></div>
+            <div class="radar-ring ring-3"></div>
+            <div class="radar-core">
+              <span>Claude Code</span>
+              <strong>RUNTIME</strong>
+            </div>
+            <span class="orbit-label label-a">Skills</span>
+            <span class="orbit-label label-b">Hooks</span>
+            <span class="orbit-label label-c">Agents</span>
+            <span class="orbit-label label-d">MCP</span>
+            <span class="orbit-label label-e">Workflow</span>
+          </div>
+          <div class="stat-grid">
+            <div><strong>8</strong><span>Skills</span></div>
+            <div><strong>5</strong><span>Subagents</span></div>
+            <div><strong>4</strong><span>Hooks</span></div>
+            <div><strong>1</strong><span>Workflow</span></div>
+          </div>
+          <p class="panel-foot">另含 10 个角色提示词与 4 类 MCP 接入指南</p>
+        </aside>
+      </section>
+
+      <section class="definition-strip" aria-label="仓库定位">
+        <span>它是</span>
+        <strong>入门到精通指南</strong>
+        <i>+</i>
+        <strong>能力样例库</strong>
+        <i>+</i>
+        <strong>Agent 工程参考</strong>
+        <span class="not-tag">不是生产平台成品</span>
+      </section>
+
+      <section class="section architecture" id="architecture">
+        <div class="section-heading reveal">
+          <div>
+            <span class="section-no">01</span>
+            <p class="kicker">先建立正确心智模型</p>
+            <h2>一次任务究竟怎样流动？</h2>
+          </div>
+          <p>点击任何节点，观察它在执行链中的职责。软控制影响模型判断，硬控制可以在程序层阻止或记录行为。</p>
+        </div>
+
+        <div class="architecture-board reveal">
+          <div class="flow-entry">
+            <span class="flow-caption">触发入口</span>
+            <button class="arch-node trigger active" data-arch="human">
+              <small>01 · EXPLICIT</small>
+              <strong>人 / Slash</strong>
+              <span>输入需求或 /tdd</span>
+            </button>
+            <button class="arch-node trigger" data-arch="semantic">
+              <small>02 · SEMANTIC</small>
+              <strong>语义匹配</strong>
+              <span>自动选择 Skill</span>
+            </button>
+            <button class="arch-node trigger" data-arch="event">
+              <small>03 · EVENT</small>
+              <strong>生命周期事件</strong>
+              <span>Hook 自动触发</span>
+            </button>
+          </div>
+
+          <div class="flow-arrow" aria-hidden="true"><span>CONTEXT IN</span><i>→</i></div>
+
+          <div class="flow-runtime">
+            <span class="flow-caption">执行引擎</span>
+            <button class="runtime-core arch-node" data-arch="runtime">
+              <span class="core-pulse"></span>
+              <small>MODEL + AGENT LOOP</small>
+              <strong>Claude Code</strong>
+              <span>理解 → 计划 → 调工具 → 观察 → 迭代</span>
+            </button>
+            <div class="runtime-tools">
+              <button class="arch-node micro" data-arch="context">CLAUDE.md</button>
+              <button class="arch-node micro" data-arch="skills">Skills</button>
+              <button class="arch-node micro" data-arch="tools">Read / Edit / Bash</button>
+            </div>
+          </div>
+
+          <div class="flow-arrow" aria-hidden="true"><span>ACTION OUT</span><i>→</i></div>
+
+          <div class="flow-control">
+            <span class="flow-caption">扩展与治理</span>
+            <button class="arch-node control" data-arch="hooks">
+              <small>CHECKPOINT</small><strong>Hooks</strong><span>记录 / 拒绝 / 通知</span>
+            </button>
+            <button class="arch-node control" data-arch="agents">
+              <small>ISOLATION</small><strong>Subagents</strong><span>隔离上下文与角色</span>
+            </button>
+            <button class="arch-node control" data-arch="workflow">
+              <small>ORCHESTRATION</small><strong>Workflow</strong><span>扇出、复核、聚合</span>
+            </button>
+            <button class="arch-node control" data-arch="mcp">
+              <small>EXTERNAL</small><strong>MCP</strong><span>浏览器 / 记忆 / 工具</span>
+            </button>
+          </div>
+
+          <aside class="arch-inspector" aria-live="polite">
+            <div class="inspector-top"><span id="archIndex">01</span><small id="archType">触发入口</small></div>
+            <h3 id="archTitle">人 / Slash 命令</h3>
+            <p id="archDescription">用户直接给出自然语言任务，或输入 /five、/tdd、/review 等显式命令，是最容易观察和控制的入口。</p>
+            <dl>
+              <div><dt>控制强度</dt><dd id="archControl">软控制</dd></div>
+              <div><dt>核心产物</dt><dd id="archArtifact">任务上下文</dd></div>
+              <div><dt>练习观察</dt><dd id="archObserve">同一需求在裸提示与 Skill 下的差异</dd></div>
+            </dl>
+          </aside>
+        </div>
+
+        <div class="control-legend reveal">
+          <div>
+            <span class="legend-line soft"></span>
+            <p><strong>软控制</strong>CLAUDE.md、Prompt、Skill、Agent 角色——引导模型，但不保证强制执行。</p>
+          </div>
+          <div>
+            <span class="legend-line hard"></span>
+            <p><strong>硬控制</strong>Hook、权限、测试、CI——用程序检查、阻断或验收模型行为。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section anatomy" id="anatomy">
+        <div class="section-heading reveal">
+          <div>
+            <span class="section-no">02</span>
+            <p class="kicker">从目录理解架构</p>
+            <h2>仓库里的每一层放了什么？</h2>
+          </div>
+          <p>左侧是文件形态，右侧是工程含义。真正值得提取的不是路径本身，而是路径背后的能力契约。</p>
+        </div>
+
+        <div class="tree-layout reveal">
+          <div class="file-tree" role="tree" aria-label="仓库关键目录">
+            <div class="tree-head"><span></span><span></span><span></span><strong>repository / main</strong></div>
+            <button class="tree-row folder selected" data-tree="claude"><span>▾</span><code>.claude/</code><small>运行配置</small></button>
+            <button class="tree-row file indent" data-tree="settings"><span>◻</span><code>settings.json</code><small>权限 + Hook 接线</small></button>
+            <button class="tree-row folder indent" data-tree="commands"><span>▸</span><code>commands/</code><small>7 个命令</small></button>
+            <button class="tree-row folder indent" data-tree="skillsdir"><span>▸</span><code>skills/</code><small>1 个 Agent Skill</small></button>
+            <button class="tree-row folder indent" data-tree="agentsdir"><span>▸</span><code>agents/</code><small>5 个 Subagents</small></button>
+            <button class="tree-row folder indent" data-tree="hooksdir"><span>▸</span><code>hooks/</code><small>4 个 Python Hook</small></button>
+            <button class="tree-row folder indent" data-tree="workflowsdir"><span>▸</span><code>workflows/</code><small>动态编排</small></button>
+            <button class="tree-row folder" data-tree="specialized"><span>▸</span><code>specialized-agents/</code><small>10 个角色 Prompt</small></button>
+            <button class="tree-row folder" data-tree="mcpdir"><span>▸</span><code>mcp-servers/</code><small>外部连接说明</small></button>
+            <button class="tree-row folder" data-tree="docs"><span>▸</span><code>docs/</code><small>知识与参考</small></button>
+          </div>
+
+          <article class="tree-detail">
+            <div class="detail-label" id="treeLabel">控制平面</div>
+            <h3 id="treeTitle">.claude/：可执行知识的容器</h3>
+            <p id="treeDescription">把团队经验从聊天记录中抽出来，变成 Claude Code 能发现、加载和执行的项目级资产。</p>
+            <div class="detail-grid">
+              <div><small>它解决什么</small><strong id="treeProblem">让操作方式可复用</strong></div>
+              <div><small>如何驱动</small><strong id="treeDrive">显式、语义、事件、编排</strong></div>
+              <div><small>迁移价值</small><strong id="treeValue">高：抽象可跨模型</strong></div>
+            </div>
+            <div class="callout amber" id="treeRisk"><strong>注意：</strong>它包含可执行指令，不能把整个目录未经审查地复制进真实项目。</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section capabilities" id="capabilities">
+        <div class="section-heading reveal">
+          <div>
+            <span class="section-no">03</span>
+            <p class="kicker">逐个拆开看</p>
+            <h2>能力目录与内部细节</h2>
+          </div>
+          <p>每张卡片回答七件事：谁触发、需要什么、模型做什么、调用什么工具、产生什么、风险在哪里、怎样练习。</p>
+        </div>
+
+        <div class="capability-toolbar reveal">
+          <label class="search-box">
+            <span aria-hidden="true">⌕</span>
+            <input id="capabilitySearch" type="search" placeholder="搜索 /tdd、Hook、MCP、审查……" />
+          </label>
+          <div class="filter-group" id="capabilityFilters" aria-label="能力分类筛选"></div>
+          <span class="result-count" id="capabilityCount"></span>
+        </div>
+
+        <div class="capability-grid" id="capabilityGrid"></div>
+      </section>
+
+      <section class="section simulator" id="simulator">
+        <div class="section-heading reveal">
+          <div>
+            <span class="section-no">04</span>
+            <p class="kicker">把静态架构跑起来</p>
+            <h2>任务执行模拟器</h2>
+          </div>
+          <p>选择一个场景，逐步播放执行链。重点观察“模型能力”与“脚手架控制”分别发生在哪里。</p>
+        </div>
+
+        <div class="simulator-shell reveal">
+          <div class="scenario-tabs" id="scenarioTabs" role="tablist" aria-label="实践场景"></div>
+          <div class="sim-stage">
+            <div class="sim-track" id="simTrack"></div>
+            <article class="sim-console">
+              <div class="console-bar">
+                <span class="console-lights"><i></i><i></i><i></i></span>
+                <span id="consoleTitle">execution trace</span>
+                <span id="simCounter">1 / 6</span>
+              </div>
+              <div class="console-body">
+                <span class="console-tag" id="simOwner">USER</span>
+                <h3 id="simTitle"></h3>
+                <p id="simDescription"></p>
+                <div class="console-observe"><small>此步要观察</small><p id="simObserve"></p></div>
+              </div>
+              <div class="console-actions">
+                <button class="button ghost small" id="simPrev">← 上一步</button>
+                <button class="button primary small" id="simNext">下一步 →</button>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section practice" id="practice">
+        <div class="section-heading reveal">
+          <div>
+            <span class="section-no">05</span>
+            <p class="kicker">你的 MiniMax M3 环境已启动</p>
+            <h2>8 关实践路线</h2>
+          </div>
+          <div class="practice-progress">
+            <strong id="practicePercent">0%</strong>
+            <span><i id="practiceProgressBar"></i></span>
+            <button id="resetProgress" class="text-button">重置进度</button>
+          </div>
+        </div>
+
+        <div class="practice-intro reveal">
+          <div>
+            <small>建议实验原则</small>
+            <p>使用独立练习仓库；先做裸提示基线，再逐项加入能力；所有 GitHub 写操作先 dry-run；不要复制仓库的完整 settings.json。</p>
+          </div>
+          <div class="env-badge"><span></span> Claude Code + MiniMax M3</div>
+        </div>
+
+        <div class="lab-layout reveal">
+          <div class="lab-list" id="labList"></div>
+          <article class="lab-detail" id="labDetail" aria-live="polite"></article>
+        </div>
+      </section>
+
+      <section class="section evaluation" id="evaluation">
+        <div class="section-heading reveal">
+          <div>
+            <span class="section-no">06</span>
+            <p class="kicker">不要凭“感觉不错”判断</p>
+            <h2>用对照实验识别真实价值</h2>
+          </div>
+          <p>保持模型、代码和任务不变，只改变脚手架层。你要测的是控制系统带来的增量，不是 M3 本身会不会写代码。</p>
+        </div>
+
+        <div class="experiment-grid reveal">
+          <article class="experiment-card baseline">
+            <span>A · BASELINE</span>
+            <h3>裸 Claude Code</h3>
+            <p>只给自然语言需求，不加载仓库能力。</p>
+            <ul><li>记录步骤是否稳定</li><li>记录遗漏与返工</li><li>保存输出和 diff</li></ul>
+          </article>
+          <div class="experiment-arrow">→</div>
+          <article class="experiment-card assisted">
+            <span>B · INSTRUCTION</span>
+            <h3>加入 Skill</h3>
+            <p>同一任务改用 /tdd、/test 或 /review。</p>
+            <ul><li>比较流程遵循率</li><li>比较输出完整性</li><li>比较 token 与耗时</li></ul>
+          </article>
+          <div class="experiment-arrow">→</div>
+          <article class="experiment-card governed">
+            <span>C · GOVERNED</span>
+            <h3>Skill + Hook / Agent</h3>
+            <p>加入事件控制、角色隔离或编排。</p>
+            <ul><li>检查错误能否被阻止</li><li>检查过程是否可追溯</li><li>检查结果能否复现</li></ul>
+          </article>
+        </div>
+
+        <div class="metric-table reveal" role="table" aria-label="建议评测指标">
+          <div class="metric-row metric-head" role="row"><span>指标</span><span>如何记录</span><span>真正说明什么</span></div>
+          <div class="metric-row" role="row"><strong>流程遵循率</strong><span>必需步骤完成数 / 总步骤数</span><span>Skill 的约束价值</span></div>
+          <div class="metric-row" role="row"><strong>缺陷发现率</strong><span>预埋问题中发现了多少</span><span>Review / Agent 的覆盖价值</span></div>
+          <div class="metric-row" role="row"><strong>一次通过率</strong><span>首次测试全绿的任务比例</span><span>TDD 与验证闭环价值</span></div>
+          <div class="metric-row" role="row"><strong>人工干预次数</strong><span>纠偏、补问、回退的次数</span><span>自治稳定性</span></div>
+          <div class="metric-row" role="row"><strong>可追溯性</strong><span>是否存在输入、工具、输出记录</span><span>Hook 与治理价值</span></div>
+        </div>
+      </section>
+
+      <section class="section extract" id="extract">
+        <div class="section-heading reveal">
+          <div>
+            <span class="section-no">07</span>
+            <p class="kicker">从参考仓库变成我们的资产</p>
+            <h2>应该提取什么，而不是复制什么？</h2>
+          </div>
+          <p>目标是形成模型无关的能力契约，让 Claude、MiniMax、Codex 或其他运行时都能接入同一套组织能力。</p>
+        </div>
+
+        <div class="extract-map reveal">
+          <div class="source-stack">
+            <span>SOURCE</span>
+            <div>Markdown Prompt</div><div>Python Hook</div><div>JS Workflow</div><div>MCP Config</div>
+          </div>
+          <div class="extract-transform">
+            <span>抽象</span><i>→</i>
+            <small>去掉 Claude 专属路径<br />补齐输入输出与策略</small>
+          </div>
+          <div class="contract-card">
+            <div class="contract-head"><span>CAPABILITY CONTRACT</span><b>v1</b></div>
+            <pre><code>id: code-review
+trigger: manual | semantic | event
+input: diff + project_context
+instructions: review.md
+tools: [read, grep, test]
+output: findings.schema.json
+policy: review.policy.yaml
+verify: evals/review-cases.yaml</code></pre>
+          </div>
+          <div class="extract-transform">
+            <span>适配</span><i>→</i>
+            <small>运行时只负责翻译<br />能力本身保持一致</small>
+          </div>
+          <div class="adapter-stack">
+            <span>ADAPTERS</span>
+            <div>Claude Code</div><div>MiniMax / OpenCode</div><div>Codex</div><div>CI / Internal Agent</div>
+          </div>
+        </div>
+
+        <div class="four-assets reveal">
+          <article><span>01</span><h3>知识资产</h3><p>项目规范、术语、架构事实、审查标准。</p><small>来源：CLAUDE.md / docs</small></article>
+          <article><span>02</span><h3>流程资产</h3><p>TDD、评审、发布、文档审计的标准步骤。</p><small>来源：Skills / Workflows</small></article>
+          <article><span>03</span><h3>控制资产</h3><p>权限、敏感路径、审计、验证与人工审批。</p><small>来源：Hooks / settings / CI</small></article>
+          <article><span>04</span><h3>集成资产</h3><p>浏览器、代码索引、知识库、数据库等连接器。</p><small>来源：MCP</small></article>
+        </div>
+
+        <div class="risk-board reveal">
+          <div class="risk-copy">
+            <span class="risk-label">PRODUCTION GAP</span>
+            <h3>这个仓库最值得学，<br />也最不能照搬的地方</h3>
+            <p>示例的使命是展示能力面，不是替你完成生产治理。复制前必须做权限收敛、路径适配、秘密脱敏、依赖锁定和评测。</p>
+          </div>
+          <ul class="risk-list">
+            <li><span>权限</span><p><strong>settings.json 允许面较宽</strong>从最小权限重新建立 allow / deny。</p></li>
+            <li><span>日志</span><p><strong>工具事件可能包含敏感信息</strong>做字段过滤、轮转和并发安全。</p></li>
+            <li><span>路径</span><p><strong>Hook 存在环境相关路径</strong>改为项目可发现的解释器与依赖。</p></li>
+            <li><span>供应链</span><p><strong>动态拉取 latest 存在漂移</strong>固定版本、校验来源并做隔离。</p></li>
+            <li><span>副作用</span><p><strong>/pr 与 /review 涉及外部写入</strong>加入 dry-run 和人工批准门。</p></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section sources" id="sources">
+        <div class="section-heading compact reveal">
+          <div>
+            <span class="section-no">08</span>
+            <p class="kicker">继续深入</p>
+            <h2>阅读入口</h2>
+          </div>
+        </div>
+        <div class="source-links reveal">
+          <a href="https://github.com/wesammustafa/Claude-Code-Everything-You-Need-to-Know" target="_blank" rel="noreferrer"><span>仓库首页</span><small>定位、学习路径与全部文档</small><b>↗</b></a>
+          <a href="https://github.com/wesammustafa/Claude-Code-Everything-You-Need-to-Know/tree/main/.claude" target="_blank" rel="noreferrer"><span>.claude/ 目录</span><small>可运行配置与示例</small><b>↗</b></a>
+          <a href="https://github.com/wesammustafa/Claude-Code-Everything-You-Need-to-Know/blob/main/docs/skills.md" target="_blank" rel="noreferrer"><span>Skills 指南</span><small>命令、Agent Skill 与 frontmatter</small><b>↗</b></a>
+          <a href="https://github.com/wesammustafa/Claude-Code-Everything-You-Need-to-Know/blob/main/.claude/workflows/stale-docs-audit.js" target="_blank" rel="noreferrer"><span>动态 Workflow</span><small>扇出、反证与聚合实例</small><b>↗</b></a>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>为理解与实践 <strong>Claude-Code-Everything-You-Need-to-Know</strong> 构建的独立中文学习站</p>
+      <span><a href="../">研究门户</a> · <a href="#overview">回到顶部 ↑</a></span>
+    </footer>
+
+    <dialog id="capabilityDialog" class="capability-dialog">
+      <button class="dialog-close" id="dialogClose" aria-label="关闭">×</button>
+      <div id="dialogContent"></div>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite">已复制</div>
+    <script src="app.js"></script>
+  </body>
+</html>
