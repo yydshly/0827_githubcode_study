@@ -39,7 +39,7 @@ Observable completion criteria: 首屏明确表达“局部换脸已验证但不
 | 响应式 | 桌面、平板和手机均可阅读 | 1440/768/390px | 截图与 overflow 检查 | Stage 7 | pass | 三个视口均为 `scrollWidth === clientWidth` |
 | 可访问性 | 键盘可达、焦点可见、语义结构完整 | 键盘/reduced-motion | 浏览器焦点路径和CSS检查 | Stage 7 | pass | 首个Tab为跳转链接且2px焦点可见；reduced-motion生效 |
 | 必要归档 | 复现脚本、测试素材说明、精简证据 | 仓库文件 | git 清单、大小检查 | Stage 9 | pass | 公开证据仅3张压缩JPG；依赖、模型和缓存被排除 |
-| 远端部署 | main 提交、Pages 发布且URL可访问 | GitHub/公开URL | commit、push、Actions和HTTP响应 | Stage 9 | continue | 推送并核对部署 |
+| 远端部署 | main 提交、Pages 发布且URL可访问 | GitHub/公开URL | commit、push、Actions和HTTP响应 | Stage 9 | pass | 提交 `43ce2e2` 已推送；Validate repository 与 Deploy GitHub Pages 均成功；公开页HTTP 200且包含标题与核心结论 |
 
 ## 本地浏览器验收
 
