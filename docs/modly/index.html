@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Modly 图生 3D 能力研究：理解它的适配层本质、本地硬件依赖、可接入模型、市场方案与后续低成本探索路径。"
+    />
+    <meta name="theme-color" content="#0b0d0c" />
+    <title>Modly 图生 3D 能力研究｜从模型能力到资产工作流</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0d0c'/%3E%3Cpath d='m32 12 18 10v20L32 52 14 42V22Zm0 6.8L20 25.4v13.2l12 6.6 12-6.6V25.4Z' fill='%23b7f34a'/%3E%3Cpath d='m20 25.4 12 6.8 12-6.8M32 32.2v13' fill='none' stroke='%23ffb45e' stroke-width='3'/%3E%3C/svg%3E" />
+    <script>document.documentElement.classList.add("js");</script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到主要内容</a>
+
+    <header class="site-header">
+      <nav class="nav-shell" aria-label="主要导航">
+        <a class="brand" href="#top" aria-label="回到页面顶部">
+          <span class="brand-cube" aria-hidden="true"><i></i></span>
+          <span><strong>MODLY / FIELD NOTE</strong><small>Image → 3D capability study</small></span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="navLinks">
+          <span class="sr-only">打开导航</span><i></i><i></i>
+        </button>
+        <div class="nav-links" id="navLinks">
+          <a href="#verdict">结论</a>
+          <a href="#mechanism">原理</a>
+          <a href="#models">模型</a>
+          <a href="#decision">决策</a>
+          <a href="#roadmap">探索</a>
+          <a href="../">研究门户</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top">
+        <div class="shell hero-layout">
+          <div class="hero-copy reveal">
+            <p class="eyebrow"><span>RESEARCH SNAPSHOT</span> 2026.08.27</p>
+            <h1>Modly 不制造<br /><em>3D 能力</em><br />它组织能力。</h1>
+            <p class="hero-lead">
+              一份关于 Modly、图生 3D 模型与本地算力关系的决策简报。先看清它是什么，再决定要不要下载模型、接云端 API，或暂时不投入。
+            </p>
+            <div class="hero-actions">
+              <a class="button primary" href="#verdict">先看核心结论 <span>↓</span></a>
+              <a class="button secondary" href="#models">查看模型地图</a>
+            </div>
+          </div>
+
+          <aside class="hero-system reveal" aria-label="Modly、模型与硬件的关系">
+            <div class="system-caption"><span>CAPABILITY STACK</span><b>已整理</b></div>
+            <div class="stack-card model-layer">
+              <span class="stack-index">01</span>
+              <div><small>能力上限</small><strong>生成模型</strong><p>几何理解 · 背面推断 · 纹理 / PBR</p></div>
+              <span class="stack-role">ENGINE</span>
+            </div>
+            <div class="stack-link" aria-hidden="true"><i></i><span>统一调用</span><i></i></div>
+            <div class="stack-card modly-layer">
+              <span class="stack-index">02</span>
+              <div><small>工程与产品化</small><strong>Modly</strong><p>适配 · 编排 · 运行隔离 · 预览导出</p></div>
+              <span class="stack-role">SYSTEM</span>
+            </div>
+            <div class="stack-link" aria-hidden="true"><i></i><span>本地承载</span><i></i></div>
+            <div class="stack-card hardware-layer">
+              <span class="stack-index">03</span>
+              <div><small>能否运行与速度</small><strong>电脑 / 云端</strong><p>显存 · GPU 算力 · 内存 · API 配额</p></div>
+              <span class="stack-role">COMPUTE</span>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="verdict" id="verdict">
+        <div class="shell">
+          <div class="verdict-label">一句话判断</div>
+          <blockquote>
+            <p><strong>模型决定效果上限，算力决定本地能不能跑，Modly 决定这些能力能否被统一、组合并进入资产生产流程。</strong></p>
+          </blockquote>
+          <div class="truth-grid">
+            <article><span>它是</span><h2>3D 生成模型的工作流与适配平台</h2><p>统一模型安装、参数、输入输出、进程隔离、节点编排和结果预览。</p></article>
+            <article><span>它不是</span><h2>新的图生 3D 基础模型</h2><p>不会替代 Hunyuan3D、TripoSG、TRELLIS 等模型的几何和纹理能力。</p></article>
+            <article><span>直接后果</span><h2>本地使用会依赖电脑性能</h2><p>尤其依赖 NVIDIA GPU 与显存；也可以通过云端 API 把算力依赖移出本机。</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="mechanism">
+        <div class="shell">
+          <div class="section-heading reveal">
+            <div><span class="section-no">01 / MECHANISM</span><h2>它的原理，是把不同“发动机”装进同一条流水线</h2></div>
+            <p>Modly 的价值不在于重新训练模型，而在于把模型从脚本和环境依赖中抽出来，变成可安装、可配置、可连接的工作流节点。</p>
+          </div>
+
+          <div class="pipeline reveal" aria-label="Modly 工作流示意">
+            <div class="pipeline-input">
+              <span>INPUT</span>
+              <div><b>图片</b><small>主体图 / 参考图</small></div>
+              <div><b>文字</b><small>模型支持时</small></div>
+              <div><b>Mesh</b><small>贴图 / 后处理</small></div>
+            </div>
+            <div class="pipeline-arrow" aria-hidden="true"><span>→</span></div>
+            <div class="pipeline-modly">
+              <span>MODLY</span>
+              <div class="modly-core"><b>Extension Contract</b><small>manifest.json + generator / process</small></div>
+              <div class="modly-parts"><i>环境隔离</i><i>参数映射</i><i>进度 / 取消</i><i>节点编排</i></div>
+            </div>
+            <div class="pipeline-arrow" aria-hidden="true"><span>→</span></div>
+            <div class="pipeline-output">
+              <span>OUTPUT</span>
+              <div><b>GLB / OBJ</b><small>网格与材质</small></div>
+              <div><b>PLY / Splat</b><small>模型支持时</small></div>
+              <div><b>下一节点</b><small>减面 / 贴图 / 绑定</small></div>
+            </div>
+          </div>
+
+          <div class="responsibility-grid reveal">
+            <article>
+              <div class="role-head lime"><span>MODLY 负责</span><b>工程层</b></div>
+              <ul>
+                <li>发现、安装并启动模型扩展</li>
+                <li>统一输入输出和可调参数</li>
+                <li>隔离 Python / JavaScript 运行进程</li>
+                <li>连接生成、纹理和后处理节点</li>
+                <li>预览、比较并导出 3D 结果</li>
+              </ul>
+            </article>
+            <article>
+              <div class="role-head orange"><span>模型负责</span><b>智能层</b></div>
+              <ul>
+                <li>从单图推断看不见的背面</li>
+                <li>决定轮廓、深度与几何细节</li>
+                <li>生成拓扑、UV、纹理或 PBR</li>
+                <li>决定泛化、稳定性和失败模式</li>
+                <li>构成最终质量的主要上限</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="source-note reveal">
+            <span>源码依据</span>
+            <p>Modly 通过生成器注册表发现扩展，以基础生成器约束加载、生成和卸载；扩展以独立进程通信。它是比“薄 API 包装”更完整的运行与编排层，但没有替代底层模型。</p>
+            <div><a href="https://github.com/lightningpixel/modly" target="_blank" rel="noreferrer">Modly 仓库 ↗</a><a href="https://github.com/lightningpixel/modly/blob/main/api/services/generator_registry.py" target="_blank" rel="noreferrer">Generator registry ↗</a><a href="https://github.com/lightningpixel/modly/blob/main/api/services/generators/base.py" target="_blank" rel="noreferrer">Base generator ↗</a></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section compute-section" id="compute">
+        <div class="shell">
+          <div class="section-heading reveal">
+            <div><span class="section-no">02 / COMPUTE</span><h2>本地方案依赖电脑，云端方案依赖预算与服务</h2></div>
+            <p>“依赖电脑性能”主要针对本地推理。显存不足时通常不是单纯变慢，而是模型无法加载、必须降低分辨率，或改用量化版本。</p>
+          </div>
+
+          <div class="compute-layout">
+            <article class="hardware-ladder reveal">
+              <div class="ladder-head"><span>VRAM LADDER</span><small>仅用于早期选型，不代表所有模型的硬性统一门槛</small></div>
+              <div class="ladder-row"><strong>无独显</strong><div><b>云端 API 优先</b><span>本机只承担页面、文件与 3D 预览</span></div><em>REMOTE</em></div>
+              <div class="ladder-row"><strong>6 GB</strong><div><b>Mini / 低显存 / 强量化</b><span>分辨率、速度和稳定性受限</span></div><em>ENTRY</em></div>
+              <div class="ladder-row featured"><strong>8 GB</strong><div><b>Hunyuan Mini / TripoSG / 部分 GGUF</b><span>开始具备实际试验价值</span></div><em>BASELINE</em></div>
+              <div class="ladder-row"><strong>12–16 GB</strong><div><b>多数消费级本地路线</b><span>质量、速度和可用性更平衡</span></div><em>WORKABLE</em></div>
+              <div class="ladder-row"><strong>24 GB+</strong><div><b>官方高质量大模型</b><span>TRELLIS.2 4B、较完整的高质量管线</span></div><em>PRO</em></div>
+            </article>
+
+            <div class="deployment-compare reveal">
+              <article><span class="deploy-tag">LOCAL</span><h3>本地模型</h3><p>下载权重，在自己的 GPU 上推理。</p><dl><div><dt>优势</dt><dd>离线、隐私、可深度定制、无单次 API 费用</dd></div><div><dt>代价</dt><dd>模型下载、CUDA/依赖、显存、磁盘和维护成本</dd></div><div><dt>适合</dt><dd>高频使用、敏感素材、已有 GPU、需要定制</dd></div></dl></article>
+              <article><span class="deploy-tag cloud">CLOUD</span><h3>云端 API</h3><p>上传输入，轮询任务并下载模型文件。</p><dl><div><dt>优势</dt><dd>无需高端显卡，上手快，服务商持续升级模型</dd></div><div><dt>代价</dt><dd>按量付费、网络、隐私、额度和供应商依赖</dd></div><div><dt>适合</dt><dd>低频试验、无独显、难例兜底、快速验证价值</dd></div></dl></article>
+            </div>
+          </div>
+
+          <div class="formula reveal" aria-label="结果质量公式">
+            <span>最终可用资产</span><i>=</i><strong>模型能力</strong><i>×</i><strong>输入质量</strong><i>×</i><strong>算力预算</strong><i>×</i><strong>后处理流程</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="models">
+        <div class="shell">
+          <div class="section-heading reveal">
+            <div><span class="section-no">03 / MODEL MAP</span><h2>适合 Modly 的模型与市场能力</h2></div>
+            <p>这里不是跨厂商“排行榜”，而是按接入状态和使用价值整理的候选地图。模型更新很快，版本、价格与许可证应在实际采用时再次核对。</p>
+          </div>
+
+          <div class="model-toolbar reveal">
+            <div class="filter-group" role="group" aria-label="筛选模型类型">
+              <button class="filter-button active" type="button" data-filter="all" aria-pressed="true">全部 <span>12</span></button>
+              <button class="filter-button" type="button" data-filter="ready" aria-pressed="false">Modly 现成 <span>3</span></button>
+              <button class="filter-button" type="button" data-filter="local" aria-pressed="false">可本地接入 <span>5</span></button>
+              <button class="filter-button" type="button" data-filter="api" aria-pressed="false">商业 API <span>4</span></button>
+            </div>
+            <p id="filterStatus" role="status" aria-live="polite">正在显示 12 个候选</p>
+          </div>
+
+          <div class="model-grid" id="modelGrid">
+            <article class="model-card reveal" data-category="ready">
+              <div class="model-meta"><span class="status ready">MODLY READY</span><small>FAST LANE</small></div>
+              <h3>Hunyuan3D 2 Mini</h3><p>0.6B 级单图生成几何；Fast、Turbo 和标准版本覆盖快速草模到普通质量。</p>
+              <dl><div><dt>强项</dt><dd>轻量、启动门槛低、适合预览</dd></div><div><dt>边界</dt><dd>细节和完整材质不是最高质量路线</dd></div></dl>
+              <a href="https://github.com/lightningpixel/modly-hunyuan3d-mini-extension" target="_blank" rel="noreferrer">查看扩展 ↗</a>
+            </article>
+            <article class="model-card reveal" data-category="ready">
+              <div class="model-meta"><span class="status ready">MODLY READY</span><small>GEOMETRY</small></div>
+              <h3>TripoSG</h3><p>约 1.5B 的图生 3D 几何模型，强调轮廓、形体与泛化，约 8GB CUDA 显存起步。</p>
+              <dl><div><dt>强项</dt><dd>几何锐度与形体质量</dd></div><div><dt>边界</dt><dd>主要是几何，纹理需接其他节点</dd></div></dl>
+              <a href="https://github.com/lightningpixel/modly-triposg-extension" target="_blank" rel="noreferrer">查看扩展 ↗</a>
+            </article>
+            <article class="model-card reveal featured-card" data-category="ready">
+              <div class="model-meta"><span class="status ready">MODLY READY</span><small>QUALITY LANE</small></div>
+              <h3>TRELLIS.2 GGUF</h3><p>将 TRELLIS.2 做成多档量化扩展，兼顾几何生成与纹理节点，显存门槛明显低于官方 4B 版本。</p>
+              <dl><div><dt>强项</dt><dd>本地质量、量化选择、PBR 路线</dd></div><div><dt>边界</dt><dd>量化精度、分辨率和速度需要实测权衡</dd></div></dl>
+              <a href="https://github.com/lightningpixel/modly-trellis2-gguf-extension" target="_blank" rel="noreferrer">查看扩展 ↗</a>
+            </article>
+
+            <article class="model-card reveal" data-category="local">
+              <div class="model-meta"><span class="status local">LOCAL CANDIDATE</span><small>24 GB+</small></div>
+              <h3>TRELLIS.2 4B</h3><p>高保真图生 3D，O-Voxel 表示可覆盖复杂、开放和非流形结构，并输出多种 PBR 属性。</p>
+              <dl><div><dt>强项</dt><dd>本地高质量几何与 PBR</dd></div><div><dt>边界</dt><dd>官方环境偏 Linux + NVIDIA 24GB+</dd></div></dl>
+              <a href="https://github.com/microsoft/TRELLIS.2" target="_blank" rel="noreferrer">上游项目 ↗</a>
+            </article>
+            <article class="model-card reveal" data-category="local">
+              <div class="model-meta"><span class="status local">LOCAL CANDIDATE</span><small>PBR PIPELINE</small></div>
+              <h3>Hunyuan3D 2.1</h3><p>几何生成和纹理合成分阶段处理，具备更完整的高保真 PBR 资产路线。</p>
+              <dl><div><dt>强项</dt><dd>几何 + 生产型材质管线</dd></div><div><dt>边界</dt><dd>环境较重；商业使用前复核模型许可</dd></div></dl>
+              <a href="https://github.com/Tencent-Hunyuan/Hunyuan3D-2.1" target="_blank" rel="noreferrer">上游项目 ↗</a>
+            </article>
+            <article class="model-card reveal recommended-card" data-category="local">
+              <div class="model-meta"><span class="status local">PRIORITY ADAPTER</span><small>7–10.5 GB</small></div>
+              <h3>SPAR3D</h3><p>快速单图重建，引入点云条件改善不可见背面，并支持基于点的形体编辑。</p>
+              <dl><div><dt>强项</dt><dd>速度、背面恢复、消费级显卡适配</dd></div><div><dt>边界</dt><dd>Windows 与非 CUDA 路线需单独验证</dd></div></dl>
+              <a href="https://github.com/Stability-AI/stable-point-aware-3d" target="_blank" rel="noreferrer">上游项目 ↗</a>
+            </article>
+            <article class="model-card reveal" data-category="local">
+              <div class="model-meta"><span class="status local">SPECIALIST</span><small>SCENE PHOTO</small></div>
+              <h3>SAM 3D Objects</h3><p>面向自然照片中的遮挡、杂乱和多物体，从目标分割继续恢复形状、纹理与姿态。</p>
+              <dl><div><dt>强项</dt><dd>复杂照片和场景内目标提取</dd></div><div><dt>边界</dt><dd>接入链路重，通常还要处理 mask</dd></div></dl>
+              <a href="https://github.com/facebookresearch/sam-3d-objects" target="_blank" rel="noreferrer">上游项目 ↗</a>
+            </article>
+            <article class="model-card reveal" data-category="local">
+              <div class="model-meta"><span class="status local">LOCAL CANDIDATE</span><small>CONTROLLED</small></div>
+              <h3>Step1X-3D</h3><p>提供几何、纹理与多视图控制方向，适合作为高质量定制生成候选。</p>
+              <dl><div><dt>强项</dt><dd>高质量纹理与可控多视图</dd></div><div><dt>边界</dt><dd>部署、模型与依赖链路更重</dd></div></dl>
+              <a href="https://github.com/stepfun-ai/Step1X-3D" target="_blank" rel="noreferrer">上游项目 ↗</a>
+            </article>
+
+            <article class="model-card reveal" data-category="api">
+              <div class="model-meta"><span class="status api">COMMERCIAL API</span><small>ALL-IN-ONE</small></div>
+              <h3>Meshy</h3><p>覆盖文生/图生 3D、纹理、重拓扑、绑定与动画，是能力链路较完整的商业平台。</p>
+              <dl><div><dt>强项</dt><dd>完整产品化流程和生态集成</dd></div><div><dt>边界</dt><dd>按量成本、隐私和供应商锁定</dd></div></dl>
+              <a href="https://docs.meshy.ai/en" target="_blank" rel="noreferrer">官方文档 ↗</a>
+            </article>
+            <article class="model-card reveal" data-category="api">
+              <div class="model-meta"><span class="status api">COMMERCIAL API</span><small>SPEED</small></div>
+              <h3>Tripo API</h3><p>图生模型接口提供 PBR、细节纹理、图像修复和朝向控制，适合快速批量生产。</p>
+              <dl><div><dt>强项</dt><dd>速度、几何和自动化接口</dd></div><div><dt>边界</dt><dd>闭源服务，需要处理任务轮询和成本</dd></div></dl>
+              <a href="https://developers.tripo3d.ai/en/docs/generation-image-to-model" target="_blank" rel="noreferrer">官方文档 ↗</a>
+            </article>
+            <article class="model-card reveal" data-category="api">
+              <div class="model-meta"><span class="status api">COMMERCIAL API</span><small>PREMIUM PBR</small></div>
+              <h3>Hyper3D Rodin</h3><p>支持文字、单图与多图生成，提供 PBR 及 GLB、OBJ、FBX 等生产常见格式。</p>
+              <dl><div><dt>强项</dt><dd>展示级资产、多视图、格式完整</dd></div><div><dt>边界</dt><dd>成本、数据上传和平台依赖</dd></div></dl>
+              <a href="https://docs.hyper3d.ai/en" target="_blank" rel="noreferrer">官方文档 ↗</a>
+            </article>
+            <article class="model-card reveal" data-category="api">
+              <div class="model-meta"><span class="status api">COMMERCIAL API</span><small>SIMPLE GLB</small></div>
+              <h3>Stability SPAR3D API</h3><p>把 SPAR3D 的单图到 GLB 能力放到云端，适合先验证效果再决定是否本地部署。</p>
+              <dl><div><dt>强项</dt><dd>接入简单、无需本地高端 GPU</dd></div><div><dt>边界</dt><dd>接口状态、价格和可用区需实时核对</dd></div></dl>
+              <a href="https://platform.stability.ai/docs/api-reference" target="_blank" rel="noreferrer">官方接口 ↗</a>
+            </article>
+          </div>
+
+          <p class="license-note reveal"><strong>许可提醒：</strong>代码仓库许可证、模型权重许可证、训练数据限制和 API 服务条款不是一回事。进入商业使用前必须逐项复核；本页不构成法律意见。</p>
+        </div>
+      </section>
+
+      <section class="section value-section" id="value">
+        <div class="shell">
+          <div class="section-heading reveal">
+            <div><span class="section-no">04 / VALUE</span><h2>它对我们的价值，不是“让弱模型变强”</h2></div>
+            <p>真正价值是把快速变化、部署方式各异的模型纳入同一资产流程，降低试错、切换和组合成本。</p>
+          </div>
+
+          <div class="value-grid reveal">
+            <article><span>01</span><h3>低成本比较</h3><p>同一批输入在多个模型间切换，避免每个模型各写一套临时脚本。</p></article>
+            <article><span>02</span><h3>本地与云端混合</h3><p>轻量任务本地完成，难例或高质量任务自动转到商业 API。</p></article>
+            <article><span>03</span><h3>资产后处理串联</h3><p>生成之后继续连接去背景、贴图、减面、格式转换和质量检查。</p></article>
+            <article><span>04</span><h3>屏蔽供应商差异</h3><p>把上层工作流与具体模型解耦，降低模型迭代带来的迁移成本。</p></article>
+          </div>
+
+          <div class="fit-board reveal">
+            <div class="fit-column good"><span>适合</span><ul><li>游戏、WebGL、AR 的概念资产与背景道具</li><li>商品或物体的快速 3D 原型</li><li>UGC 和批量内容生产</li><li>模型评测、对比和后处理研究</li><li>对精确尺寸没有硬性要求的视觉资产</li></ul></div>
+            <div class="fit-column bad"><span>不宜直接承诺</span><ul><li>精确尺寸和装配约束的 CAD / 工业建模</li><li>无需人工清理即可上线的英雄级角色</li><li>单张图片恢复绝对真实的不可见结构</li><li>天然可动画、可变形的高质量拓扑</li><li>不经授权复核的商业资产批量生产</li></ul></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section decision-section" id="decision">
+        <div class="shell">
+          <div class="section-heading reveal">
+            <div><span class="section-no">05 / DECISION</span><h2>先根据目标和设备选路线</h2></div>
+            <p>这不是在线推理器，而是一个本地决策辅助。选择最接近的条件，查看建议的最小模型组合与下一步。</p>
+          </div>
+
+          <div class="decision-shell reveal">
+            <div class="decision-options" role="group" aria-label="选择探索条件">
+              <button type="button" class="decision-button active" data-plan="nogpu" aria-pressed="true"><span>01</span><strong>没有独立显卡</strong><small>先验证价值</small></button>
+              <button type="button" class="decision-button" data-plan="eight" aria-pressed="false"><span>02</span><strong>8 GB 显存</strong><small>本地入门</small></button>
+              <button type="button" class="decision-button" data-plan="sixteen" aria-pressed="false"><span>03</span><strong>12–16 GB</strong><small>本地主力</small></button>
+              <button type="button" class="decision-button" data-plan="pro" aria-pressed="false"><span>04</span><strong>24 GB+</strong><small>高质量工作站</small></button>
+              <button type="button" class="decision-button" data-plan="scene" aria-pressed="false"><span>05</span><strong>复杂场景照片</strong><small>遮挡 / 多物体</small></button>
+            </div>
+            <article class="decision-result" aria-live="polite">
+              <p class="result-kicker" id="resultKicker">NO LOCAL GPU</p>
+              <h3 id="resultTitle">先接一个云端 API，不下载模型</h3>
+              <p id="resultBody">用 Meshy、Tripo 或 Rodin 跑一批真实业务图片，先确认“生成出的资产是否真的节省人工建模时间”。本机只需要浏览器和 3D 预览能力。</p>
+              <div class="result-stack" id="resultStack"><span>主方案：Tripo / Meshy / Rodin</span><span>本地：仅工作流与预览</span><span>目标：验证业务价值</span></div>
+              <div class="result-next"><small>下一步</small><p id="resultNext">准备 30 张有代表性的图片，记录正背面一致性、网格质量、PBR、失败率、耗时和单次成本。</p></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="roadmap">
+        <div class="shell">
+          <div class="section-heading reveal">
+            <div><span class="section-no">06 / EXPLORATION</span><h2>暂时不研究，也要留下可重新启动的路径</h2></div>
+            <p>现在不下载模型是合理选择。下一次只有在出现明确业务需求、合适硬件或更成熟模型时，再按下面的低成本顺序重新进入。</p>
+          </div>
+
+          <ol class="roadmap reveal">
+            <li><span>00</span><div><small>现在</small><h3>停止投入，保留判断</h3><p>把本页作为当前结论，不安装模型，不产生 GPU、API 或环境维护成本。</p></div><em>ARCHIVE</em></li>
+            <li><span>01</span><div><small>重新触发条件</small><h3>收集真实输入与验收标准</h3><p>明确资产类型、目标面数、是否需要 PBR、允许的清理时间和商业授权边界。</p></div><em>0.5 DAY</em></li>
+            <li><span>02</span><div><small>最小验证</small><h3>用 30–50 个样本做统一 Bake-off</h3><p>同一输入跑快速、本地质量和云端质量三条路线；不先争论模型名，先比较下游可用性。</p></div><em>1–2 DAYS</em></li>
+            <li><span>03</span><div><small>形成组合</small><h3>只保留三条生成通道</h3><p>快速草模：Hunyuan Mini；几何：TripoSG；质量：TRELLIS.2 GGUF 或一个商业 API。</p></div><em>3 LANES</em></li>
+            <li><span>04</span><div><small>进入生产</small><h3>补齐资产后处理与治理</h3><p>再接减面、重拓扑、贴图、格式校验、成本追踪、失败重试和许可证记录。</p></div><em>PIPELINE</em></li>
+          </ol>
+
+          <div class="metrics reveal">
+            <div><span>必须记录的 8 项指标</span><h3>不要只比较“第一眼好不好看”</h3></div>
+            <ul><li>轮廓还原</li><li>背面一致性</li><li>拓扑可编辑性</li><li>面数与文件体积</li><li>UV / PBR 完整性</li><li>峰值显存与耗时</li><li>失败率与重试</li><li>人工清理时间</li></ul>
+          </div>
+
+          <div class="stop-rules reveal">
+            <span>STOP RULES</span><h3>出现这些情况，就不要继续堆模型</h3>
+            <div><p>生成后人工清理时间没有明显低于直接建模</p><p>核心输入持续出现背面、薄片或拓扑失败</p><p>许可证或素材上传要求不符合业务边界</p><p>API 单次成本超过资产可接受预算</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section sources-section" id="sources">
+        <div class="shell">
+          <div class="section-heading compact reveal">
+            <div><span class="section-no">07 / SOURCES</span><h2>主要依据与继续阅读</h2></div>
+            <p>优先链接项目仓库与服务商官方文档。能力和版本变化较快，重新启动研究时应以这些一手来源为准。</p>
+          </div>
+          <div class="sources-grid reveal">
+            <a href="https://github.com/lightningpixel/modly" target="_blank" rel="noreferrer"><span>平台</span><strong>Modly</strong><small>定位、扩展列表与安装方式</small><b>↗</b></a>
+            <a href="https://github.com/VAST-AI-Research/TripoSG" target="_blank" rel="noreferrer"><span>开源模型</span><strong>TripoSG</strong><small>几何模型与运行要求</small><b>↗</b></a>
+            <a href="https://github.com/microsoft/TRELLIS.2" target="_blank" rel="noreferrer"><span>开源模型</span><strong>TRELLIS.2</strong><small>O-Voxel、PBR 与官方环境</small><b>↗</b></a>
+            <a href="https://github.com/Tencent-Hunyuan/Hunyuan3D-2.1" target="_blank" rel="noreferrer"><span>开源模型</span><strong>Hunyuan3D 2.1</strong><small>几何与纹理生成管线</small><b>↗</b></a>
+            <a href="https://github.com/Stability-AI/stable-point-aware-3d" target="_blank" rel="noreferrer"><span>开源模型</span><strong>SPAR3D</strong><small>单图重建与点云条件编辑</small><b>↗</b></a>
+            <a href="https://github.com/facebookresearch/sam-3d-objects" target="_blank" rel="noreferrer"><span>开源模型</span><strong>SAM 3D Objects</strong><small>自然场景与遮挡目标恢复</small><b>↗</b></a>
+            <a href="https://docs.meshy.ai/en" target="_blank" rel="noreferrer"><span>商业 API</span><strong>Meshy</strong><small>生成、贴图、重拓扑与动画</small><b>↗</b></a>
+            <a href="https://developers.tripo3d.ai/en/docs/generation-image-to-model" target="_blank" rel="noreferrer"><span>商业 API</span><strong>Tripo</strong><small>图生模型接口</small><b>↗</b></a>
+            <a href="https://docs.hyper3d.ai/en" target="_blank" rel="noreferrer"><span>商业 API</span><strong>Hyper3D Rodin</strong><small>文字、单图、多图与 PBR</small><b>↗</b></a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="shell footer-layout">
+        <div><span>MODLY / IMAGE-TO-3D STUDY</span><p>结论快照：2026-08-27。模型和服务变化较快，采用前请重新核对。</p></div>
+        <div><a href="../">返回研究门户</a><a href="https://github.com/lightningpixel/modly" target="_blank" rel="noreferrer">上游仓库 ↗</a><a href="#top">回到顶部 ↑</a></div>
+      </div>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -17,7 +17,28 @@
 | [shuohao-skills](https://github.com/eternityspring/shuohao-skills) | 面向 Agent 的小说改编、角色美术、结构化剧本和 H3 分镜投产技能 | `verified` | `ready-local` | 本地：`studies/shuohao-skills/` · `docs/shuohao-skills/` |
 | [Scientific Illustrator](https://github.com/icebird1998/scientific-illustrator) | 大模型通过 MCP 生成、检查并修正可编辑科研图源文件 | `verified` | `published` | [研究记录](studies/scientific-illustrator/README.md) · [完整案例](studies/scientific-illustrator/CASE-STUDY.md) · [Web 演示](https://yydshly.github.io/0827_githubcode_study/scientific-illustrator/) |
 | [ChatHub](https://github.com/chathub-dev/chathub) | 以官方 API 与浏览器登录会话双路径接入模型，统一流式协议并支持模型切换和并行回答 | `verified` | `published` | [研究记录](studies/chathub/README.md) · [Web 页面](https://yydshly.github.io/0827_githubcode_study/chathub/) |
+| [Modly](https://github.com/lightningpixel/modly) | 面向图生 3D 模型的本地工作流与适配平台；模型决定质量上限，电脑或云端提供算力，Modly 负责统一、编排、预览和导出 | `archived` | `published` | [研究总结](studies/modly/README.md) · [能力研究页面](https://yydshly.github.io/0827_githubcode_study/modly/) |
 | [Comp AI CRM](https://github.com/trycompai/crm) | 以结构化业务数据、Evidence、持久任务和受控工具支撑长期运行 Agent 的 Agentic CRM | `researching` | `researching` | [研究记录](studies/trycompai-crm/README.md) · [架构图](studies/trycompai-crm/architecture.svg) |
+
+## Featured：Modly 图生 3D 能力研究
+
+**在线页面：** [Modly 图生 3D 能力研究](https://yydshly.github.io/0827_githubcode_study/modly/)
+
+Modly 不是新的图生 3D 基础模型，而是把 Hunyuan3D、TripoSG、TRELLIS 等模型组织成统一工作流节点的本地平台。它解决模型安装、环境隔离、参数与输入输出映射、进度和取消、节点编排、3D 预览与导出；实际的几何理解、背面推断、纹理和 PBR 质量仍来自底层模型。
+
+```text
+模型        决定生成能力和质量上限
+Modly       决定能力如何接入、组合与产品化
+电脑 / 云端  决定本地能否运行、速度和使用成本
+```
+
+本地路线会明显依赖 NVIDIA GPU 和显存：无独显时更适合先接 Meshy、Tripo 或 Rodin 等云端 API；8GB 显存可以从 Hunyuan3D Mini、TripoSG 和部分 TRELLIS.2 GGUF 开始；12–16GB 更适合作为消费级本地主力；24GB 以上再评估官方 TRELLIS.2 4B 或更完整的高质量管线。
+
+当前建议不是继续堆模型，而是保留三条最小通道：Hunyuan3D Mini Fast 负责快速草模，TripoSG 负责几何，TRELLIS.2 GGUF 负责本地质量；只有出现真实业务需求时，再用 30–50 个样本比较背面一致性、拓扑、UV/PBR、显存、耗时、失败率和人工清理成本。复杂自然照片成为核心输入后，再单独评估 SAM 3D Objects；本地难例可用一个商业 API 兜底。
+
+本轮没有下载模型或执行生成质量测试，结论属于源码、扩展清单和官方模型资料层面的能力研究。重新启动前，不应把官方演示或本页整理当成生产效果证明。
+
+[查看完整研究总结](studies/modly/README.md) · [打开可视化决策页面](https://yydshly.github.io/0827_githubcode_study/modly/)
 
 ## Featured：Comp AI CRM Agentic 架构研究
 
