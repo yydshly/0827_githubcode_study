@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Scientific Illustrator 新版能力研究：可编辑科研图重建、draw.io/PowerPoint/WPS 后端、四角色质量门与交互演示。">
+  <meta name="color-scheme" content="light dark">
+  <title>Scientific Illustrator · 可编辑科研图工作台</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+  <script src="./real-demo.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="#top" aria-label="Scientific Illustrator 研究首页">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>Scientific <strong>Illustrator</strong></span>
+      </a>
+      <nav aria-label="页面导航">
+        <a href="#real-lab">真实演示</a>
+        <a href="#capabilities">能力</a>
+        <a href="#scenarios">场景</a>
+        <a href="#roadmap">扩展</a>
+        <a href="#evidence">证据</a>
+      </nav>
+      <button class="icon-button" id="theme-toggle" type="button" aria-label="切换深浅主题" aria-pressed="false">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v2m0 14v2M3 12h2m14 0h2M5.64 5.64l1.42 1.42m9.88 9.88 1.42 1.42m0-12.72-1.42 1.42M7.06 16.94l-1.42 1.42M16.5 12A4.5 4.5 0 1 1 7.5 12a4.5 4.5 0 0 1 9 0Z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero shell" id="top">
+      <div class="hero-copy">
+        <div class="kicker"><span class="signal-dot"></span> NEW REPOSITORY STUDY · v1.5.4</div>
+        <h1>科研图，不只要生成。<br><em>还要真正可编辑。</em></h1>
+        <p class="hero-lead">Scientific Illustrator 让 Codex 把参考图或科学简报，重建为 draw.io、PowerPoint 或 WPS 中的原生对象，并用结构审计与渲染检查持续修正。</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#real-lab">构建完整科研案例 <span aria-hidden="true">↘</span></a>
+          <a class="button button-quiet" href="https://github.com/icebird1998/scientific-illustrator">查看上游源码 <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="fact-row" aria-label="项目关键数据">
+          <div><strong>3</strong><span>编辑器后端</span></div>
+          <div><strong>69</strong><span>MCP 工具</span></div>
+          <div><strong>4</strong><span>质量角色</span></div>
+          <div><strong>MIT</strong><span>开源许可</span></div>
+        </div>
+      </div>
+
+      <aside class="hero-verdict" aria-label="核心判断">
+        <div class="verdict-toolbar"><span>研究结论</span><span class="status-pill"><i></i> researching</span></div>
+        <div class="verdict-visual" aria-hidden="true">
+          <svg viewBox="0 0 440 250">
+            <defs>
+              <filter id="soft-shadow" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="8" stdDeviation="8" flood-opacity=".12"/></filter>
+            </defs>
+            <path class="flow-line" d="M55 127H145M208 127h78m63 0h38"/>
+            <circle class="flow-node flow-node-a" cx="48" cy="127" r="32" filter="url(#soft-shadow)"/>
+            <rect class="flow-node flow-node-b" x="145" y="93" width="70" height="68" rx="18" filter="url(#soft-shadow)"/>
+            <path class="flow-node flow-node-c" d="M314 88l42 39-42 39-42-39Z" filter="url(#soft-shadow)"/>
+            <circle class="flow-node flow-node-d" cx="399" cy="127" r="24" filter="url(#soft-shadow)"/>
+            <path class="spark" d="M175 73v-20m-24 28-13-13m61 13 13-13"/>
+            <text x="48" y="132" text-anchor="middle">参考</text>
+            <text x="180" y="132" text-anchor="middle">拆解</text>
+            <text x="314" y="132" text-anchor="middle">审计</text>
+            <text x="399" y="132" text-anchor="middle">交付</text>
+          </svg>
+        </div>
+        <h2>不是“图片放进 draw.io”</h2>
+        <p>核心是把可重建内容恢复成独立文字、形状、连线、表格和图表；只有显微照片、复杂纹理等不可约区域才保留为原子图片。</p>
+        <div class="verdict-note"><span>输入</span>参考图 / 科学简报 <b>→</b> <span>输出</span>.drawio / .pptx</div>
+      </aside>
+    </section>
+
+    <section class="statement-band" aria-label="项目定位">
+      <div class="shell statement-grid">
+        <span class="section-index">01 / 定位</span>
+        <p>它是一套 <strong>AI 原生的可编辑科研图生产协议</strong>：模型负责理解与设计，MCP 负责受控绘制，专业编辑器负责对象和文件，质量门负责验收。</p>
+      </div>
+    </section>
+
+    <section class="section shell real-lab-section" id="real-lab">
+      <header class="section-head real-lab-head">
+        <div><span class="section-index">02 / END-TO-END CASE</span><h2>从科学简报到可编辑终稿</h2></div>
+        <p>一个完整的 LNP–mRNA 抗原呈递案例：先定义科学问题与视觉协议，再由上游 <code>server.mjs</code> 真实绘制、检查、修正并交付 draw.io 源文件。</p>
+      </header>
+
+      <div class="real-lab-shell">
+        <div class="real-lab-toolbar">
+          <div class="runtime-block">
+            <div class="runtime-status" id="runtime-status" data-state="checking"><i aria-hidden="true"></i><span>正在探测真实 MCP…</span></div>
+            <p id="runtime-detail">GET /api/scientific-illustrator/health</p>
+          </div>
+          <div class="real-lab-actions">
+            <button class="button button-primary" id="run-real-demo" type="button">构建完整 LNP–mRNA 案例</button>
+            <a class="button button-quiet" id="download-real-artifact" href="" download aria-disabled="true" tabindex="-1">下载本次 .drawio</a>
+          </div>
+        </div>
+
+        <div class="case-intro-grid" aria-label="案例定义">
+          <article class="case-intro-card">
+            <span>01 · SCIENTIFIC BRIEF</span>
+            <h3>递送如何变成免疫激活？</h3>
+            <p>解释 LNP 摄取、内体逃逸、mRNA 翻译、抗原加工、MHC-I 呈递到 CD8+ T 细胞激活的因果链。</p>
+            <small>边界：机制示意，不表达剂量、时间尺度或临床疗效。</small>
+          </article>
+          <article class="case-intro-card">
+            <span>02 · DESIGN SPEC</span>
+            <h3>左到右，三层生物空间</h3>
+            <p>细胞外 → 胞质 → 细胞表面 / 免疫输出；蓝色表示递送，紫色表示表达，绿色表示呈递与激活。</p>
+            <small>阅读顺序、分区、配色与标签在绘制前固定。</small>
+          </article>
+          <article class="case-intro-card case-intro-card-accent">
+            <span>03 · QUALITY CONTRACT</span>
+            <h3>39 节点 · 19 连线 · 0 位图</h3>
+            <p>所有关键元素都是可选择、可移动、可改字的 draw.io 原生对象，并执行 3 项真实对象级修正。</p>
+            <small>验收：结构有效、信息完整、产物可下载。</small>
+          </article>
+        </div>
+
+        <div class="real-workspace">
+          <article class="real-request-panel">
+            <div class="real-panel-heading">
+              <span>01 · REQUEST</span>
+              <strong>给上游 MCP 的真实任务</strong>
+            </div>
+            <div class="request-summary">
+              <span>MODE</span><code>explicit-file-only-request</code>
+              <span>OUTPUT</span><code>generated/lnp-mrna-antigen-presentation.drawio</code>
+              <span>OBJECTS</span><code>38 supplied vertices + generated title + 19 edges</code>
+              <span>POLICY</span><code>editable scientific primitives · zero raster</code>
+            </div>
+            <ol class="real-pipeline" aria-label="真实 MCP 工具调用顺序">
+              <li data-real-stage="create" data-state="pending"><span>01</span><code>drawio_create_diagram</code><b data-stage-result>等待</b></li>
+              <li data-real-stage="validate-1" data-state="pending"><span>02</span><code>drawio_validate</code><b data-stage-result>等待</b></li>
+              <li data-real-stage="inspect-1" data-state="pending"><span>03</span><code>drawio_inspect</code><b data-stage-result>等待</b></li>
+              <li data-real-stage="update" data-state="pending"><span>04</span><code>drawio_update_cells</code><b data-stage-result>等待</b></li>
+              <li data-real-stage="validate-2" data-state="pending"><span>05</span><code>drawio_validate</code><b data-stage-result>等待</b></li>
+              <li data-real-stage="inspect-2" data-state="pending"><span>06</span><code>drawio_inspect</code><b data-stage-result>等待</b></li>
+            </ol>
+          </article>
+
+          <article class="real-result-panel">
+            <div class="real-panel-heading">
+              <span>02 · ACTUAL OUTPUT</span>
+              <strong>终稿对象根据 <code>drawio_inspect</code> 实时渲染</strong>
+            </div>
+            <div class="actual-preview-wrap">
+              <svg id="actual-preview" viewBox="0 0 1280 760" role="img" aria-label="LNP mRNA 抗原呈递真实 MCP 输出预览">
+                <rect x="30" y="30" width="1220" height="700" rx="26" class="preview-placeholder-frame"/>
+                <rect x="54" y="126" width="326" height="510" rx="22" class="preview-placeholder-node"/>
+                <rect x="402" y="126" width="326" height="510" rx="22" class="preview-placeholder-node"/>
+                <rect x="750" y="126" width="476" height="510" rx="22" class="preview-placeholder-node"/>
+                <path d="M142 374H292M466 374H640M812 374H1146" class="preview-placeholder-lines"/>
+                <circle cx="142" cy="374" r="44" class="preview-placeholder-node"/>
+                <rect x="246" y="328" width="92" height="92" rx="24" class="preview-placeholder-node"/>
+                <circle cx="510" cy="374" r="44" class="preview-placeholder-node"/>
+                <rect x="594" y="334" width="96" height="80" rx="20" class="preview-placeholder-node"/>
+                <circle cx="850" cy="374" r="44" class="preview-placeholder-node"/>
+                <text x="640" y="686" text-anchor="middle" class="preview-placeholder-text">点击“构建完整案例”后显示真实 inspect 终稿</text>
+              </svg>
+              <span class="actual-output-badge"><i></i> MCP RESULT → SVG PREVIEW</span>
+            </div>
+            <p class="artifact-meta" id="artifact-meta">尚未生成本次产物</p>
+          </article>
+        </div>
+
+        <div class="real-proof-strip" aria-label="真实结果摘要">
+          <div><span>结构校验</span><strong id="proof-valid">—</strong><small>来自 drawio_validate</small></div>
+          <div><span>原生对象</span><strong id="proof-objects">—</strong><small>来自页面 cell inventory</small></div>
+          <div><span>对象级修正</span><strong id="proof-patch">—</strong><small>来自 update_cells 前后值</small></div>
+          <div><span>栅格图片</span><strong id="proof-raster">—</strong><small>越低越可编辑</small></div>
+        </div>
+
+        <div class="real-evidence-grid">
+          <article>
+            <div class="real-panel-heading">
+              <span>03 · TRACE</span>
+              <strong id="trace-mode-label">本次实际 tool call</strong>
+            </div>
+            <ol class="real-trace-list" id="real-trace-list">
+              <li class="trace-waiting">运行后显示工具名、输入摘要和真实耗时。</li>
+            </ol>
+          </article>
+          <article>
+            <div class="real-panel-heading">
+              <span>04 · RAW PROOF</span>
+              <strong>未经美化的返回摘要</strong>
+            </div>
+            <pre id="raw-tool-result">等待真实 tool result…</pre>
+          </article>
+        </div>
+
+        <aside class="real-scope-note">
+          <strong>这个完整案例证明什么？</strong>
+          <p>它证明上游文件型 MCP 可以把科学意图落成结构化图稿，并通过“创建 → 双重检查 → 对象级修正 → 再检查”交付可编辑 <code>.drawio</code>。GitHub Pages 加载已验证终稿和调用记录，不在浏览器中伪装执行 MCP；在本地启动 Node bridge 后，按钮才会重新运行真实链路。当前未安装 draw.io Desktop，因此不宣称演示了 <code>drawio_live_*</code> 实时画布。</p>
+        </aside>
+        <p class="sr-only" id="real-demo-live" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="section shell" id="workflow">
+      <header class="section-head">
+        <div><span class="section-index">03 / WORKFLOW EXPLAINER</span><h2>真实执行之后，再看完整工作原理</h2></div>
+        <p>下面的四角色步进是原理动画，用来解释 Designer、Drawer、Reviewer、Corrector 如何协作；上方才是实际 MCP 执行结果。</p>
+      </header>
+
+      <div class="lab-shell">
+        <div class="lab-toolbar">
+          <div class="segmented" role="group" aria-label="选择绘图后端">
+            <button type="button" class="segment active" data-backend="drawio" aria-pressed="true">draw.io</button>
+            <button type="button" class="segment" data-backend="powerpoint" aria-pressed="false">PowerPoint</button>
+            <button type="button" class="segment" data-backend="wps" aria-pressed="false">WPS</button>
+          </div>
+          <div class="lab-actions">
+            <button class="button button-small button-quiet" id="next-step" type="button">下一步</button>
+            <button class="button button-small button-primary" id="replay-demo" type="button">自动重播</button>
+          </div>
+        </div>
+
+        <div class="lab-grid">
+          <article class="canvas-panel reference-panel">
+            <div class="panel-toolbar"><span><i class="window-dot red"></i><i class="window-dot yellow"></i><i class="window-dot green"></i></span><strong>reference_figure.png</strong><span>只读参考</span></div>
+            <div class="reference-canvas">
+              <svg viewBox="0 0 620 390" role="img" aria-label="细胞信号通路参考示意图">
+                <rect x="24" y="28" width="572" height="334" rx="18" class="ref-bg"/>
+                <text x="50" y="67" class="ref-title">Growth-factor signalling</text>
+                <text x="50" y="90" class="ref-sub">membrane → kinase cascade → transcription</text>
+                <path d="M70 133H550" class="membrane"/>
+                <path d="M70 144H550" class="membrane secondary"/>
+                <path d="M137 119v38m20-38v38" class="receptor"/>
+                <circle cx="147" cy="102" r="18" class="ligand"/>
+                <text x="147" y="106" text-anchor="middle" class="ref-label inverse">GF</text>
+                <rect x="103" y="181" width="88" height="46" rx="15" class="ref-node teal"/>
+                <text x="147" y="210" text-anchor="middle" class="ref-label">RAS</text>
+                <rect x="250" y="181" width="88" height="46" rx="15" class="ref-node blue"/>
+                <text x="294" y="210" text-anchor="middle" class="ref-label">PI3K</text>
+                <rect x="397" y="181" width="88" height="46" rx="15" class="ref-node amber"/>
+                <text x="441" y="210" text-anchor="middle" class="ref-label">AKT</text>
+                <ellipse cx="441" cy="300" rx="86" ry="39" class="nucleus"/>
+                <text x="441" y="297" text-anchor="middle" class="ref-label">Nucleus</text>
+                <text x="441" y="317" text-anchor="middle" class="ref-mini">gene expression</text>
+                <path d="M147 158v23M191 204h59m88 0h59M441 227v32" class="ref-arrow"/>
+                <path d="M294 227c0 65-147 53-147 9" class="feedback"/>
+                <text x="95" y="282" class="ref-mini">negative feedback</text>
+              </svg>
+              <span class="reference-chip">输入 · 静态图片</span>
+            </div>
+          </article>
+
+          <article class="canvas-panel output-panel">
+            <div class="panel-toolbar"><span class="app-icon" id="backend-icon">D</span><strong id="backend-title">draw.io · Live canvas</strong><span id="backend-file">figure.drawio</span></div>
+            <div class="output-canvas" id="output-canvas" data-phase="0" aria-live="polite">
+              <svg viewBox="0 0 620 390" role="img" aria-labelledby="output-title output-description">
+                <title id="output-title">可编辑科研图重建结果</title>
+                <desc id="output-description">随着演示步骤出现面板、文字、形状和连接线，并在审计后被修正。</desc>
+                <g class="grid-layer" data-appear="1"><path d="M24 28H596V362H24Z"/><path d="M24 102H596M24 150H596M24 242H596"/><path d="M80 28V362M200 28V362M340 28V362M500 28V362"/></g>
+                <g data-appear="1">
+                  <rect x="24" y="28" width="572" height="334" rx="18" class="out-bg"/>
+                  <text x="50" y="67" class="out-title">Growth-factor signalling</text>
+                  <text x="50" y="90" class="out-sub">membrane → kinase cascade → transcription</text>
+                  <path d="M70 133H550M70 144H550" class="out-membrane"/>
+                </g>
+                <g data-appear="2">
+                  <path d="M137 119v38m20-38v38" class="out-receptor"/>
+                  <circle cx="147" cy="102" r="18" class="out-ligand"/>
+                  <text x="147" y="106" text-anchor="middle" class="out-label inverse">GF</text>
+                  <rect x="103" y="181" width="88" height="46" rx="15" class="out-node out-teal"/>
+                  <text x="147" y="210" text-anchor="middle" class="out-label">RAS</text>
+                  <rect x="250" y="181" width="88" height="46" rx="15" class="out-node out-blue"/>
+                  <text x="294" y="210" text-anchor="middle" class="out-label">PI3K</text>
+                  <rect x="397" y="181" width="88" height="46" rx="15" class="out-node out-amber"/>
+                  <text id="akt-label" x="441" y="210" text-anchor="middle" class="out-label">AKT?</text>
+                  <ellipse cx="441" cy="300" rx="86" ry="39" class="out-nucleus"/>
+                  <text x="441" y="297" text-anchor="middle" class="out-label">Nucleus</text>
+                  <text x="441" y="317" text-anchor="middle" class="out-mini">gene expression</text>
+                  <path d="M147 158v23M191 204h59m88 0h59" class="out-arrow"/>
+                  <path id="problem-edge" d="M441 227L472 269" class="out-arrow problem-edge"/>
+                  <path d="M294 227c0 65-147 53-147 9" class="out-feedback"/>
+                  <text x="95" y="282" class="out-mini">negative feedback</text>
+                </g>
+                <g class="review-layer" data-review>
+                  <rect x="394" y="178" width="94" height="52" rx="17"/>
+                  <path d="M502 167l-18 15"/>
+                  <text x="505" y="162">文本不确定</text>
+                  <rect x="429" y="219" width="56" height="59" rx="10"/>
+                  <text x="493" y="274">箭头侵入</text>
+                </g>
+              </svg>
+              <span class="editable-chip"><i></i><span id="object-mode">18 个 mxCell · 可编辑</span></span>
+            </div>
+          </article>
+        </div>
+
+        <div class="protocol-strip" aria-label="四角色流程">
+          <button type="button" class="protocol-step active" data-phase-button="1"><span>01</span><b>Designer</b><small>拆解画布与对象</small></button>
+          <button type="button" class="protocol-step" data-phase-button="2"><span>02</span><b>Drawer</b><small>创建原生图元</small></button>
+          <button type="button" class="protocol-step" data-phase-button="3"><span>03</span><b>Reviewer</b><small>结构 + 渲染审计</small></button>
+          <button type="button" class="protocol-step" data-phase-button="4"><span>04</span><b>Corrector</b><small>最小对象级修正</small></button>
+          <div class="audit-card" id="audit-card">
+            <div><span>当前状态</span><strong id="phase-title">等待开始</strong></div>
+            <div class="score-ring" id="score-ring" style="--score:0"><span id="score-value">—</span></div>
+          </div>
+        </div>
+
+        <div class="tool-log" aria-live="polite">
+          <span class="terminal-prompt">›</span>
+          <code id="tool-log-text">选择后端，然后点击“下一步”或“自动重播”。</code>
+          <span class="terminal-meta" id="tool-log-meta">WEB SIMULATION</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section capabilities-section" id="capabilities">
+      <div class="shell">
+        <header class="section-head">
+          <div><span class="section-index">04 / Capability map</span><h2>一个协议，三种编辑器后端</h2></div>
+          <p>backend 改变对象映射方式，不改变“文字、形状、连线、表格、图表尽量可编辑”的质量合同。</p>
+        </header>
+
+        <div class="backend-cards">
+          <article class="backend-card featured">
+            <div class="card-top"><span class="backend-logo">D</span><span class="tag">VISIBLE GRAPH API</span></div>
+            <h3>draw.io Desktop</h3>
+            <p>逐对象操作可见画布，支持图形、图片、自由线、连接器、表格、复合图表、分组、对齐和 z-order。</p>
+            <ul><li>26 个实时工具</li><li>保存可编辑 .drawio</li><li>截图 + 确定性审计</li></ul>
+          </article>
+          <article class="backend-card">
+            <div class="card-top"><span class="backend-logo ppt">P</span><span class="tag">COM / OFFICE.JS / OOXML</span></div>
+            <h3>Microsoft PowerPoint</h3>
+            <p>Windows 优先 COM，Mac 可使用 Office.js 实时模式；不可用时回退到安全的 OOXML 工作副本。</p>
+            <ul><li>原生 PPTX 对象</li><li>表格、图表与连接器</li><li>后台绘制与幻灯片预览</li></ul>
+          </article>
+          <article class="backend-card">
+            <div class="card-top"><span class="backend-logo wps">W</span><span class="tag">EDITABLE OOXML COPY</span></div>
+            <h3>WPS 演示</h3>
+            <p>对可编辑 PPTX 工作副本按检查点刷新，并把“已派发打开”“已验证打开”“刷新成功”分开报告。</p>
+            <ul><li>Windows / macOS</li><li>不伪造窗口连接状态</li><li>默认不抢占前台焦点</li></ul>
+          </article>
+        </div>
+
+        <div class="capability-table-wrap">
+          <table class="capability-table">
+            <thead><tr><th>对象能力</th><th>draw.io</th><th>PowerPoint / WPS</th><th>交付原则</th></tr></thead>
+            <tbody>
+              <tr><td>文字与基础形状</td><td><span class="yes">●</span> 原生 mxCell</td><td><span class="yes">●</span> 原生 Shape/TextBox</td><td>稳定语义 ID / 名称</td></tr>
+              <tr><td>连接器与自由线</td><td><span class="yes">●</span> attached edge / polyline</td><td><span class="yes">●</span> native 或 geometry-backed</td><td>检查方向、避障与端点净空</td></tr>
+              <tr><td>表格</td><td><span class="yes">●</span> 可编辑复合单元格</td><td><span class="yes">●</span> 原生表格优先</td><td>不能用截图替代表格</td></tr>
+              <tr><td>常规图表</td><td><span class="yes">●</span> 图元复合</td><td><span class="yes">●</span> 原生或可编辑复合</td><td>数据、轴和图例保持可改</td></tr>
+              <tr><td>照片 / 显微图</td><td><span class="partial">◐</span> 原子图片对象</td><td><span class="partial">◐</span> 原子图片对象</td><td>只保留不可重建的最小区域</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell" id="mechanism">
+      <header class="section-head">
+        <div><span class="section-index">05 / Mechanism</span><h2>原理不是“更长的提示词”</h2></div>
+        <p>真正的工程价值来自设计规格、受控工具、双证据审计和最小修正之间的闭环。</p>
+      </header>
+      <div class="mechanism-grid">
+        <article class="mechanism-card"><span>01</span><h3>视觉理解</h3><p>Codex 识别面板、阅读顺序、文字、图元、拓扑、颜色和不可约图片区域。</p><code>reconstruction_spec</code></article>
+        <article class="mechanism-card"><span>02</span><h3>能力探测</h3><p>先询问当前 backend 支持的原生对象和可编辑复合对象，避免虚构能力。</p><code>*_get_capabilities</code></article>
+        <article class="mechanism-card"><span>03</span><h3>对象构建</h3><p>按区域、从后到前创建稳定 ID 对象；用户可以看到或按检查点审阅进度。</p><code>add / group / align</code></article>
+        <article class="mechanism-card"><span>04</span><h3>双证据审计</h3><p>结构审计检查几何与可编辑性，渲染证据检查视觉、文字和连线路径。</p><code>audit + screenshot</code></article>
+        <article class="mechanism-card"><span>05</span><h3>对象级修正</h3><p>只移动、替换或重画导致问题的最小对象，不用大截图掩盖缺陷。</p><code>correction_plan</code></article>
+      </div>
+    </section>
+
+    <section class="section scenarios-section" id="scenarios">
+      <div class="shell">
+        <header class="section-head">
+          <div><span class="section-index">06 / Product fit</span><h2>什么时候值得用</h2></div>
+          <div class="filter-group" role="group" aria-label="筛选使用场景">
+            <button type="button" class="filter active" data-filter="all" aria-pressed="true">全部</button>
+            <button type="button" class="filter" data-filter="strong" aria-pressed="false">强适配</button>
+            <button type="button" class="filter" data-filter="conditional" aria-pressed="false">条件适配</button>
+            <button type="button" class="filter" data-filter="weak" aria-pressed="false">弱适配</button>
+          </div>
+        </header>
+        <div class="scenario-grid" id="scenario-grid">
+          <article class="scenario-card" data-fit="strong"><span class="fit strong">强适配</span><div class="scenario-icon">⌁</div><h3>机制图与通路图</h3><p>节点、箭头、分区和标签具有清晰语义，最适合恢复为原生图元。</p></article>
+          <article class="scenario-card" data-fit="strong"><span class="fit strong">强适配</span><div class="scenario-icon">⇢</div><h3>实验与方法流程</h3><p>步骤明确、重复构件多，适合模板化、对齐和批量样式统一。</p></article>
+          <article class="scenario-card" data-fit="strong"><span class="fit strong">强适配</span><div class="scenario-icon">▦</div><h3>基金与汇报插图</h3><p>需要持续改字、改配色、改版式，可编辑源文件的价值明显。</p></article>
+          <article class="scenario-card" data-fit="conditional"><span class="fit conditional">条件适配</span><div class="scenario-icon">⌗</div><h3>多面板实验结果</h3><p>框架和标注可以重建，但显微照片、热图等仍需原子图片对象。</p></article>
+          <article class="scenario-card" data-fit="conditional"><span class="fit conditional">条件适配</span><div class="scenario-icon">⌇</div><h3>常规数据图表</h3><p>柱、线、散点等可以重建；复杂统计图更适合数据驱动绘图库。</p></article>
+          <article class="scenario-card" data-fit="weak"><span class="fit weak">弱适配</span><div class="scenario-icon">✦</div><h3>照片级与艺术插画</h3><p>像素级纹理、3D 渲染和强艺术风格不是 draw.io/PPT 图元的优势。</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell" id="roadmap">
+      <header class="section-head">
+        <div><span class="section-index">07 / Extension map</span><h2>从工具插件到科研图平台</h2></div>
+        <p>最值得建立的壁垒不是再增加十几个绘图命令，而是统一语义、领域资产和可量化质量。</p>
+      </header>
+      <div class="roadmap-grid">
+        <article class="roadmap-stage now"><span class="roadmap-label">NOW · 工具化</span><h3>稳定使用与模板</h3><ul><li>基于新版而非旧仓库</li><li>团队主题与图元模板</li><li>真实案例基准集</li><li>安装与隐私治理</li></ul></article>
+        <article class="roadmap-stage next"><span class="roadmap-label">NEXT · 平台化</span><h3>统一科学图 IR</h3><ul><li>backend-neutral 场景图</li><li>OCR 与布局/箭头检测</li><li>约束式布局和路由</li><li>结构化图形 diff</li></ul></article>
+        <article class="roadmap-stage later"><span class="roadmap-label">LATER · 领域化</span><h3>科研生产闭环</h3><ul><li>生物/化学/地学符号包</li><li>图表重新绑定实验数据</li><li>感知差异与语义评分</li><li>审阅、版本与批处理</li></ul></article>
+      </div>
+      <div class="priority-note"><strong>建议优先级</strong><span>① 真实基准集</span><span>② 统一 IR</span><span>③ 领域组件</span><span>④ 自动验收</span></div>
+    </section>
+
+    <section class="section evidence-section" id="evidence">
+      <div class="shell evidence-grid">
+        <div>
+          <span class="section-index">08 / Evidence</span>
+          <h2>结论绑定到固定源码</h2>
+          <p>上游以 Git submodule 固定在 v1.5.4。页面中的工具数量来自源码枚举；本机已经通过仓库结构、Python bridge 语法和 MCP smoke tests。</p>
+          <div class="evidence-actions">
+            <a class="button button-primary" href="https://github.com/yydshly/0827_githubcode_study/tree/main/studies/scientific-illustrator">完整研究记录</a>
+            <a class="button button-quiet" href="./generated/lnp-mrna-antigen-presentation.drawio" download>下载完整 LNP–mRNA 案例</a>
+          </div>
+        </div>
+        <div class="evidence-console" aria-label="本机验证摘要">
+          <div class="console-head"><span>LOCAL VERIFICATION</span><span>2026-08-27</span></div>
+          <pre><code><span class="console-ok">PASS</span> repository structure
+<span class="console-ok">PASS</span> Python bridge syntax
+<span class="console-ok">PASS</span> MCP smoke tests
+<span class="console-info">INFO</span> drawio-live       26 tools
+<span class="console-info">INFO</span> drawio-file-utils  9 tools
+<span class="console-info">INFO</span> powerpoint-live   34 tools
+<span class="console-warn">ENV </span> OpenSSL not installed
+<span class="console-warn">ENV </span> draw.io Desktop not installed</code></pre>
+          <p>环境缺失被保留为边界：不能据此声称 Office.js 全测或实时 draw.io 已在本机通过。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell quickstart" id="quickstart">
+      <div>
+        <span class="section-index">09 / Try it</span>
+        <h2>真实使用时，提示词应该强调“可编辑”和“逐区域检查”</h2>
+      </div>
+      <div class="prompt-box">
+        <button type="button" class="copy-button" id="copy-prompt">复制提示词</button>
+        <pre id="prompt-text">使用 Scientific Illustrator，在 draw.io 中复刻我上传的科研图。优先使用可编辑的文字、图形、连接线、表格、图表和分组对象；只把无法可靠绘制的最小区域保留为图片。按区域逐步绘制并检查结构和截图，修正后保存 .drawio，再导出 2000 px PNG 预览。</pre>
+      </div>
+      <p class="quickstart-note">上方已真实运行无需桌面应用的 drawio-file-utils 模式；若要演示实时画布、截图和导出，还需要安装 draw.io Desktop。PowerPoint/WPS 实时模式同样需要对应宿主。</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-grid">
+      <div><strong>GitHub Code Study</strong><p>Scientific Illustrator · fixed at v1.5.4 / 3a44435d</p></div>
+      <div class="footer-links"><a href="../">研究首页</a><a href="https://github.com/icebird1998/scientific-illustrator">上游仓库 ↗</a><a href="https://github.com/yydshly/0827_githubcode_study/blob/main/studies/scientific-illustrator/VALIDATION.md">验证记录</a></div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

@@ -1,3 +1,6 @@
+[submodule "studies/scientific-illustrator/upstream"]
+    path = studies/scientific-illustrator/upstream
+    url = https://github.com/icebird1998/scientific-illustrator.git
 [submodule "studies/aicomicbuilder/upstream"]
     path = studies/aicomicbuilder/upstream
     url = https://github.com/LingyiChen-AI/AIComicBuilder.git

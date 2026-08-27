@@ -13,7 +13,38 @@
 | [AIComicBuilder](https://github.com/LingyiChen-AI/AIComicBuilder) | 借助 Agent 和生成模型执行节点的短剧生产工作台；管理任务、角色、分镜、资产版本与合片流程 | `archived` | `published` | [研究结论](studies/aicomicbuilder/README.md) · [Web 页面](https://yydshly.github.io/0827_githubcode_study/aicomicbuilder/) |
 | [Awesome Nano Banana Pro Prompts](https://github.com/YouMind-OpenLab/awesome-nano-banana-pro-prompts) | 生图能力地图、提示词结构、身份锚定与案例资产系统 | `verified` | `ready-local` | 本地：`studies/awesome-nano-banana-pro-prompts/` · `docs/nano-banana-pro/` |
 | [shuohao-skills](https://github.com/eternityspring/shuohao-skills) | 面向 Agent 的小说改编、角色美术、结构化剧本和 H3 分镜投产技能 | `verified` | `ready-local` | 本地：`studies/shuohao-skills/` · `docs/shuohao-skills/` |
-| [Scientific Illustrator](https://github.com/icebird1998/scientific-illustrator) | 可编辑科研图重建、draw.io/PowerPoint/WPS 后端和结构/渲染质量审计 | `researching` | `researching` | 本地：`studies/scientific-illustrator/` · `docs/scientific-illustrator/` |
+| [Scientific Illustrator](https://github.com/icebird1998/scientific-illustrator) | 大模型通过 MCP 生成、检查并修正可编辑科研图源文件 | `verified` | `published` | [研究记录](studies/scientific-illustrator/README.md) · [完整案例](studies/scientific-illustrator/CASE-STUDY.md) · [Web 演示](https://yydshly.github.io/0827_githubcode_study/scientific-illustrator/) |
+
+## Featured：Scientific Illustrator 完整案例
+
+**在线演示：** [LNP–mRNA 递送与 MHC-I 抗原呈递](https://yydshly.github.io/0827_githubcode_study/scientific-illustrator/)
+
+这个子项目研究的不是“把科研图片塞进 draw.io”，也不是科研动画生成。它验证的是：大模型按照科研制图协议调用 MCP，把科学简报转成 draw.io、PowerPoint 或 WPS 中的原生可编辑对象，再通过结构检查和对象级修正交付源文件。
+
+```mermaid
+flowchart LR
+  A[科学简报 / 参考图] --> B[LLM 设计与拆解]
+  B --> C[MCP 编辑器适配]
+  C --> D[draw.io / PPT / WPS 原生对象]
+  D --> E[校验 + 检查 + 对象级修正]
+  E --> F[可编辑源文件]
+```
+
+| 层级 | 当前职责 | 本次证据 |
+| --- | --- | --- |
+| 大模型编排层 | Designer、Drawer、Reviewer、Corrector 四角色工作流 | 固定上游 v1.5.4 的 skills 与工具协议 |
+| MCP 执行层 | 创建、读取、校验和修改编辑器对象 | 6 次真实文件型 MCP 调用 |
+| 产物层 | 交付可继续编辑的 draw.io/PPT 对象 | 39 vertex、19 edge、0 raster |
+| Web 展示层 | 解释架构、展示终稿与验证证据 | GitHub Pages 公共页面 |
+
+演示严格区分两种模式：
+
+- **GitHub Pages：** 加载已经由真实 MCP 生成并校验的终稿、对象统计和调用记录；不会伪装远端浏览器正在运行 MCP。
+- **本地 Node bridge：** 运行 `node studies/scientific-illustrator/demo-server.mjs` 后，可现场重新执行创建、校验、检查、修正与复检。
+
+对我们的意义：它提供了“大模型 → 专业编辑器 → 可审计源文件”的通用连接方式，可用于论文机制图、实验流程、基金技术路线和团队图形规范。未来可以在结构化对象之上扩展动画或视频编排，但动画不是当前库的核心输出。
+
+进一步阅读：[研究记录](studies/scientific-illustrator/README.md) · [完整案例](studies/scientific-illustrator/CASE-STUDY.md) · [验证证据](studies/scientific-illustrator/VALIDATION.md)
 
 ## 状态说明
 

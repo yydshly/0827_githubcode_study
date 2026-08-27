@@ -21,4 +21,4 @@ jobs:
           test -f CONTRIBUTING.md
           test -f studies/README.md
           test -f templates/study/README.md
-          test -f docs/index.md
+          test -f docs/index.html
