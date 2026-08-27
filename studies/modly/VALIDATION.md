@@ -3,7 +3,7 @@
 ## 项目与阶段
 
 - 项目：Modly 图生 3D 能力研究站。
-- 当前阶段：修订 2 已完成本地验收，等待独立提交、推送与线上复检。
+- 当前阶段：修订 2 已完成本地与线上验收；本次范围已关闭。
 - 体验架构：Editorial Flow，单一深色主题。
 - 主要旅程：核心结论 → 官网演示判定 → 适配原理 → 算力依赖 → 模型地图 → 选型决策 → 后期探索。
 
@@ -85,5 +85,16 @@ Validation timestamp:
 - 线上复检：标题正确，模型筛选显示 3 个现成扩展，`overflowX=0`，无 console error 或 page error。
 - 门户复检：[研究门户](https://yydshly.github.io/0827_githubcode_study/)，HTTP 200，存在唯一 Modly 卡片与入口。
 
-修订 2 的本地覆盖项均已通过；远端发布项暂为 `continue`，完成推送与线上复检后关闭。
+## 远端发布结果（修订 2）
+
+- 内容提交：[`8e8fe85 docs: clarify Modly web demo model`](https://github.com/yydshly/0827_githubcode_study/commit/8e8fe8572960c4b9f9afc5818378ee4544659f8d)。
+- 推送目标：`origin/main`，成功。
+- Validate repository：[Actions run 33085164163](https://github.com/yydshly/0827_githubcode_study/actions/runs/33085164163)，`success`。
+- Deploy GitHub Pages：[Actions run 33085164095](https://github.com/yydshly/0827_githubcode_study/actions/runs/33085164095)，`success`。
+- 线上页面：[Modly 图生 3D 能力研究](https://yydshly.github.io/0827_githubcode_study/modly/)，桌面与 390px 手机均为 HTTP 200。
+- 线上事实检查：“官网”导航与 `#official-web` 存在，“样例模型未知”和“24 个已发布扩展”文案均已生效。
+- 线上交互检查：12 张模型卡存在，“Modly 现成”筛选显示 3 个候选；桌面与手机 `overflowX=0`。
+- 线上质量检查：无 4xx/5xx 资源、console error、page error 或框架错误覆盖层。
+
+修订 2 所有覆盖项均为 `pass`，无 `continue`、`defer` 或 `blocked`；本次交付范围关闭。
 
