@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Modly 图生 3D 能力研究：理解它的适配层本质、本地硬件依赖、可接入模型、市场方案与后续低成本探索路径。"
+      content="Modly 图生 3D 能力研究：核实官网演示依赖，理解适配层本质、本地硬件、可接模型、市场方案与后续探索路径。"
     />
     <meta name="theme-color" content="#0b0d0c" />
     <title>Modly 图生 3D 能力研究｜从模型能力到资产工作流</title>
@@ -27,6 +27,7 @@
         </button>
         <div class="nav-links" id="navLinks">
           <a href="#verdict">结论</a>
+          <a href="#official-web">官网</a>
           <a href="#mechanism">原理</a>
           <a href="#models">模型</a>
           <a href="#decision">决策</a>
@@ -84,6 +85,59 @@
             <article><span>它是</span><h2>3D 生成模型的工作流与适配平台</h2><p>统一模型安装、参数、输入输出、进程隔离、节点编排和结果预览。</p></article>
             <article><span>它不是</span><h2>新的图生 3D 基础模型</h2><p>不会替代 Hunyuan3D、TripoSG、TRELLIS 等模型的几何和纹理能力。</p></article>
             <article><span>直接后果</span><h2>本地使用会依赖电脑性能</h2><p>尤其依赖 NVIDIA GPU 与显存；也可以通过云端 API 把算力依赖移出本机。</p></article>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="section official-web-section" id="official-web">
+        <div class="shell">
+          <div class="section-heading reveal">
+            <div><span class="section-no">00 / OFFICIAL WEB</span><h2>官网的 “Live Demo”，没有在网页里运行生成模型</h2></div>
+            <p><a href="https://modly3d.app/" target="_blank" rel="noreferrer">modly3d.app</a> 是产品介绍、文档、下载与扩展目录。页面中的猫模型是一个预先生成好的静态 GLB，用浏览器组件负责旋转预览。</p>
+          </div>
+
+          <div class="web-verdict reveal">
+            <div>
+              <span class="web-kicker">DIRECT ANSWER</span>
+              <h3>不能把官网样例认定为 Hunyuan、TripoSG 或 TRELLIS。</h3>
+              <p>官网没有公开标注 <code>cat.glb</code> 由哪个模型生成；文件元数据只记录 <code>trimesh</code> 导出器。因此，准确结论是<strong>样例模型未知</strong>，而不是猜一个最可能的模型。</p>
+            </div>
+            <div class="web-badges" aria-label="官网演示判定">
+              <span><small>WEBSITE</small>静态展示</span>
+              <span><small>INFERENCE</small>不在网页发生</span>
+              <span><small>DEMO MODEL</small>未公开</span>
+            </div>
+          </div>
+
+          <div class="web-flow reveal" aria-label="官网展示与桌面推理的区别">
+            <article>
+              <span class="flow-index">01</span>
+              <small>MODLY3D.APP</small>
+              <h3>展示层</h3>
+              <ul>
+                <li>加载公开的 <code>cat.png</code> 与 <code>cat.glb</code></li>
+                <li>使用 Google <code>&lt;model-viewer&gt;</code> 交互预览</li>
+                <li>没有图片上传、权重下载或生成任务接口</li>
+              </ul>
+            </article>
+            <div class="web-flow-arrow" aria-hidden="true"><span>≠</span><small>不是推理端</small></div>
+            <article class="runtime-card">
+              <span class="flow-index">02</span>
+              <small>MODLY DESKTOP</small>
+              <h3>本地推理端</h3>
+              <ul>
+                <li>先安装模型扩展，再下载对应权重 / variant</li>
+                <li>在工作流里选择已安装模型</li>
+                <li>Hunyuan3D 2、TripoSG、TRELLIS2 等在本地 NVIDIA GPU 推理</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="attribution-note reveal">
+            <div><span>能确认什么</span><p>官网主推的是 <strong>Hunyuan3D 2、TripoSG、Trellis2 + 扩展</strong>这一组可选能力；桌面端并不固定依赖其中某一个。</p></div>
+            <div><span>不能确认什么</span><p>首页猫模型的具体生成模型、参数、耗时、显存和后处理过程均未披露，不能把它当作某个模型的效果证据。</p></div>
+            <div class="attribution-links"><a href="https://modly3d.app/" target="_blank" rel="noreferrer">官网与 Live Demo ↗</a><a href="https://modly3d.app/extensions" target="_blank" rel="noreferrer">扩展目录 ↗</a><a href="https://github.com/lightningpixel/modly" target="_blank" rel="noreferrer">官方扩展列表 ↗</a></div>
           </div>
         </div>
       </section>
@@ -192,6 +246,13 @@
               <button class="filter-button" type="button" data-filter="api" aria-pressed="false">商业 API <span>4</span></button>
             </div>
             <p id="filterStatus" role="status" aria-live="polite">正在显示 12 个候选</p>
+          </div>
+
+
+          <div class="source-note catalog-note reveal">
+            <span>目录口径</span>
+            <p>本页的“Modly 现成 3”按主力模型家族归类；它不是官网目录总数，也不表示安装包内置默认模型。2026-08-27 官网目录显示 24 个已发布扩展，包含官方与社区的 model / process 扩展；目录收录不等于每个模型都由 Modly 官方维护。</p>
+            <div><a href="https://modly3d.app/extensions" target="_blank" rel="noreferrer">查看当前扩展目录 ↗</a></div>
           </div>
 
           <div class="model-grid" id="modelGrid">
@@ -356,6 +417,8 @@
             <p>优先链接项目仓库与服务商官方文档。能力和版本变化较快，重新启动研究时应以这些一手来源为准。</p>
           </div>
           <div class="sources-grid reveal">
+            <a href="https://modly3d.app/" target="_blank" rel="noreferrer"><span>官网核实</span><strong>Live Demo</strong><small>静态 GLB 展示与本地推理说明</small><b>↗</b></a>
+            <a href="https://modly3d.app/extensions" target="_blank" rel="noreferrer"><span>官方目录</span><strong>Extensions</strong><small>已发布模型与流程扩展</small><b>↗</b></a>
             <a href="https://github.com/lightningpixel/modly" target="_blank" rel="noreferrer"><span>平台</span><strong>Modly</strong><small>定位、扩展列表与安装方式</small><b>↗</b></a>
             <a href="https://github.com/VAST-AI-Research/TripoSG" target="_blank" rel="noreferrer"><span>开源模型</span><strong>TripoSG</strong><small>几何模型与运行要求</small><b>↗</b></a>
             <a href="https://github.com/microsoft/TRELLIS.2" target="_blank" rel="noreferrer"><span>开源模型</span><strong>TRELLIS.2</strong><small>O-Voxel、PBR 与官方环境</small><b>↗</b></a>

@@ -3,40 +3,50 @@
 ## 项目与阶段
 
 - 项目：Modly 图生 3D 能力研究站。
-- 当前阶段：Stage 9 已完成；本次范围已关闭。
+- 当前阶段：修订 2 已完成本地验收，等待独立提交、推送与线上复检。
 - 体验架构：Editorial Flow，单一深色主题。
-- 主要旅程：核心结论 → 适配原理 → 算力依赖 → 模型地图 → 选型决策 → 后期探索。
+- 主要旅程：核心结论 → 官网演示判定 → 适配原理 → 算力依赖 → 模型地图 → 选型决策 → 后期探索。
 
 ## 可复现环境
 
 ```text
 Start command:
-python -m http.server 8896 --directory docs --bind 127.0.0.1
+python -m http.server 8897 --directory docs --bind 127.0.0.1
 
 Canonical local URL:
-http://127.0.0.1:8896/modly/
+http://127.0.0.1:8897/modly/
 
 Browser:
 Bundled Playwright Chromium, headless
 
 Validation timestamp:
-2026-08-27 22:26 CST
+2026-08-27 22:53 CST
 ```
 
 当前主机没有可执行的 `agent-browser` 命令；已使用同机捆绑的 Playwright/Chromium 完成等价的真实浏览器操作与截图检查，不以源码或构建成功替代页面证据。
+
+## 修订 2：官网模型依赖核实
+
+- 官方首页表述：推理全部发生在本地 NVIDIA GPU；使用流程要求先选择已安装扩展。
+- 真实浏览器网络检查：首页加载静态 `cat.png`、`cat.glb` 与 Google `<model-viewer>`；没有模型权重或 3D 生成接口请求。
+- 页面功能检查：首页没有图片上传或在线生成控件；它是展示、文档、下载与扩展目录。
+- GLB 元数据检查：`cat.glb` 仅声明 `trimesh` 导出器，没有 Hunyuan、TripoSG 或 TRELLIS 署名。
+- 结论边界：官网样例的生成模型未公开；不能根据主推模型列表推断样例归属。
+- 当前扩展口径：官网目录显示 24 个已发布 model / process 扩展，含社区提交；目录收录不等于安装包内置或官方维护。
 
 ## 浏览器证据
 
 | 表面 / 状态 | 结果 | 证据 |
 |---|---|---|
-| 桌面 1440 × 1000 | 首屏层级、模型三栏和阅读路径清楚；无横向溢出 | [desktop.png](./evidence/desktop.png) |
+| 桌面 1440 × 1000 | 官网判定区、模型三栏和阅读路径清楚；无横向溢出 | [desktop.png](./evidence/desktop.png) |
 | 平板 768 × 1024 | 双栏按预期折叠；无横向溢出 | [tablet.png](./evidence/tablet.png) |
 | 手机 390 × 844 | 单栏可读；无横向溢出；移动菜单可打开并用 Escape 收起 | [mobile.png](./evidence/mobile.png) |
-| 模型筛选 | 键盘聚焦“Modly 现成”后按 Enter，显示 3 个候选，`aria-pressed=true` | Playwright DOM 与交互观察 |
+| 官网导航 | 点击导航“官网”后到达 `#official-web`，结论与来源链接完整 | Playwright DOM 与交互观察 |
+| 模型筛选 | 点击“Modly 现成”后显示 3 个候选，状态文字同步更新 | Playwright DOM 与交互观察 |
 | 设备路线 | 键盘切换到 12–16GB，结果更新为“以 TRELLIS.2 GGUF 为本地主力” | Playwright DOM 与交互观察 |
 | 键盘焦点 | 交互后焦点保留在 BUTTON，焦点 outline 为 `solid` | computed-style 观察 |
-| Reduced motion | 内容保持 `opacity: 1`，无位移动画，过渡降至 0.01ms | Playwright media emulation |
-| 无 JavaScript | 标题、12 张模型卡和 5,244 字正文仍可阅读；无横向溢出 | 禁用 JavaScript 的浏览器上下文 |
+| Reduced motion | 内容保持 `opacity: 1`、`transform: none`，过渡降至 0.01ms | Playwright computed-style；并修正 `.visible` 选择器优先级 |
+| 无 JavaScript | 官网结论、12 张模型卡和 6,117 字正文仍可阅读；无横向溢出 | 禁用 JavaScript 的浏览器上下文 |
 
 三种视口共同结果：
 
@@ -57,16 +67,15 @@ Validation timestamp:
 
 ## 仓库范围
 
-本次应提交且仅提交：
+本次修订应提交且仅提交：
 
-- `docs/modly/**`
-- `studies/modly/**`
-- `docs/index.html` 中的 Modly 卡片和对应统计增量
-- `README.md` 中的 Modly 索引行与 Featured 说明
+- `docs/modly/index.html`、`docs/modly/styles.css`
+- `studies/modly/README.md`、设计契约、验证记录与更新后的三视口证据截图
+- `README.md` 中 Featured 的官网模型说明
 
 仓库内其他已修改或未跟踪的文件属于现有工作，不纳入本次提交。
 
-## 远端发布结果
+## 远端发布结果（修订 1 基线）
 
 - 页面提交：`90742e2 docs: publish Modly 3D capability study`。
 - 推送目标：`origin/main`，成功。
@@ -76,5 +85,5 @@ Validation timestamp:
 - 线上复检：标题正确，模型筛选显示 3 个现成扩展，`overflowX=0`，无 console error 或 page error。
 - 门户复检：[研究门户](https://yydshly.github.io/0827_githubcode_study/)，HTTP 200，存在唯一 Modly 卡片与入口。
 
-所有覆盖项均为 `pass`，无 `continue`、`defer` 或 `blocked`；本次交付范围关闭。
+修订 2 的本地覆盖项均已通过；远端发布项暂为 `continue`，完成推送与线上复检后关闭。
 
