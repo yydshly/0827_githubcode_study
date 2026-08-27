@@ -42,3 +42,6 @@ _site/
 
 # IDE-generated local artifacts
 *.local
+
+# Local high-resolution research archives; public pages use compressed assets.
+research/01-awesome-nano-banana-pro-prompts/runs/codex-demo/*.png

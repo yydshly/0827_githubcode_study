@@ -11,10 +11,35 @@
 | 子项目 | 核心定位 | 研究状态 | 页面状态 | 研究记录 / 页面 |
 |---|---|---|---|---|
 | [AIComicBuilder](https://github.com/LingyiChen-AI/AIComicBuilder) | 借助 Agent 和生成模型执行节点的短剧生产工作台；管理任务、角色、分镜、资产版本与合片流程 | `archived` | `published` | [研究结论](studies/aicomicbuilder/README.md) · [Web 页面](https://yydshly.github.io/0827_githubcode_study/aicomicbuilder/) |
-| [Awesome Nano Banana Pro Prompts](https://github.com/YouMind-OpenLab/awesome-nano-banana-pro-prompts) | 生图能力地图、提示词结构、身份锚定与案例资产系统 | `verified` | `ready-local` | 本地：`studies/awesome-nano-banana-pro-prompts/` · `docs/nano-banana-pro/` |
+| [Awesome Nano Banana Pro Prompts](https://github.com/YouMind-OpenLab/awesome-nano-banana-pro-prompts) | 生图能力地图、提示词结构、身份锚定与案例资产系统 | `verified` | `published` | [研究结论](studies/awesome-nano-banana-pro-prompts/README.md) · [能力图谱](https://yydshly.github.io/0827_githubcode_study/nano-banana-pro/) · [实验工作台](https://yydshly.github.io/0827_githubcode_study/nano-banana-pro/experiments.html) |
 | [shuohao-skills](https://github.com/eternityspring/shuohao-skills) | 面向 Agent 的小说改编、角色美术、结构化剧本和 H3 分镜投产技能 | `verified` | `ready-local` | 本地：`studies/shuohao-skills/` · `docs/shuohao-skills/` |
 | [Scientific Illustrator](https://github.com/icebird1998/scientific-illustrator) | 大模型通过 MCP 生成、检查并修正可编辑科研图源文件 | `verified` | `published` | [研究记录](studies/scientific-illustrator/README.md) · [完整案例](studies/scientific-illustrator/CASE-STUDY.md) · [Web 演示](https://yydshly.github.io/0827_githubcode_study/scientific-illustrator/) |
 | [ChatHub](https://github.com/chathub-dev/chathub) | 以官方 API 与浏览器登录会话双路径接入模型，统一流式协议并支持模型切换和并行回答 | `verified` | `published` | [研究记录](studies/chathub/README.md) · [Web 页面](https://yydshly.github.io/0827_githubcode_study/chathub/) |
+
+## Featured：Awesome Nano Banana Pro Prompts 研究
+
+**在线页面：** [能力图谱](https://yydshly.github.io/0827_githubcode_study/nano-banana-pro/) · [Prompt Lab 实验工作台](https://yydshly.github.io/0827_githubcode_study/nano-banana-pro/experiments.html)
+
+这个上游仓库不是图像模型源码，而是一个面向 Nano Banana Pro / Gemini 图像模型的社区提示词案例库和内容资产管线。真正值得复用的不是全量收集系统，而是它暴露出的模型能力地图、提示词结构、参考图绑定方式和小步迭代方法。
+
+本轮研究把宏观理解落成了 12 个最小实验、5 个候选提示词骨架和分层证据：
+
+| 证据层 | 当前数量 | 能说明什么 |
+| --- | ---: | --- |
+| Gemini Web 实测 | 2 项任务 | E01 首次中文海报命中但居中编辑未命中；E02 高密度产品信息图首次命中 |
+| Codex ImageGen 演示 | 9 项 | 提示词结构可以迁移到地图、人物、材质、复杂场景、品牌照明和编辑任务 |
+| 上游参考 | 1 项 | E06 仅展示多格连续性的能力方向，本提示词尚未成功执行 |
+| 稳定模板 | 0 项 | 当前实验尚未达到至少两次复测的晋级门槛 |
+
+E01 的意义不是“生成一句漂亮语录”，而是用最低成本测试准确中文、标点、层级、对齐、强调色和禁用项是否同时可控。它直接决定工作流：稳定时可以尝试一次生成内容图；不稳定时应让模型只生成背景与构图，再由 HTML、Figma 或设计工具排字。
+
+采用判断：
+
+- **现在值得做：** 用案例库建立能力地图，提炼结构化提示词，按真实任务做小样本验证并保存证据。
+- **暂时不做：** 复刻数据库、CMS、投稿审核、多语言发布、社区运营或自动推荐系统。
+- **必须保留的边界：** 不把 Codex 演示当成 Gemini 证明；地图与事实内容需核验；人物、品牌和第三方图片需单独确认权利。
+
+进一步阅读：[完整研究结论](studies/awesome-nano-banana-pro-prompts/README.md) · [实验矩阵](studies/awesome-nano-banana-pro-prompts/EXPERIMENT_MATRIX.md) · [Gemini 实验记录](research/01-awesome-nano-banana-pro-prompts/README.md)
 
 ## Featured：Scientific Illustrator 完整案例
 

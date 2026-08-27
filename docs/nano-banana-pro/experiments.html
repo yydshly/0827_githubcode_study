@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23ddbd16'/%3E%3Ctext x='32' y='39' text-anchor='middle' font-family='Arial' font-size='22' font-weight='700' fill='%23171915'%3ENB%3C/text%3E%3C/svg%3E">
+  <meta name="description" content="Nano Banana Pro Prompt Lab：12 条可执行提示词、2 项 Gemini Web 实测、9 项 Codex 跨模型演示、1 项上游参考与 5 个复用骨架。">
+  <title>Prompt Lab｜Nano Banana Pro Prompt Atlas</title>
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./experiments.css">
+  <script>
+    (function () {
+      var saved = localStorage.getItem("nbp-theme");
+      var preferred = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      document.documentElement.dataset.theme = saved || preferred;
+    }());
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="返回能力图谱">
+      <span class="brand__mark" aria-hidden="true">NB</span>
+      <span><strong>Prompt Atlas</strong><small>Prompt Lab</small></span>
+    </a>
+    <nav class="site-nav" aria-label="页面导航">
+      <a href="./">能力图谱</a>
+      <a href="#prompts">执行提示词</a>
+      <a href="#evidence">真实结果</a>
+      <a href="#codex-demos">Codex 演示</a>
+      <a href="#score">评分标准</a>
+      <a href="#templates">复用骨架</a>
+    </nav>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false">
+      <span aria-hidden="true">◐</span><span class="theme-label">切换主题</span>
+    </button>
+  </header>
+
+  <main id="main">
+    <section class="lab-hero" aria-labelledby="lab-title">
+      <div class="lab-hero__copy">
+        <p class="eyebrow">Research 01 · Prompt Lab · Ready to use</p>
+        <h1 id="lab-title">从案例结构出发，<br>直接复制一条去验证。</h1>
+        <p class="lab-hero__lede">
+          这里不是等待开工的项目面板，而是仓库研究的可执行部分：12 条自编实验提示词、
+          2 项 Gemini Web 实测、9 项 Codex 跨模型效果演示、1 项上游方向参考，以及 5 个可迁移到其他任务的提示词骨架。
+        </p>
+        <div class="hero__actions">
+          <a class="button button--primary" href="#prompts">选择一条提示词</a>
+          <a class="button button--ghost" href="#evidence">先看真实结果</a>
+        </div>
+      </div>
+
+      <aside class="lab-overview" aria-label="本页内容概览">
+        <div class="lab-overview__header">
+          <span>PROMPT LAB</span>
+          <strong>12 项证据边界已标注</strong>
+        </div>
+        <dl>
+          <div><dt>12</dt><dd>可执行提示词</dd></div>
+          <div><dt>02</dt><dd>真实执行任务</dd></div>
+          <div><dt>05</dt><dd>复用骨架</dd></div>
+          <div><dt>04</dt><dd>能力路线</dd></div>
+        </dl>
+        <p>来源分层：2 项 Gemini 实测 · 9 项 Codex 演示 · 1 项上游案例。跨模型演示不代表 Gemini 验证。</p>
+      </aside>
+    </section>
+
+    <section class="use-path" aria-label="使用方法">
+      <div><span>01</span><p><strong>选路线</strong>从文字、参考图、视觉控制或迭代中选择任务。</p></div>
+      <div><span>02</span><p><strong>复制执行</strong>每张卡片都有完整提示词与明确输入要求。</p></div>
+      <div><span>03</span><p><strong>按标准判断</strong>比较命中项与失败项，不把案例效果当作承诺。</p></div>
+    </section>
+
+    <section class="section lab-section" id="prompts" aria-labelledby="prompts-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Runnable Prompts / 可执行提示词</p>
+          <h2 id="prompts-title">四条路线，十二个最小验证任务</h2>
+        </div>
+        <p>提示词由本研究根据案例结构重新编写，不是对上游原文的大段复制。每项都说明输入、观察重点和通过条件。</p>
+      </div>
+
+      <aside class="experiment-primer" aria-labelledby="e01-primer-title">
+        <div class="experiment-primer__copy">
+          <p class="eyebrow">How to read E01 / 如何理解第一个实验</p>
+          <h3 id="e01-primer-title">它不是为了做一句漂亮的语录，而是一个最小、可诊断的文字生图测试。</h3>
+          <p>E01 刻意使用简单内容，把干扰变量降到最低，只观察模型能否同时遵循准确中文、标点、层级、对齐、强调色和禁用项。</p>
+          <div class="experiment-primer__decision">
+            <strong>它最终回答一个工作流问题：</strong>
+            <p>若文字与版式稳定，模型可以尝试直接产出内容图；若不稳定，就让模型只生成背景与视觉方向，再由 HTML、Figma 或设计工具叠加文字。</p>
+          </div>
+        </div>
+        <ol class="experiment-primer__checks">
+          <li><span>01</span><strong>文字准确</strong><small>中文、标点和署名是否逐字命中。</small></li>
+          <li><span>02</span><strong>版式可控</strong><small>画幅、对齐、层级和强调色是否执行。</small></li>
+          <li><span>03</span><strong>约束遵循</strong><small>是否擅自增加英文、Logo 或乱码。</small></li>
+          <li><span>04</span><strong>流程决策</strong><small>决定直接生图，还是采用“生背景 + 程序排字”。</small></li>
+        </ol>
+      </aside>
+
+      <div class="route-filter" role="group" aria-label="实验路线筛选">
+        <button type="button" class="route-chip is-active" data-route="all" aria-controls="experiment-grid" aria-pressed="true">全部 · 12</button>
+        <button type="button" class="route-chip" data-route="content" aria-controls="experiment-grid" aria-pressed="false">A 内容与文字 · 3</button>
+        <button type="button" class="route-chip" data-route="reference" aria-controls="experiment-grid" aria-pressed="false">B 参考与一致性 · 3</button>
+        <button type="button" class="route-chip" data-route="control" aria-controls="experiment-grid" aria-pressed="false">C 视觉与资产 · 3</button>
+        <button type="button" class="route-chip" data-route="workflow" aria-controls="experiment-grid" aria-pressed="false">D 模板与迭代 · 3</button>
+      </div>
+
+      <p class="result-count" id="experiment-count" aria-live="polite"></p>
+      <div class="experiment-legend" aria-label="实验卡片标签说明">
+        <p><span>01</span><strong>图片来源</strong>Gemini 实测、Codex 演示或上游参考。</p>
+        <p><span>02</span><strong>当前证据</strong>命中、待核验、方向演示或尚未执行。</p>
+      </div>
+      <div class="experiment-grid" id="experiment-grid"></div>
+    </section>
+
+    <section class="section evidence-section" id="evidence" aria-labelledby="evidence-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Real Evidence / 真实结果</p>
+          <h2 id="evidence-title">两项真实任务：首次生成可用，局部编辑仍有边界</h2>
+        </div>
+        <p>E01 保留首次生成与单变量编辑的成败对照；E02 记录高密度产品信息图的首次命中。两者都不能代表所有模型版本或稳定复现率。</p>
+      </div>
+
+      <div class="run-meta" aria-label="Gemini 实测记录">
+        <div><span>PLATFORM</span><strong>Gemini Web</strong></div>
+        <div><span>DATE</span><strong>2026-08-27</strong></div>
+        <div><span>MODEL</span><strong>页面截图未显示</strong></div>
+        <div><span>STATUS</span><strong>已执行 · 未晋级稳定模板</strong></div>
+      </div>
+
+      <div class="result-comparison">
+        <figure class="result-card result-card--hit">
+          <div class="result-card__media">
+            <img src="../assets/nano-banana-pro/e01-baseline.png" alt="Gemini 生成的左对齐中文引语海报，文字与颜色要求正确" loading="lazy">
+            <span>RUN A · 首次生成</span>
+          </div>
+          <figcaption>
+            <div class="result-card__state"><strong>命中</strong><span>基础生成</span></div>
+            <h3>中文、版式和强调色一次完成</h3>
+            <ul>
+              <li>主文案、标点与署名完全准确</li>
+              <li>4:5 竖版、象牙白和芥末黄命中</li>
+              <li>没有额外英文、Logo 或装饰性乱码</li>
+            </ul>
+          </figcaption>
+        </figure>
+
+        <figure class="result-card result-card--miss">
+          <div class="result-card__media">
+            <img src="../assets/nano-banana-pro/e01-edit-attempt.png" alt="要求居中对齐后仍保持左对齐的 Gemini 编辑结果" loading="lazy">
+            <span>RUN B · 单变量编辑</span>
+          </div>
+          <figcaption>
+            <div class="result-card__state"><strong>未命中</strong><span>局部修改</span></div>
+            <h3>要求改为居中，结果仍然左对齐</h3>
+            <ul>
+              <li>文字和整体视觉被稳定保留</li>
+              <li>唯一要求修改的对齐方式没有生效</li>
+              <li>说明“保持一致”与“精确局部编辑”不是同一能力</li>
+            </ul>
+          </figcaption>
+        </figure>
+
+        <figure class="result-card result-card--hit result-card--full">
+          <div class="result-card__media">
+            <img src="../assets/nano-banana-pro/e02-first-result.png" alt="Gemini 生成的 VoiceNote Mini 横向产品信息图，六个 Bento 模块包含准确中文、数字和流程" loading="lazy">
+            <span>E02 · 首次生成</span>
+          </div>
+          <figcaption>
+            <div class="result-card__state"><strong>命中</strong><span>首次生成 · 尚未复测</span></div>
+            <h3>六个信息模块与全部文字一次完成</h3>
+            <ul>
+              <li>标题、副标题、48 小时、32 GB、120 种语言和 CTA 均准确</li>
+              <li>“录音 → 转写 → 摘要”顺序正确，六个 Bento 模块完整</li>
+              <li>冷灰、薄荷绿与液态玻璃风格命中，没有新增产品数据</li>
+            </ul>
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="evidence-conclusion">
+        <span>RESEARCH TAKEAWAY</span>
+        <p><strong>可以确认：</strong>这两次首次生成都完成了准确中文、清晰版式与明确视觉约束，E02 还承载了较高的信息密度。<strong>不能确认：</strong>网页端能稳定执行单变量局部编辑，或同一提示词能够稳定复现。优秀案例是探索入口，不是模型效果承诺。</p>
+      </div>
+    </section>
+
+    <section class="section codex-section" id="codex-demos" aria-labelledby="codex-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Codex ImageGen / 跨模型演示</p>
+          <h2 id="codex-title">九张生成结果，把提示词方向变成可见能力</h2>
+        </div>
+        <p>这些图片由 Codex ImageGen 在本研究中生成，用于展示提示词结构的迁移价值；它们不是 Nano Banana Pro 或 Gemini 的效果证明。</p>
+      </div>
+      <div class="provenance-note">
+        <strong>证据边界</strong>
+        <p><b>Gemini 实测</b>回答“Gemini Web 这次是否做到”；<b>Codex 演示</b>回答“这类结构可以驱动什么视觉方向”。两种证据不混用；E10 仅是对照板示意，不是两次独立运行。</p>
+      </div>
+      <div class="demo-grid" id="codex-gallery"></div>
+    </section>
+
+    <section class="section lab-section" id="score" aria-labelledby="score-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Scorecard / 统一评分</p>
+          <h2 id="score-title">不用“感觉不错”，用同一把尺子比较</h2>
+        </div>
+        <p>每个维度 1–5 分。只有总分达到 21/25、关键维度不低于 3 且至少复测两次，才适合沉淀为稳定模板。</p>
+      </div>
+
+      <div class="score-layout">
+        <div class="score-table" role="table" aria-label="实验评分量表">
+          <div class="score-row score-row--head" role="row"><span role="columnheader">维度</span><span role="columnheader">观察问题</span><span role="columnheader">权重</span></div>
+          <div class="score-row" role="row"><strong role="cell">指令遵循</strong><span role="cell">主体、动作、文字和布局是否按要求出现？</span><b role="cell">25%</b></div>
+          <div class="score-row" role="row"><strong role="cell">一致性</strong><span role="cell">人物、产品或场景在变体中是否稳定？</span><b role="cell">25%</b></div>
+          <div class="score-row" role="row"><strong role="cell">视觉控制</strong><span role="cell">构图、镜头、光线、材质和色板是否命中？</span><b role="cell">20%</b></div>
+          <div class="score-row" role="row"><strong role="cell">文字/事实</strong><span role="cell">文字是否准确？事实、地图和数据是否可核验？</span><b role="cell">15%</b></div>
+          <div class="score-row" role="row"><strong role="cell">实际可用性</strong><span role="cell">是否可以进入当前内容、Web 或视觉资产流程？</span><b role="cell">15%</b></div>
+        </div>
+
+        <aside class="score-gate">
+          <p class="score-gate__label">PROMOTION GATE</p>
+          <strong>≥ 21 / 25</strong>
+          <p class="score-gate__current"><b>当前：0 项已晋级稳定模板</b><br>Gemini 实测仍未达到“至少复测 2 次”的门槛。</p>
+          <p>同时满足：</p>
+          <ul>
+            <li>关键维度没有低于 3 分</li>
+            <li>至少复测 2 次仍保持稳定</li>
+            <li>记录模型、平台、输入图和参数</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section lab-section lab-section--templates" id="templates" aria-labelledby="templates-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Reusable Skeletons / 复用骨架</p>
+          <h2 id="templates-title">五个跨案例骨架，用于真实需求出现以后</h2>
+        </div>
+        <p>上面的 12 条是固定测试任务；下面的 5 条是可替换方括号变量的通用结构。两者用途不同。</p>
+      </div>
+      <div class="template-list" id="template-list"></div>
+    </section>
+
+    <section class="research-boundary" aria-labelledby="boundary-title">
+      <div>
+        <p class="eyebrow">Boundary / 研究边界</p>
+        <h2 id="boundary-title">这页聚焦可执行研究，能力结论仍需按任务判断</h2>
+      </div>
+      <div class="boundary-columns">
+        <article><span>本页提供</span><ul><li>可执行提示词</li><li>案例来源与输入要求</li><li>Gemini 实测与 Codex 演示分层</li><li>统一判断标准</li></ul></article>
+        <article><span>本页不承诺</span><ul><li>所有提示词必然复现</li><li>事实内容无需核验</li><li>人物与品牌自动获得授权</li><li>网页端具备稳定局部编辑</li></ul></article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div><strong>Nano Banana Pro Prompt Lab</strong><p>GitHub Code Study · Research 01</p></div>
+    <div class="footer-links">
+      <a href="./">能力图谱</a>
+      <a href="https://github.com/YouMind-OpenLab/awesome-nano-banana-pro-prompts" target="_blank" rel="noreferrer">上游仓库 ↗</a>
+    </div>
+  </footer>
+
+  <div class="copy-toast" id="copy-toast" role="status" aria-live="polite" hidden></div>
+  <script src="./experiments.js"></script>
+</body>
+</html>
