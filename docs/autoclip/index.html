@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="AutoClip 能力、技术原理、适用边界与扩展路线归档：字幕驱动的 AI 选段与视频粗剪系统。">
+  <title>AutoClip · 能力与技术原理归档</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg:#071016;
+      --surface:#0e1c23;
+      --surface-2:#13252d;
+      --text:#edf8f6;
+      --muted:#9db4b1;
+      --line:#294049;
+      --mint:#78e5cf;
+      --blue:#82afff;
+      --amber:#efc16f;
+      --rose:#ff9aad;
+      --max:1180px;
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      margin:0;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 88% 5%,rgba(82,112,186,.18),transparent 30rem),
+        radial-gradient(circle at 10% 62%,rgba(45,156,133,.1),transparent 34rem),
+        var(--bg);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;
+      line-height:1.68;
+    }
+    a { color:inherit; }
+    .wrap { width:min(calc(100% - 40px),var(--max)); margin-inline:auto; }
+    header { position:sticky; top:0; z-index:20; border-bottom:1px solid rgba(120,229,207,.12); background:rgba(7,16,22,.86); backdrop-filter:blur(18px); }
+    nav { min-height:66px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+    .brand { text-decoration:none; font:750 13px/1 ui-monospace,SFMono-Regular,Consolas,monospace; letter-spacing:.12em; }
+    .brand span { color:var(--mint); }
+    .nav-links { display:flex; flex-wrap:wrap; gap:20px; color:var(--muted); font-size:14px; }
+    .nav-links a { text-decoration:none; }
+    .nav-links a:hover,.nav-links a:focus-visible { color:var(--mint); }
+    .hero { padding:112px 0 64px; }
+    .eyebrow { color:var(--mint); font:720 12px/1.2 ui-monospace,SFMono-Regular,Consolas,monospace; letter-spacing:.16em; text-transform:uppercase; }
+    h1 { max-width:900px; margin:20px 0 24px; font-size:clamp(48px,7vw,86px); line-height:.97; letter-spacing:-.055em; }
+    h1 span { color:var(--mint); }
+    .lead { max-width:840px; margin:0; color:#c8d8d5; font-size:clamp(19px,2.2vw,25px); }
+    .hero-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; }
+    .button { display:inline-flex; align-items:center; min-height:46px; padding:0 17px; border:1px solid var(--line); border-radius:10px; background:rgba(14,28,35,.75); font-weight:720; font-size:14px; text-decoration:none; }
+    .button.primary { color:#05231c; background:var(--mint); border-color:var(--mint); }
+    .button:hover,.button:focus-visible { outline:2px solid var(--amber); outline-offset:3px; }
+    .thesis { display:grid; grid-template-columns:1.1fr .9fr; gap:1px; margin-top:66px; overflow:hidden; border:1px solid var(--line); border-radius:18px; background:var(--line); }
+    .thesis-main,.thesis-side { padding:28px; background:rgba(14,28,35,.96); }
+    .thesis-main strong { display:block; font-size:clamp(24px,3vw,36px); line-height:1.2; letter-spacing:-.025em; }
+    .thesis-main span { display:block; margin-top:12px; color:var(--muted); }
+    .thesis-side { display:grid; gap:14px; align-content:center; }
+    .signal { display:grid; grid-template-columns:92px 1fr; gap:14px; }
+    .signal b { color:var(--mint); }
+    .signal span { color:var(--muted); }
+    section { padding:76px 0; border-top:1px solid rgba(41,64,73,.72); }
+    .section-head { display:grid; grid-template-columns:minmax(230px,.75fr) minmax(0,1.25fr); gap:54px; margin-bottom:34px; }
+    .section-head h2 { margin:0; font-size:clamp(31px,4vw,50px); line-height:1.05; letter-spacing:-.04em; }
+    .section-head p { margin:0; color:var(--muted); font-size:17px; }
+    .architecture { display:block; width:100%; height:auto; border:1px solid var(--line); border-radius:18px; background:#07131b; }
+    .caption { margin:12px 0 0; color:var(--muted); font-size:13px; }
+    .grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+    .card { padding:25px; border:1px solid var(--line); border-radius:17px; background:linear-gradient(155deg,rgba(19,37,45,.94),rgba(10,23,30,.98)); }
+    .card h3 { margin:0 0 10px; font-size:22px; letter-spacing:-.02em; }
+    .card p { margin:0; color:var(--muted); }
+    .card .label { display:block; margin-bottom:16px; color:var(--mint); font:700 11px/1 ui-monospace,monospace; letter-spacing:.13em; }
+    .pipeline { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; counter-reset:step; }
+    .step { position:relative; min-height:176px; padding:22px; border-top:2px solid var(--mint); background:rgba(14,28,35,.72); }
+    .step::before { counter-increment:step; content:counter(step,decimal-leading-zero); display:block; margin-bottom:26px; color:var(--mint); font:720 12px ui-monospace,monospace; }
+    .step h3 { margin:0 0 8px; font-size:20px; }
+    .step p { margin:0; color:var(--muted); font-size:14px; }
+    .compare { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .panel { padding:29px; border:1px solid var(--line); border-radius:18px; background:rgba(14,28,35,.82); }
+    .panel h3 { margin:0 0 18px; font-size:24px; }
+    .panel.good h3 { color:var(--mint); }
+    .panel.boundary h3 { color:var(--rose); }
+    ul { margin:0; padding-left:20px; }
+    li { margin:8px 0; color:var(--muted); }
+    li::marker { color:var(--mint); }
+    .boundary li::marker { color:var(--rose); }
+    .mouth { margin-top:16px; padding:26px 28px; border-left:4px solid var(--amber); background:rgba(239,193,111,.07); }
+    .mouth h3 { margin:0 0 8px; color:var(--amber); font-size:22px; }
+    .mouth p { margin:0; color:#c9d5d3; }
+    .ladder { display:grid; gap:0; }
+    .level { display:grid; grid-template-columns:118px 1.05fr 1fr; gap:22px; align-items:start; padding:20px 0; border-top:1px solid var(--line); }
+    .level:first-child { border-top:0; }
+    .level-code { color:var(--mint); font:750 13px ui-monospace,monospace; }
+    .level strong { display:block; margin-bottom:4px; }
+    .level span { color:var(--muted); }
+    .decision { display:grid; grid-template-columns:1.25fr .75fr; gap:18px; }
+    .verdict { padding:34px; border-radius:20px; background:var(--mint); color:#06221d; }
+    .verdict h2 { margin:0 0 14px; font-size:clamp(30px,4vw,48px); line-height:1.05; letter-spacing:-.04em; }
+    .verdict p { margin:0; font-size:18px; }
+    .revisit { padding:30px; border:1px solid var(--line); border-radius:20px; background:var(--surface); }
+    .revisit h3 { margin:0 0 12px; }
+    .revisit p { margin:0; color:var(--muted); }
+    .meta { display:flex; flex-wrap:wrap; gap:8px; margin-top:26px; }
+    .tag { padding:6px 9px; border:1px solid var(--line); border-radius:7px; color:var(--muted); font:650 12px ui-monospace,monospace; }
+    footer { padding:38px 0 56px; color:var(--muted); font-size:13px; }
+    @media (max-width:900px) {
+      .thesis,.section-head,.decision { grid-template-columns:1fr; gap:20px; }
+      .grid { grid-template-columns:1fr 1fr; }
+      .pipeline { grid-template-columns:1fr 1fr; }
+    }
+    @media (max-width:620px) {
+      .wrap { width:min(calc(100% - 28px),var(--max)); }
+      nav { min-height:58px; }
+      .nav-links a:not(:last-child) { display:none; }
+      .hero { padding:78px 0 54px; }
+      h1 { font-size:clamp(44px,14vw,66px); }
+      section { padding:58px 0; }
+      .grid,.pipeline,.compare { grid-template-columns:1fr; }
+      .level { grid-template-columns:1fr; gap:6px; }
+      .thesis-main,.thesis-side,.card,.panel,.verdict,.revisit { padding:22px; }
+      .signal { grid-template-columns:80px 1fr; }
+    }
+    @media (prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="wrap" aria-label="主导航">
+      <a class="brand" href="../"><span>CODE STUDY</span> // AUTOCLIP</a>
+      <div class="nav-links"><a href="#architecture">架构</a><a href="#boundary">边界</a><a href="#roadmap">升级路线</a><a href="https://github.com/zhouxiaoka/autoclip">上游仓库 ↗</a></div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="hero wrap">
+      <div class="eyebrow">Archived study · v1.2.0 · 2026-08-27</div>
+      <h1>先理解字幕，<br><span>再切割视频。</span></h1>
+      <p class="lead">AutoClip 把长视频转换成带时间戳的文字，由大语言模型完成话题理解、片段选择、评分、标题和分组，再让 FFmpeg 按时间码执行粗剪。</p>
+      <div class="hero-actions">
+        <a class="button primary" href="#architecture">查看完整架构</a>
+        <a class="button" href="https://github.com/yydshly/0827_githubcode_study/blob/main/studies/autoclip/README.md">阅读研究记录</a>
+      </div>
+      <div class="thesis">
+        <div class="thesis-main"><strong>它是“字幕语义粗剪”，不是完整的多模态自动剪辑。</strong><span>适合先批量产生候选片段，再由编辑人工复核；不应把字幕评分误认为完整的视频高光理解。</span></div>
+        <div class="thesis-side">
+          <div class="signal"><b>AI 理解</b><span>字幕、话题、信息价值与传播潜力</span></div>
+          <div class="signal"><b>媒体执行</b><span>切割、拼接、转码、抽帧与文件输出</span></div>
+          <div class="signal"><b>未覆盖</b><span>视觉高光、口型生成、镜头包装与竖屏重构</span></div>
+        </div>
+      </div>
+    </div>
+
+    <section id="architecture">
+      <div class="wrap">
+        <div class="section-head"><h2>一张图看懂完整架构</h2><p>核心桥梁是带时间戳字幕：上游把视频变成文本，下游把模型选出的文本区间重新映射回视频时间轴。应用层负责组织任务，媒体层负责确定性输出。</p></div>
+        <a href="./autoclip-architecture.svg" aria-label="打开 AutoClip 完整架构图原图"><img class="architecture" src="./autoclip-architecture.svg" alt="AutoClip 从素材进入、字幕转写、LLM 语义处理到 FFmpeg 输出，以及应用架构、能力边界和升级路线的完整技术图"></a>
+        <p class="caption">点击图片可查看 SVG 原图。该图同时作为后续类似需求的快速回顾入口。</p>
+      </div>
+    </section>
+
+    <section id="meaning">
+      <div class="wrap">
+        <div class="section-head"><h2>这个库真正解决什么</h2><p>它没有发明新的音视频基础模型，而是把“看完长视频、找段落、命名、分组、切文件”变成一条可重复运行的产品流水线。</p></div>
+        <div class="grid">
+          <article class="card"><span class="label">EFFICIENCY</span><h3>降低内容筛选成本</h3><p>先让模型阅读字幕，再定位需要人工查看的时间段，特别适合访谈、课程、播客和直播回放。</p></article>
+          <article class="card"><span class="label">ARCHITECTURE</span><h3>分离判断与执行</h3><p>LLM 负责语义判断；时间校验、文件管理和 FFmpeg 媒体操作由程序负责，结果更可控。</p></article>
+          <article class="card"><span class="label">BASELINE</span><h3>提供可扩展粗剪基线</h3><p>以后可以在同一中间表示上增加逐词对齐、音频事件、镜头理解、智能构图和运营反馈。</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="pipeline">
+      <div class="wrap">
+        <div class="section-head"><h2>八步处理原理</h2><p>每一步都产生结构化中间结果，允许失败重跑、人工检查和局部替换，而不必反复处理完整视频。</p></div>
+        <div class="pipeline">
+          <article class="step"><h3>素材导入</h3><p>通过 yt-dlp、B站接口或本地上传获得视频、字幕和元数据。</p></article>
+          <article class="step"><h3>字幕准备</h3><p>优先使用已有 SRT；没有字幕时由 faster-whisper 本地转写。</p></article>
+          <article class="step"><h3>分块与大纲</h3><p>长字幕按约 30 分钟拆分，让 LLM 提取话题和子话题后再合并。</p></article>
+          <article class="step"><h3>时间线映射</h3><p>把话题映射回字幕的起止时间，并由程序限制在合法时间范围。</p></article>
+          <article class="step"><h3>高光评分</h3><p>按信息价值、情绪、传播性和结构完整性评分，默认保留高分候选。</p></article>
+          <article class="step"><h3>标题生成</h3><p>批量生成片段标题；模型失败时回退到原始话题名称。</p></article>
+          <article class="step"><h3>主题聚类</h3><p>关键词先分组，LLM 再组织合集，并输出有序片段 ID。</p></article>
+          <article class="step"><h3>视频输出</h3><p>FFmpeg 切片、拼接、转码和抽帧，输出 MP4、缩略图与 JSON。</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="boundary">
+      <div class="wrap">
+        <div class="section-head"><h2>能力边界比功能列表更重要</h2><p>AutoClip 选择的是“文字上值得传播的内容”。体育得分、游戏击杀、舞蹈动作和人物表情等主要由画面承载的高光，不在当前核心能力内。</p></div>
+        <div class="compare">
+          <div class="panel good"><h3>适合</h3><ul><li>访谈、播客、课程、会议与直播回放</li><li>观点、测评、新闻解说和知识内容</li><li>批量生成候选，再由人工复核</li><li>快速验证长视频拆短视频的 MVP</li></ul></div>
+          <div class="panel boundary"><h3>不适合直接替代</h3><ul><li>体育、游戏、舞蹈等视觉高光检测</li><li>逐帧精确、强调镜头语言的专业成片</li><li>自动 B-roll、花字、转场和竖屏重构</li><li>改写台词后的生成式口型同步</li></ul></div>
+        </div>
+        <div class="mouth"><h3>嘴部一致性怎么保证？</h3><p>片段内部直接保留原视频的音频和画面，因此原有口型通常仍然同步；系统没有生成或修复嘴型。未解决的是片段边界可能切断字句、表情或动作，以及 stream copy 受关键帧影响带来的切点偏差。口型同步与剪辑连续性是两件不同的事。</p></div>
+      </div>
+    </section>
+
+    <section id="roadmap">
+      <div class="wrap">
+        <div class="section-head"><h2>更精确的升级路线</h2><p>质量提升应先解决语音和镜头边界，再增加多模态理解；生成式口型修复成本高、风险大，通常不是第一优先级。</p></div>
+        <div class="panel ladder">
+          <div class="level"><div class="level-code">L1 · CURRENT</div><div><strong>字幕语义粗剪</strong><span>SRT + LLM + FFmpeg</span></div><span>快速找到“讲了什么”。</span></div>
+          <div class="level"><div class="level-code">L2 · AUDIO</div><div><strong>语音边界精剪</strong><span>逐词时间戳、forced alignment、VAD、标点恢复</span></div><span>避免切断字、呼吸和句子。</span></div>
+          <div class="level"><div class="level-code">L3 · VISION</div><div><strong>多模态内容理解</strong><span>镜头边界、人脸、表情、动作、OCR、声学事件</span></div><span>理解字幕没有描述的画面高光。</span></div>
+          <div class="level"><div class="level-code">L4 · RANKING</div><div><strong>业务排序器</strong><span>人工选择、完播率、点击和互动反馈</span></div><span>让评分适应内容类型、平台和受众。</span></div>
+          <div class="level"><div class="level-code">L5 · FINISH</div><div><strong>自动成片与质检</strong><span>J/L Cut、智能留白、构图、B-roll、包装、合规</span></div><span>从候选片段升级为可发布成片。</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="decision">
+      <div class="wrap">
+        <div class="decision">
+          <div class="verdict"><h2>采用建议</h2><p>把它当作访谈、课程、播客类内容的语义粗剪参考实现和 MVP 起点；保留人工复核，并优先补齐逐词切点、镜头边界和反馈数据闭环。不要把它直接定义为多模态高光或专业自动成片系统。</p></div>
+          <div class="revisit"><h3>何时重新回顾</h3><p>当出现长内容拆短内容、字幕驱动剪辑、桌面本地处理、服务端批处理或剪辑评分闭环需求时，先回看此归档，再检查上游版本变化。</p><div class="meta"><span class="tag">ARCHIVED</span><span class="tag">SOURCE-LEVEL</span><span class="tag">NOT RUNTIME-VERIFIED</span></div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap">AutoClip 技术归档 · 基准 v1.2.0 / 17100c0 · 结论用于选型参考，不构成生产质量背书</footer>
+</body>
+</html>

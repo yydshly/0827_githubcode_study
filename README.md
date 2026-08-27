@@ -11,6 +11,7 @@
 | 子项目 | 核心定位 | 研究状态 | 页面状态 | 研究记录 / 页面 |
 |---|---|---|---|---|
 | [AIComicBuilder](https://github.com/LingyiChen-AI/AIComicBuilder) | 借助 Agent 和生成模型执行节点的短剧生产工作台；管理任务、角色、分镜、资产版本与合片流程 | `archived` | `published` | [研究结论](studies/aicomicbuilder/README.md) · [Web 页面](https://yydshly.github.io/0827_githubcode_study/aicomicbuilder/) |
+| [AutoClip](https://github.com/zhouxiaoka/autoclip) | 以字幕时间轴连接 LLM 内容理解与 FFmpeg 媒体执行的自动选段和粗剪系统；适合口播类长视频，不是多模态成片工具 | `archived` | `published` | [研究结论](studies/autoclip/README.md) · [架构与原理](https://yydshly.github.io/0827_githubcode_study/autoclip/) |
 | [Claude Code: Everything You Need to Know](https://github.com/wesammustafa/Claude-Code-Everything-You-Need-to-Know) | Claude Code 从入门到精通的工程化指导文档；整理 Skills、Subagents、Hooks、Workflows、MCP 与可运行样例，后续按需理解和采用 | `archived` | `published` | [研究总结](studies/claude-code-guide/README.md) · [交互指南](https://yydshly.github.io/0827_githubcode_study/claude-code-guide/) |
 | [Awesome Nano Banana Pro Prompts](https://github.com/YouMind-OpenLab/awesome-nano-banana-pro-prompts) | 生图能力地图、提示词结构、身份锚定与案例资产系统 | `verified` | `published` | [研究结论](studies/awesome-nano-banana-pro-prompts/README.md) · [能力图谱](https://yydshly.github.io/0827_githubcode_study/nano-banana-pro/) · [实验工作台](https://yydshly.github.io/0827_githubcode_study/nano-banana-pro/experiments.html) |
 | [shuohao-skills](https://github.com/eternityspring/shuohao-skills) | 面向 Agent 的小说改编、角色美术、结构化剧本和 H3 分镜投产技能 | `verified` | `ready-local` | 本地：`studies/shuohao-skills/` · `docs/shuohao-skills/` |
