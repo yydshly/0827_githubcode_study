@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="OpenCodex、CC Switch 与 AI Agent 中转网关能力研究：原理、边界、项目地图、推荐架构和建设路线。">
+  <meta name="theme-color" content="#07111d">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%2307111d'/%3E%3Cpath d='M13 20h17v8H21v8h9v8H13V20Zm38 0v24H34v-8h9v-8h-9v-8h17Z' fill='%236ee7d1'/%3E%3C/svg%3E">
+  <title>OpenCodex 与 Agent 网关 · 能力研究</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+
+  <header class="site-header">
+    <nav class="nav shell" aria-label="主导航">
+      <a class="brand" href="../" aria-label="返回 GitHub Code Study 研究门户">
+        <span class="brand-mark" aria-hidden="true">O↔X</span>
+        <span>Gateway Research</span>
+      </a>
+      <div class="nav-links">
+        <a href="#principle">原理</a>
+        <a href="#boundary">边界</a>
+        <a href="#landscape">选型</a>
+        <a href="#roadmap">路线</a>
+      </div>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="true" aria-label="切换到浅色主题">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 9 9c0-.4 0-.8-.1-1.1A7 7 0 0 1 12 3Z"/></svg>
+        <span>深色</span>
+      </button>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero shell" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">OpenCodex / CC Switch / AI Gateway</p>
+        <h1 id="hero-title">改变模型入口，<br><span>不替代 Agent 内核。</span></h1>
+        <p class="hero-lead">我们的理解是对的：通过配置让 Codex、Claude Code 等客户端把模型请求发到网关；网关再做协议适配、模型与账号调度、失败切换和响应还原。客户端仍然负责代码理解、Agent 循环和本地工具执行。</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#principle">看懂完整链路</a>
+          <a class="button secondary" href="#recommendation-tool">直接做技术选型</a>
+        </div>
+        <div class="hero-facts" aria-label="研究结论摘要">
+          <span><b>入口</b> Base URL / Provider</span>
+          <span><b>中间层</b> 协议 + 路由 + 治理</span>
+          <span><b>边界</b> 不接管本地 Agent 执行</span>
+        </div>
+      </div>
+
+      <figure class="hero-diagram" aria-labelledby="hero-diagram-title">
+        <figcaption id="hero-diagram-title">一次模型请求经过的三个责任域</figcaption>
+        <div class="hero-node client-node">
+          <span class="node-label">AGENT CLIENT</span>
+          <strong>Codex / Claude Code</strong>
+          <small>组织上下文 · 决定工具 · 本地执行</small>
+        </div>
+        <div class="hero-link" aria-hidden="true"><i></i><span>原生请求</span></div>
+        <div class="hero-node gateway-node">
+          <span class="node-label">OUR CONTROL POINT</span>
+          <strong>Agent Gateway</strong>
+          <small>转换 · 路由 · 鉴权 · 观测</small>
+        </div>
+        <div class="hero-link" aria-hidden="true"><i></i><span>上游协议</span></div>
+        <div class="provider-cloud">
+          <span>OpenAI</span><span>Anthropic</span><span>Gemini</span><span>Local</span>
+        </div>
+        <div class="return-path" aria-hidden="true"><span>兼容响应返回客户端</span></div>
+      </figure>
+    </section>
+
+    <section class="verdict-strip" aria-label="核心判断">
+      <div class="shell verdict-inner">
+        <p><span>准确说法</span> 这是显式配置的模型网关，不是网络劫持；它控制“模型大脑供应链”，不是替代 Codex / Claude Code。</p>
+        <a href="https://github.com/lidge-jun/opencodex" rel="noreferrer">OpenCodex 官方仓库 ↗</a>
+      </div>
+    </section>
+
+    <section class="section shell" id="principle" aria-labelledby="principle-title">
+      <div class="section-heading">
+        <p class="eyebrow">01 / PRINCIPLE</p>
+        <h2 id="principle-title">请求只是改道，能力在中间层发生。</h2>
+        <p>先切换两种视角。直连模式中，客户端自己面对一家官方服务；网关模式中，客户端只认识稳定入口，实际模型与供应商由中间层决定。</p>
+      </div>
+
+      <div class="flow-lab" id="flow-lab">
+        <div class="segmented-control" aria-label="链路视角">
+          <button type="button" data-flow-mode="direct" aria-pressed="false">直连官方</button>
+          <button type="button" data-flow-mode="gateway" aria-pressed="true">接入网关</button>
+        </div>
+
+        <div class="flow-view" id="gateway-flow" data-flow-view="gateway">
+          <div class="flow-card client">
+            <span>01 · 客户端</span>
+            <strong>Codex / Claude Code</strong>
+            <small>Base URL 指向 gateway.company.local</small>
+          </div>
+          <div class="flow-arrow"><span>Responses / Messages</span><i aria-hidden="true">→</i></div>
+          <div class="flow-card gateway">
+            <span>02 · 我们的软件</span>
+            <strong>Agent-aware Gateway</strong>
+            <ul>
+              <li>鉴权与额度</li><li>协议与模型名转换</li><li>路由与账号选择</li><li>重试、降级与观测</li>
+            </ul>
+          </div>
+          <div class="flow-arrow"><span>按策略选择</span><i aria-hidden="true">→</i></div>
+          <div class="provider-stack" aria-label="可选上游供应商">
+            <div><span>03A</span><strong>OpenAI</strong></div>
+            <div><span>03B</span><strong>Anthropic</strong></div>
+            <div><span>03C</span><strong>Gemini / Local</strong></div>
+          </div>
+        </div>
+
+        <div class="flow-view" id="direct-flow" data-flow-view="direct" hidden>
+          <div class="flow-card client">
+            <span>01 · 客户端</span>
+            <strong>Codex / Claude Code</strong>
+            <small>使用默认或官方配置</small>
+          </div>
+          <div class="flow-arrow"><span>固定官方协议</span><i aria-hidden="true">→</i></div>
+          <div class="flow-card official">
+            <span>02 · 官方服务</span>
+            <strong>单一模型供应商</strong>
+            <small>鉴权、推理和计费直接发生在官方</small>
+          </div>
+        </div>
+
+        <p class="flow-caption" id="flow-caption" aria-live="polite"><b>接入网关：</b>客户端工作方式不变，但供应商、模型、密钥和容错策略从客户端中解耦。</p>
+      </div>
+    </section>
+
+    <section class="section section-tint" id="boundary" aria-labelledby="boundary-title">
+      <div class="shell">
+        <div class="section-heading split-heading">
+          <div><p class="eyebrow">02 / RESPONSIBILITY</p><h2 id="boundary-title">三方都很重要，职责不能混。</h2></div>
+          <p>Codex 和 Claude Code 不是空壳。它们提供 Agent 执行环境；网关提供模型供应链控制；模型供应商提供实际推理。</p>
+        </div>
+
+        <div class="ownership-grid">
+          <article class="ownership-card client-owner">
+            <div class="ownership-index">A</div>
+            <p class="mini-label">CLIENT OWNS</p>
+            <h3>Agent 执行内核</h3>
+            <ul class="check-list">
+              <li>读取代码仓库与组织上下文</li>
+              <li>规划下一步并维护多轮循环</li>
+              <li>调用终端、编辑器、MCP 和本地工具</li>
+              <li>权限确认与执行结果回填</li>
+            </ul>
+          </article>
+          <article class="ownership-card gateway-owner">
+            <div class="ownership-index">B</div>
+            <p class="mini-label">GATEWAY OWNS</p>
+            <h3>模型供应链控制</h3>
+            <ul class="check-list">
+              <li>Responses / Messages / Chat 的语义转换</li>
+              <li>模型、供应商、密钥与账号路由</li>
+              <li>流式事件、Tool Call 和 Thinking 还原</li>
+              <li>限流、重试、成本、日志和审计</li>
+            </ul>
+          </article>
+          <article class="ownership-card provider-owner">
+            <div class="ownership-index">C</div>
+            <p class="mini-label">PROVIDER OWNS</p>
+            <h3>模型推理能力</h3>
+            <ul class="check-list">
+              <li>理解、推理与内容生成</li>
+              <li>模型上下文与推理预算</li>
+              <li>原生工具调用能力与模型特性</li>
+              <li>官方服务可用性和计费规则</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="lifecycle" aria-labelledby="lifecycle-title">
+          <div class="lifecycle-copy">
+            <p class="mini-label">ROUND TRIP</p>
+            <h3 id="lifecycle-title">一个任务不是一次转发，而是多轮闭环。</h3>
+            <p>每一次工具执行都会产生新结果，再由客户端组织成下一轮模型请求。网关需要在每一轮保持协议、会话和路由语义一致。</p>
+          </div>
+          <ol class="lifecycle-steps">
+            <li><span>01</span>用户提出任务</li>
+            <li><span>02</span>客户端构造请求</li>
+            <li><span>03</span>网关适配并路由</li>
+            <li><span>04</span>模型返回决策</li>
+            <li><span>05</span>客户端执行工具</li>
+            <li><span>06</span>结果进入下一轮</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell" id="comparison" aria-labelledby="comparison-title">
+      <div class="section-heading">
+        <p class="eyebrow">03 / PRODUCT ENTRY</p>
+        <h2 id="comparison-title">同样能代理，切入产品的方式不同。</h2>
+        <p>截至 2026-08-27，CC Switch 已不只是改配置，也有本地代理与故障切换。差异主要在产品第一入口和重点能力。</p>
+      </div>
+
+      <div class="comparison-board" role="region" aria-label="OpenCodex、CC Switch 与通用网关对比" tabindex="0">
+        <div class="compare-row compare-head" aria-hidden="true">
+          <div>比较维度</div><div>OpenCodex</div><div>CC Switch</div><div>通用 LLM 网关</div>
+        </div>
+        <div class="compare-row"><div data-label="维度">第一入口</div><div data-label="OpenCodex"><b>Agent 网关</b><small>先解决协议与路由</small></div><div data-label="CC Switch"><b>桌面控制台</b><small>先解决跨工具配置</small></div><div data-label="通用网关"><b>统一 API</b><small>先解决应用接入</small></div></div>
+        <div class="compare-row"><div data-label="维度">如何接入客户端</div><div data-label="OpenCodex">初始化客户端指向本地代理</div><div data-label="CC Switch">写配置快速切换，也可启用代理接管</div><div data-label="通用网关">应用主动使用网关 URL / SDK</div></div>
+        <div class="compare-row"><div data-label="维度">最深能力</div><div data-label="OpenCodex">Agent 流式语义、账号池、组合路由、子 Agent</div><div data-label="CC Switch">Provider、MCP、Prompts、Skills、Session 统一管理</div><div data-label="通用网关">多供应商、虚拟 Key、预算、路由、治理</div></div>
+        <div class="compare-row"><div data-label="维度">最适合二开</div><div data-label="OpenCodex">编程 Agent 兼容层</div><div data-label="CC Switch">开发者桌面控制面</div><div data-label="通用网关">公司共享模型基础设施</div></div>
+      </div>
+
+      <aside class="definition-callout">
+        <div class="callout-mark" aria-hidden="true">≠</div>
+        <div><h3>技术中转站 ≠ 商业中转平台</h3><p>前者解决协议、路由和可靠性；后者还需要租户、Key、额度、计费、支付、审计、客服和合规。OpenCodex 更接近 Agent 感知的技术中转层。</p></div>
+      </aside>
+    </section>
+
+    <section class="section section-dark" id="landscape" aria-labelledby="landscape-title">
+      <div class="shell">
+        <div class="section-heading split-heading">
+          <div><p class="eyebrow">04 / OPEN-SOURCE MAP</p><h2 id="landscape-title">不要找一个万能项目，按层组合。</h2></div>
+          <p>下面不是排行榜，而是一张职责地图。项目名称可直接打开官方仓库。</p>
+        </div>
+
+        <div class="layer-map">
+          <div class="layer-row">
+            <div class="layer-label"><span>L1</span><strong>Agent 兼容</strong><small>保住编程 Agent 语义</small></div>
+            <a class="project-chip emphasized" href="https://github.com/lidge-jun/opencodex" rel="noreferrer"><b>OpenCodex</b><span>Responses · Tool · Account pool</span></a>
+            <a class="project-chip" href="https://github.com/musistudio/claude-code-router" rel="noreferrer"><b>Claude Code Router</b><span>Multi-agent · Route · ToolHub</span></a>
+          </div>
+          <div class="layer-row">
+            <div class="layer-label"><span>L2</span><strong>通用模型网关</strong><small>统一供应商与策略</small></div>
+            <a class="project-chip" href="https://github.com/BerriAI/litellm" rel="noreferrer"><b>LiteLLM</b><span>Provider coverage · Virtual keys</span></a>
+            <a class="project-chip" href="https://github.com/maximhq/bifrost" rel="noreferrer"><b>Bifrost</b><span>Go · Performance · Plugins</span></a>
+            <a class="project-chip" href="https://github.com/Portkey-AI/gateway" rel="noreferrer"><b>Portkey</b><span>Routing · Guardrails · MCP</span></a>
+          </div>
+          <div class="layer-row">
+            <div class="layer-label"><span>L3</span><strong>企业流量治理</strong><small>K8s、限流与可观测</small></div>
+            <a class="project-chip" href="https://github.com/higress-group/higress" rel="noreferrer"><b>Higress</b><span>Envoy · Wasm · AI proxy</span></a>
+            <a class="project-chip" href="https://github.com/envoyproxy/ai-gateway" rel="noreferrer"><b>Envoy AI Gateway</b><span>Kubernetes · Central policy</span></a>
+          </div>
+          <div class="layer-row">
+            <div class="layer-label"><span>L4</span><strong>数据与运营</strong><small>质量闭环或多租户</small></div>
+            <a class="project-chip" href="https://github.com/tensorzero/tensorzero" rel="noreferrer"><b>TensorZero</b><span>Observability · Eval · Experiment</span></a>
+            <a class="project-chip warning-chip" href="https://github.com/QuantumNous/new-api" rel="noreferrer"><b>New API</b><span>Tenant · Quota · Billing · AGPL</span></a>
+          </div>
+        </div>
+
+        <div class="recommendation-tool" id="recommendation-tool">
+          <div class="recommendation-intro">
+            <p class="mini-label">STACK SELECTOR</p>
+            <h3>我们想建设哪一种能力？</h3>
+            <div class="scenario-tabs" role="group" aria-label="选择建设场景">
+              <button type="button" data-scenario="agent" aria-pressed="true">编程 Agent 网关</button>
+              <button type="button" data-scenario="team" aria-pressed="false">公司共享网关</button>
+              <button type="button" data-scenario="platform" aria-pressed="false">多租户平台</button>
+              <button type="button" data-scenario="quality" aria-pressed="false">质量优化平台</button>
+            </div>
+          </div>
+          <div class="recommendation-result" aria-live="polite">
+            <p class="recommendation-kicker" id="scenario-kicker">推荐起点 / AGENT GATEWAY</p>
+            <h3 id="scenario-title">OpenCodex + LiteLLM</h3>
+            <p id="scenario-description">上层保留 Codex / Claude Code 的 Agent 协议语义，下层统一供应商、密钥和失败回退。先做薄兼容层，不要让两层重复转换同一协议。</p>
+            <div class="stack-visual" id="scenario-stack" aria-label="推荐技术栈">
+              <span>Agent clients</span><i>→</i><span class="active">OpenCodex-like</span><i>→</i><span>LiteLLM</span><i>→</i><span>Providers</span>
+            </div>
+            <p class="scenario-note" id="scenario-note"><b>第一验证目标：</b>文本、流式、Tool Call、错误恢复和长上下文五类回归样例。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell" id="architecture" aria-labelledby="architecture-title">
+      <div class="section-heading">
+        <p class="eyebrow">05 / RECOMMENDED ARCHITECTURE</p>
+        <h2 id="architecture-title">最有价值的是分层，不是堆代理。</h2>
+        <p>建议把 Agent 特有语义和通用流量治理分开。能原生透传时就透传，只有协议不同时才转换。</p>
+      </div>
+
+      <div class="architecture-frame">
+        <div class="architecture-main">
+          <div class="arch-layer arch-client"><span>CLIENTS</span><strong>Codex · Claude Code · OpenCode</strong><small>仓库理解、Agent 循环、本地工具</small></div>
+          <div class="arch-connector"><span>原生 Agent 协议</span></div>
+          <div class="arch-layer arch-agent"><span>LAYER 1</span><strong>薄 Agent 兼容层</strong><small>Tool / Thinking / Stream / Context semantics</small></div>
+          <div class="arch-connector"><span>统一内部契约或原生透传</span></div>
+          <div class="arch-layer arch-gateway"><span>LAYER 2</span><strong>模型网关与治理</strong><small>Auth · Route · Retry · Limit · Observe</small></div>
+          <div class="arch-connector"><span>供应商原生协议</span></div>
+          <div class="arch-layer arch-provider"><span>UPSTREAM</span><strong>官方 API / 自建推理</strong><small>OpenAI · Anthropic · Gemini · Local</small></div>
+        </div>
+        <aside class="architecture-aside">
+          <div><span class="status-dot good"></span><p><b>推荐</b>每层只有一个明确责任；请求 ID、错误和成本可贯穿全链路。</p></div>
+          <div><span class="status-dot bad"></span><p><b>避免</b>连续两个网关都重写 Tool Call、流式事件和模型名。</p></div>
+          <div><span class="status-dot warn"></span><p><b>必须</b>为原生协议保留透传和回归测试，避免“HTTP 200 但 Agent 已失真”。</p></div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section section-tint" id="roadmap" aria-labelledby="roadmap-title">
+      <div class="shell">
+        <div class="section-heading split-heading">
+          <div><p class="eyebrow">06 / OUR VALUE</p><h2 id="roadmap-title">我们的价值，是把兼容经验沉淀成平台能力。</h2></div>
+          <p>从一个可回归的 Agent 网关开始，再根据真实使用量增加团队治理和产品运营，不要反过来先做大而全后台。</p>
+        </div>
+
+        <div class="roadmap-grid">
+          <article class="phase-card">
+            <div class="phase-top"><span>PHASE 01</span><b>兼容性 POC</b></div>
+            <h3>证明 Agent 语义不丢失</h3>
+            <p>一个客户端、两类上游协议、5–10 个固定样例。</p>
+            <ul><li>文本与流式</li><li>Tool Call / Result</li><li>Thinking 与终止原因</li><li>错误恢复与长上下文</li></ul>
+            <strong class="phase-output">产物：协议兼容测试集</strong>
+          </article>
+          <article class="phase-card featured-phase">
+            <div class="phase-top"><span>PHASE 02</span><b>团队共享网关</b></div>
+            <h3>把模型供应链变得可控</h3>
+            <p>从个人工具扩展到公司内部稳定服务。</p>
+            <ul><li>虚拟 Key 与项目配额</li><li>健康检查与 fallback</li><li>成本、日志与全链路 ID</li><li>密钥加密和租户隔离</li></ul>
+            <strong class="phase-output">产物：可治理模型入口</strong>
+          </article>
+          <article class="phase-card">
+            <div class="phase-top"><span>PHASE 03</span><b>平台化控制面</b></div>
+            <h3>只在需求成立后产品化</h3>
+            <p>租户、套餐、计费和 SLA 会引入新的责任。</p>
+            <ul><li>组织、角色和审计</li><li>用量计费和账单</li><li>策略、Guardrails 与质量评测</li><li>灾备、合规和运营后台</li></ul>
+            <strong class="phase-output">产物：运营与服务能力</strong>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell" id="risks" aria-labelledby="risks-title">
+      <div class="section-heading">
+        <p class="eyebrow">07 / NON-NEGOTIABLES</p>
+        <h2 id="risks-title">真正难的不是转发，是正确、安全和可解释。</h2>
+      </div>
+      <div class="risk-grid">
+        <article><span>01</span><h3>协议正确性</h3><p>不能只验证 HTTP 200。要检查事件顺序、工具关联、终止原因、缓存、Token 和错误映射。</p></article>
+        <article><span>02</span><h3>密钥与租户隔离</h3><p>上游凭据只留在服务端，加密保存、最小权限、轮换；日志不能泄露请求内容或密钥。</p></article>
+        <article><span>03</span><h3>上游授权与透明度</h3><p>账号池用于授权范围内的可靠性，不用于绕过限额或共享个人凭据；实际模型和计费必须透明。</p></article>
+        <article><span>04</span><h3>许可证与商业边界</h3><p>固定版本逐项核查许可证。特别是 AGPL、附加条款和企业功能的开源/商业边界。</p></article>
+      </div>
+    </section>
+
+    <section class="section sources-section" id="sources" aria-labelledby="sources-title">
+      <div class="shell">
+        <div class="section-heading split-heading">
+          <div><p class="eyebrow">08 / SOURCES</p><h2 id="sources-title">研究依据与版本边界</h2></div>
+          <p>研究快照：2026-08-27。能力描述来自各项目官方仓库及当前默认分支；项目后续变化不自动改变本页判断。</p>
+        </div>
+        <div class="source-columns">
+          <div>
+            <h3>核心比较</h3>
+            <a href="https://github.com/lidge-jun/opencodex/commit/80fff9a7f47332a4445df2b26ea175053fa55b0b"><span>OpenCodex</span><code>80fff9a</code></a>
+            <a href="https://github.com/farion1231/cc-switch/commit/6243e20ad6f1835f9ac94ab39ea0eb62a6795bc0"><span>CC Switch</span><code>6243e20</code></a>
+            <a href="https://github.com/musistudio/claude-code-router/commit/aec22a00cc9f934b8ab793522731cf1c71864d39"><span>Claude Code Router</span><code>aec22a0</code></a>
+          </div>
+          <div>
+            <h3>通用网关与治理</h3>
+            <a href="https://github.com/BerriAI/litellm"><span>LiteLLM</span><code>Gateway</code></a>
+            <a href="https://github.com/higress-group/higress"><span>Higress</span><code>Apache-2.0</code></a>
+            <a href="https://github.com/maximhq/bifrost"><span>Bifrost</span><code>Apache-2.0</code></a>
+            <a href="https://github.com/Portkey-AI/gateway"><span>Portkey Gateway</span><code>MIT</code></a>
+            <a href="https://github.com/envoyproxy/ai-gateway"><span>Envoy AI Gateway</span><code>Apache-2.0</code></a>
+          </div>
+          <div>
+            <h3>数据与运营控制面</h3>
+            <a href="https://github.com/tensorzero/tensorzero"><span>TensorZero</span><code>Apache-2.0</code></a>
+            <a href="https://github.com/QuantumNous/new-api"><span>New API</span><code>AGPL-3.0</code></a>
+            <a href="https://github.com/yydshly/0827_githubcode_study/blob/main/studies/opencodex-gateway-research/README.md"><span>完整研究记录</span><code>README</code></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <div><span class="brand-mark" aria-hidden="true">O↔X</span><p>OpenCodex 与 Agent 网关能力研究<br><small>研究结论不等于生产承诺。</small></p></div>
+      <div class="footer-links"><a href="../">研究门户</a><a href="https://github.com/yydshly/0827_githubcode_study">GitHub</a><a href="#main">回到顶部 ↑</a></div>
+    </div>
+  </footer>
+</body>
+</html>
