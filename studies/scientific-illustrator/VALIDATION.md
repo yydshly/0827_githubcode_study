@@ -97,6 +97,14 @@ Canonical 服务：`node studies/scientific-illustrator/demo-server.mjs`
 
 远端页面的调用记录明确标记为已验证记录，不显示虚构耗时；只有本地 Node bridge 模式才显示本次实际 tool call 和真实毫秒耗时。
 
+远端发布结果：
+
+- 发布提交：`095ab2b403cb3a4976babb574bbe4c1dcae64024`
+- Validate repository：[run 33059843175](https://github.com/yydshly/0827_githubcode_study/actions/runs/33059843175)，结论 `success`
+- Deploy GitHub Pages：[run 33059843259](https://github.com/yydshly/0827_githubcode_study/actions/runs/33059843259)，build 与 deploy 均为 `success`
+- 公网 HTTP：门户、案例页和 18,804-byte draw.io 文件均返回 200
+- 公网浏览器：门户状态 `verified · published`；案例页自动显示 `verified_static_artifact`、39 节点 / 19 连线 / 3 patch / 0 raster、`VALID`；桌面和 390px 手机水平溢出均为 0；error 与 console 均为空
+
 ## 边界与延期项
 
 ### draw.io Desktop 实时控制

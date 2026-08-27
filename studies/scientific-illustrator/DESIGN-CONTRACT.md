@@ -41,8 +41,8 @@ Observable completion criteria: 外部 README 与门户可发现；Pages 静态�
 | 真实演示能力 | MCP 创建/检查/修改闭环 | 成功、失败、重复运行 | API、MCP tool result、文件检查、浏览器网络与截图 | 1/4/5/6/7 | pass | — |
 | 说明场景 | 适用/不适用与筛选 | Web | DOM 与交互观察 | 3/5 | pass | — |
 | 扩展方向 | 分阶段路线图 | Web/README | 内容与代码边界对照 | 3 | pass | — |
-| Web 展示 | Pages 已验证终稿 + 本地实时 MCP 双模式 | 1440/768/390、亮/暗、static/live | 浏览器状态、DOM、下载和错误日志 | 5/6/7/8 | continue | 验证纯静态模式与本地实时回归 |
+| Web 展示 | Pages 已验证终稿 + 本地实时 MCP 双模式 | 1440/768/390、亮/暗、static/live | 浏览器状态、DOM、下载和错误日志 | 5/6/7/8 | pass | — |
 | 工程验证 | 上游测试、API 与页面检查 | 本机 | 测试输出、API 响应、控制台 | 8/9 | pass | — |
-| 外部 README | 架构、演示模式、价值与公开入口 | 根 README / 子项目 README / 门户 | 链接与内容一致性 | 3/9 | continue | 完成文档与链接检查 |
-| GitHub 部署 | 提交、推送、Pages 发布 | main / Actions / 公网 URL | commit、workflow、HTTP 与浏览器 | 8/9 | continue | 修复工作流校验并推送核验 |
-| 交接 | 使用与验证记录 | 文档 | 启动命令、远端地址、证据与边界一致 | 9 | continue | 发布成功后写入最终远端证据 |
+| 外部 README | 架构、演示模式、价值与公开入口 | 根 README / 子项目 README / 门户 | 链接与内容一致性 | 3/9 | pass | — |
+| GitHub 部署 | 提交、推送、Pages 发布 | main / Actions / 公网 URL | commit、workflow、HTTP 与浏览器 | 8/9 | pass | — |
+| 交接 | 使用与验证记录 | 文档 | 启动命令、远端地址、证据与边界一致 | 9 | pass | — |
