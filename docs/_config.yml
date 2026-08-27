@@ -1,0 +1,7 @@
+title: GitHub Code Study
+description: 多项目源码研究、能力拆解与可复现实验
+lang: zh-CN
+theme: jekyll-theme-minimal
+repository: yydshly/0827_githubcode_study
+exclude:
+  - README.md
