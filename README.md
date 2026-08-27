@@ -19,6 +19,7 @@
 | [shuohao-skills](https://github.com/eternityspring/shuohao-skills) | 面向 Agent 的小说改编、角色美术、结构化剧本和 H3 分镜投产技能 | `verified` | `ready-local` | 本地：`studies/shuohao-skills/` · `docs/shuohao-skills/` |
 | [Scientific Illustrator](https://github.com/icebird1998/scientific-illustrator) | 大模型通过 MCP 生成、检查并修正可编辑科研图源文件 | `verified` | `published` | [研究记录](studies/scientific-illustrator/README.md) · [完整案例](studies/scientific-illustrator/CASE-STUDY.md) · [Web 演示](https://yydshly.github.io/0827_githubcode_study/scientific-illustrator/) |
 | [ChatHub](https://github.com/chathub-dev/chathub) | 以官方 API 与浏览器登录会话双路径接入模型，统一流式协议并支持模型切换和并行回答 | `verified` | `published` | [研究记录](studies/chathub/README.md) · [Web 页面](https://yydshly.github.io/0827_githubcode_study/chathub/) |
+| [OpenCodex](https://github.com/lidge-jun/opencodex) | 面向 Codex、Claude Code 等编程 Agent 的协议兼容网关；改变模型入口并完成协议适配、模型/账号路由、失败切换和响应还原，但不替代客户端 Agent 内核 | `verified` | `published` | [研究记录](studies/opencodex-gateway-research/README.md) · [Web 页面](https://yydshly.github.io/0827_githubcode_study/opencodex-gateway-research/) |
 | [Modly](https://github.com/lightningpixel/modly) | 面向图生 3D 模型的本地工作流与适配平台；模型决定质量上限，电脑或云端提供算力，Modly 负责统一、编排、预览和导出 | `archived` | `published` | [研究总结](studies/modly/README.md) · [能力研究页面](https://yydshly.github.io/0827_githubcode_study/modly/) |
 | [Comp AI CRM](https://github.com/trycompai/crm) | 以结构化业务数据、Evidence、持久任务和受控工具支撑长期运行 Agent 的 Agentic CRM | `researching` | `researching` | [研究记录](studies/trycompai-crm/README.md) · [架构图](studies/trycompai-crm/architecture.svg) |
 

@@ -36,16 +36,16 @@
 | User phase | Requirement / artifact | Surface / state | Evidence needed | Owning stage | Status | Next action |
 |---|---|---|---|---:|---|---|
 | 整理研究 | 研究事实与版本 | 官方仓库 | README、commit、license 元数据 | 0 | pass | 已固定 2026-08-27 研究快照 |
-| 网页展示 | 可运行基线 | 本地页面 | 浏览器可访问 | 1 | continue | 实现静态页面并启动本地服务 |
-| 网页展示 | 首屏结论与视觉层级 | 桌面深色 | 截图与 DOM 观察 | 2 | continue | 实现并检查首屏 |
-| 网页展示 | 阅读顺序与架构图 | 桌面 / 平板 / 手机 | 截图、无溢出 | 3 | continue | 实现响应式布局 |
-| 网页展示 | 链路视角切换 | 直连 / 网关 | 浏览器交互 | 4 | continue | 实现可访问按钮状态 |
-| 网页展示 | 场景选型器 | 四种场景 | 浏览器交互 | 5 | continue | 实现动态推荐区域 |
-| 网页展示 | 主题状态 | 浅色 / 深色 | 浏览器截图与状态观察 | 6 | continue | 实现主题切换和持久化 |
-| 网页展示 | 响应式与键盘 | 1440 / 768 / 390；键盘 | 截图、焦点顺序 | 7 | continue | 完成本地跨表面验收 |
-| 网页展示 | reduced-motion / 无 JS 基线 | 能力边界 | 浏览器或源码证据 | 8 | continue | 验证回退策略 |
-| GitHub 提交 | 研究记录与页面文件 | Git | 精确 diff、独立 commit | 9 | continue | 仅暂存本研究文件 |
-| GitHub 部署 | 独立页面上线 | GitHub Pages | 工作流和线上浏览器 | 9 | continue | 推送后验证直接 URL |
+| 网页展示 | 可运行基线 | 本地页面 | 浏览器可访问 | 1 | pass | 本地 HTTP 200，正文与 10 个章节完整 |
+| 网页展示 | 首屏结论与视觉层级 | 桌面深色 | 截图与 DOM 观察 | 2 | pass | 桌面首屏人工检查通过 |
+| 网页展示 | 阅读顺序与架构图 | 桌面 / 平板 / 手机 | 截图、无溢出 | 3 | pass | 1440 / 768 / 390 三档无横向溢出 |
+| 网页展示 | 链路视角切换 | 直连 / 网关 | 浏览器交互 | 4 | pass | 两种视图和文字反馈一致 |
+| 网页展示 | 场景选型器 | 四种场景 | 浏览器交互 | 5 | pass | 四种推荐数据已实现，多租户场景实测通过 |
+| 网页展示 | 主题状态 | 浅色 / 深色 | 浏览器截图与状态观察 | 6 | pass | 主题、按钮和 theme-color 状态一致 |
+| 网页展示 | 响应式与键盘 | 1440 / 768 / 390；键盘 | 截图、焦点顺序 | 7 | pass | 跨视口无溢出，首次 Tab 到达 skip link |
+| 网页展示 | reduced-motion / 无 JS 基线 | 能力边界 | 浏览器或源码证据 | 8 | pass | 动画关闭且无 JS 核心内容仍可读 |
+| GitHub 提交 | 研究记录与页面文件 | Git | 精确 diff、独立 commit | 9 | pass | commit d96fd85 仅包含 6 个研究文件 |
+| GitHub 部署 | 独立页面上线 | GitHub Pages | 工作流和线上浏览器 | 9 | pass | Pages run 33091546723 成功，线上 23/23 通过 |
 | GitHub 部署 | 门户标记 published | README / docs index | 第二次 commit、线上浏览器 | 9 | continue | 页面上线后更新门户 |
 
 ## Design direction

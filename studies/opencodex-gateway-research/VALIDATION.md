@@ -48,4 +48,8 @@
 
 ## Deployment evidence
 
-等待第一阶段提交推送后填写 GitHub Actions run、线上 HTTP、资源加载和交互证据；只有线上页面通过后，门户状态才会改为 `published`。
+- **Content commit:** `d96fd85`
+- **Repository validation:** [run 33091547051](https://github.com/yydshly/0827_githubcode_study/actions/runs/33091547051) — success
+- **GitHub Pages:** [run 33091546723](https://github.com/yydshly/0827_githubcode_study/actions/runs/33091546723) — build 21s、deploy 9s、success
+- **Public page validation:** 2026-08-28 00:08:37 +08:00；公共 URL 返回 200，同一套 23 项浏览器检查全部通过，无控制台错误
+- **Portal publication:** 等待门户卡片提交、Pages 二次部署和入口点击验证
