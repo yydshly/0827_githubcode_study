@@ -46,7 +46,7 @@
 | 网页展示 | reduced-motion / 无 JS 基线 | 能力边界 | 浏览器或源码证据 | 8 | pass | 动画关闭且无 JS 核心内容仍可读 |
 | GitHub 提交 | 研究记录与页面文件 | Git | 精确 diff、独立 commit | 9 | pass | commit d96fd85 仅包含 6 个研究文件 |
 | GitHub 部署 | 独立页面上线 | GitHub Pages | 工作流和线上浏览器 | 9 | pass | Pages run 33091546723 成功，线上 23/23 通过 |
-| GitHub 部署 | 门户标记 published | README / docs index | 第二次 commit、线上浏览器 | 9 | continue | 页面上线后更新门户 |
+| GitHub 部署 | 门户标记 published | README / docs index | 第二次 commit、线上浏览器 | 9 | pass | commit 9785367；Pages run 33091916046；线上门户入口 10/10 通过 |
 
 ## Design direction
 

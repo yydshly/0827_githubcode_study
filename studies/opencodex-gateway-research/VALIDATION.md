@@ -52,4 +52,7 @@
 - **Repository validation:** [run 33091547051](https://github.com/yydshly/0827_githubcode_study/actions/runs/33091547051) — success
 - **GitHub Pages:** [run 33091546723](https://github.com/yydshly/0827_githubcode_study/actions/runs/33091546723) — build 21s、deploy 9s、success
 - **Public page validation:** 2026-08-28 00:08:37 +08:00；公共 URL 返回 200，同一套 23 项浏览器检查全部通过，无控制台错误
-- **Portal publication:** 等待门户卡片提交、Pages 二次部署和入口点击验证
+- **Portal commit:** `9785367`
+- **Portal Pages:** [run 33091916046](https://github.com/yydshly/0827_githubcode_study/actions/runs/33091916046) — build 20s、deploy 18s、success
+- **Portal browser validation:** 2026-08-28 00:12:50 +08:00；10 项检查全部通过：HTTP 200、统计 `10/09/01/00`、卡片与发布状态正确、公开入口点击可进入研究页、390px 无溢出、无控制台错误
+- **Non-blocking workflow annotation:** GitHub Actions 提示部分官方 action 的 Node.js 20 运行时已弃用并被强制使用 Node.js 24；本次构建与部署成功，后续可随官方 action 新版本消除此提示
