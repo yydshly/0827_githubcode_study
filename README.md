@@ -24,6 +24,20 @@
 | [Modly](https://github.com/lightningpixel/modly) | 面向图生 3D 模型的本地工作流与适配平台；模型决定质量上限，电脑或云端提供算力，Modly 负责统一、编排、预览和导出 | `archived` | `published` | [研究总结](studies/modly/README.md) · [能力研究页面](https://yydshly.github.io/0827_githubcode_study/modly/) |
 | [Comp AI CRM](https://github.com/trycompai/crm) | 以结构化业务数据、Evidence、持久任务和受控工具支撑长期运行 Agent 的 Agentic CRM | `researching` | `researching` | [研究记录](studies/trycompai-crm/README.md) · [架构图](studies/trycompai-crm/architecture.svg) |
 
+## Featured：Cangjie Skill 与《左耳听风》受控研究
+
+**在线页面：** [Cangjie Skill 能力与案例研究台](https://yydshly.github.io/0827_githubcode_study/cangjie-skill/) · [研究地图](https://yydshly.github.io/0827_githubcode_study/cangjie-skill/#research-map) · [《左耳听风》案例](https://yydshly.github.io/0827_githubcode_study/cangjie-skill/#our-case)
+
+`cangjie-skill` 不是自动完成长内容蒸馏的软件 SDK，而是一套由宿主 Agent 执行的 Skill Factory 方法、元 Skill、提取提示词和交付模板。它将长内容中的方法论转换为四类可消费资产：触发条件、执行协议、边界条件和验证资产。
+
+我们以《左耳听风：传奇程序员练级攻略》为研究入口，但没有数字化或上传纸质书全文。当前实验使用第三方公开专栏镜像作为独立的 `Column Proxy Track`；因此结论只属于这份代理语料，不能表述为纸质书逐章研究或完整书评。
+
+本轮受控结果已经走通一条完整链路：Stage 0–1 从 119 篇代理语料形成 247 条候选；首个候选经 Stage 1.5 收窄为 `incident-learning-audit`；Stage 2 形成 RIA++ 正式 Skill；Stage 4 完成 19 / 19 独立路由压力回归；Stage 5A 完成 Codex 仓库级安装；Stage 5B 使用 Cloudflare 2019 公开事故完成完整审计。Stage 5C 的组织案例接入合同已经形成，但真实组织案例仍为 0，组织外部效度尚未建立。
+
+当前采用判断是：保留其触发、执行、边界和验证合同，作为内部 Skill Factory 的设计输入；不继续做抽象研究，也不批量把整本书转换成 Skills。只有出现合法内容、明确产品问题、目标 Agent 宿主和真实评测集时，才恢复项目并扩展第二个 Skill。
+
+[完整研究结论](studies/cangjie-skill/README.md) · [《左耳听风》实验报告](studies/cangjie-skill/experiments/zuoer-tingfeng/README.md) · [正式 Skill](.agents/skills/incident-learning-audit/SKILL.md) · [验证记录](studies/cangjie-skill/VALIDATION.md) · [发布与复现](studies/cangjie-skill/PUBLISHING.md)
+
 ## Featured：Modly 图生 3D 能力研究
 
 **在线页面：** [Modly 图生 3D 能力研究](https://yydshly.github.io/0827_githubcode_study/modly/)

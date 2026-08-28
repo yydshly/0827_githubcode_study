@@ -2,14 +2,14 @@
 
 ## 当前状态
 
-Web 演示 Revision 11 已实现并通过真实 Chromium 验收。首屏继续把仓库定位为“长内容到 Agent Skills 的方法工厂”，并新增完整生态对照：**6 项库能力、8 类输入、7 个内部阶段、6 层外部生产链、9 个同类/相邻项目、5 层采用建议和 6 个代表案例**。Cangjie 被准确放在“方法识别与能力蒸馏”层；Skill Seekers、book-to-skill、skill-factory、agent-skill-eval、Agent Skills Standard、Anthropic Skills、skills.sh 与 doc2skill 分别补齐解析、知识打包、治理、评测、标准、参考和分发。所有外部项目都标注能力、不能替代项、采用价值、核对口径与风险。《左耳听风》继续作为本地深度验证承接 4 项能力方向、1 个正式 Skill、3 个候选能力及 Stage 0–5C 证据链。
+Web 演示 Revision 12 已实现并通过真实 Chromium 验收。首屏继续把仓库定位为“长内容到 Agent Skills 的方法工厂”，并用统一研究地图关联 **13 个页面区段和 7 份公开报告**；完整研究台包括 6 项库能力、8 类输入、7 个内部阶段、6 层外部生产链、9 个同类/相邻项目、5 层采用建议和 6 个代表案例。Cangjie 被准确放在“方法识别与能力蒸馏”层；《左耳听风》继续作为本地受控深度验证承接 4 项能力方向、1 个正式 Skill、3 个候选能力及 Stage 0–5C 证据链。仓库根 README 同步提供线上页面、研究地图、案例、完整报告、正式 Skill 与验证入口。
 
 ## 运行路径
 
 1. `npm.cmd start` 会先从相邻 `candidates/` 的五份 Markdown 重建 `data/research.json`。
 2. `server.mjs` 只监听 `127.0.0.1:4174`，不访问外部网络；4173 属于本机另一个研究项目。
 3. 数据构建同时读取 Stage 1.5、Stage 2、Stage 4、Stage 5A 与 Stage 5B 的结构化证据；除既有不变量外，还要求 Stage 5B 具备两份官方来源、五模式、八段输出、三类证据、六条因果、六项行动合同和受控结论。
-4. 浏览器先渲染库定位、来源地图和责任边界，再展示生态生产链、9 项筛选对照与五层组合建议；随后进入公开案例、本地能力资产、六级成熟度与 Stage 5B 完整演示。
+4. 浏览器先提供统一研究地图与公开报告中心，再渲染库定位、来源地图和责任边界，展示生态生产链、9 项筛选对照与五层组合建议；随后进入公开案例、本地能力资产、六级成熟度与 Stage 5B 完整演示。
 5. 用户输入真实问题后，适用域门先判断核心域、相邻域或域外，再决定是否进入学习、故障、架构或领导力模板。
 6. 核心域完整执行；相邻域只迁移方法并标记尚待验证；域外问题停止路由、隐藏候选证据并建议切换专业来源。
 
@@ -41,7 +41,7 @@ Web 演示 Revision 11 已实现并通过真实 Chromium 验收。首屏继续�
 - 库级展示视觉：`library.css`
 - 既有浏览器回归：`scripts/browser-verify.mjs`
 - Revision 9 专测：`scripts/verify-showcase.mjs`
-- Revision 10 专测：`scripts/verify-library.mjs`
+- Revision 10–12 库级专测：`scripts/verify-library.mjs`
 - 库目录结构校验：`scripts/validate-library-catalog.mjs`
 - 同类生态研究：`../../../../../ECOSYSTEM_COMPARISON.md`
 - Stage 5C 就绪度：`../stage5/incident-learning-audit/scripts/validate-stage5c.mjs`
@@ -57,10 +57,11 @@ Web 演示 Revision 11 已实现并通过真实 Chromium 验收。首屏继续�
 - Web Revision 9 已增加能力资产总览、六级成熟度、卡片行动、六站最佳路径和价值快照；
 - Web Revision 10 已增加库能力地图、来源选择指导、责任边界、上游代表案例与筛选器；
 - Web Revision 11 已增加六层生态生产链、9 项同类/相邻产品对照、分类筛选和五层组合建议；
+- Web Revision 12 已增加 13 区段研究地图、7 份公开报告中心、顶部入口、根 README 专题和代理语料边界；
 - `npm.cmd run check` 和三层真实 Chromium 全矩阵通过；
 - 最终证据包含既有全回归，以及能力资产/最佳演示桌面与手机截图、四表面专测、焦点路径和 `showcase-validation.json`。
 - 新增库级桌面/手机截图、案例筛选键盘路径和 `library-validation.json`；
-- 新增生态桌面/手机截图、生态筛选键盘路径，并把 Revision 11 结构证据写入同一个 `library-validation.json`；
+- 新增生态与研究地图桌面/手机截图、筛选及研究地图键盘路径，并把 Revision 12 结构证据写入同一个 `library-validation.json`；
 - Stage 5C 接入包已经建立；空案例状态会明确输出 `intake-ready-awaiting-authorized-cases`，不会伪报组织效度通过。
 
 ## 尚未执行

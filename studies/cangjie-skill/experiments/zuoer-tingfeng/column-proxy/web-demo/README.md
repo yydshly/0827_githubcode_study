@@ -1,6 +1,6 @@
 # Cangjie Skill · 能力与案例研究台
 
-一个零第三方运行依赖的静态 Web 演示。Revision 11 在库级入口上增加 Agent Skill 内容转化生态对照：先解释 Cangjie Skill 的 6 项能力、8 类输入、7 阶段流水线，再把 9 个同类库和相邻产品放入 6 层生产链；随后展示 5 个上游代表案例，并把《左耳听风》作为受控深度验证保留完整 Stage 0–5C 证据链。
+一个零第三方运行依赖的静态 Web 演示。Revision 12 在完整库级研究台上增加统一研究地图与报告中心：先解释 Cangjie Skill 的 6 项能力、8 类输入、7 阶段流水线，再把 9 个同类库和相邻产品放入 6 层生产链；随后展示 5 个上游代表案例，并把《左耳听风》作为受控深度验证保留完整 Stage 0–5C 证据链。13 个页面锚点和 7 份公开研究文档现在可以从一个入口直接访问。
 
 线上页面：<https://yydshly.github.io/0827_githubcode_study/cangjie-skill/>
 
@@ -19,6 +19,7 @@ npm.cmd start
 
 打开页面后按这条主路径阅读：
 
+- `#research-map`：总览 13 个页面区段与 7 份公开报告，直接选择库级、案例、能力或阶段证据；
 - `#library`：先看 6 项核心能力、8 类长内容来源、7 阶段产线、三方责任和适用性判断；
 - `#ecosystem`：查看 6 层生态价值链，筛选 5 个直接同类和 4 个质量/标准/分发项目，并读取我们的五层组合建议；
 - `#case-gallery`：按视频课程、资料/工件集、长期文档或我们的验证筛选 6 个代表案例；
@@ -117,7 +118,7 @@ npm.cmd run check
 npm.cmd run verify:browser
 ~~~
 
-`check` 会校验库目录的 6 项能力、8 类来源、7 阶段、6 层生态、9 个同类项目、5 层推荐组合和 6 个案例，同时继续验证 Stage 5A–5C 合同。`verify:browser` 会运行三组既有 Chromium 回归并在库级专测中加入 Revision 11 生态链、筛选和组合建议。覆盖 1440 / 768 / 390、明暗主题、reduced-motion、键盘焦点、状态恢复和错误态，证据分别写入 `evidence/validation.json`、`evidence/showcase-validation.json` 与 `evidence/library-validation.json`。
+`check` 会校验库目录的 6 项能力、8 类来源、7 阶段、6 层生态、9 个同类项目、5 层推荐组合和 6 个案例，同时继续验证 Stage 5A–5C 合同。`verify:browser` 会运行三组 Chromium 回归，并在库级专测中校验 Revision 12 的 13 个研究锚点、7 个公开报告链接、顶部入口和代理语料边界。覆盖 1440 / 768 / 390、明暗主题、reduced-motion、键盘焦点、状态恢复和错误态，证据分别写入 `evidence/validation.json`、`evidence/showcase-validation.json` 与 `evidence/library-validation.json`。
 
 ## 边界
 

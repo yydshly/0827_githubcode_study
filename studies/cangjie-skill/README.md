@@ -5,6 +5,7 @@
 | 项目 | 内容 |
 | --- | --- |
 | 上游仓库 | <https://github.com/kangarooking/cangjie-skill> |
+| 在线研究台 | [能力、生态、案例与 Stage 证据地图](https://yydshly.github.io/0827_githubcode_study/cangjie-skill/#research-map) |
 | 研究基准 | `5f03a4cd8b521673f7a67ca6279330ec943bb369` |
 | 上游版本 | `main`，包含标签 `v2.0.0` |
 | 开源许可证 | MIT |
@@ -12,6 +13,8 @@
 | 最后更新 | 2026-08-28 |
 
 研究基准固定到上游提交 [`5f03a4c`](https://github.com/kangarooking/cangjie-skill/tree/5f03a4cd8b521673f7a67ca6279330ec943bb369)。本轮没有把上游元 Skill 安装到 Codex、Claude Code、Cursor 或用户级 Skills 目录；只把受控实验产出的 `incident-learning-audit` 安装到本仓库级 `.agents/skills/` 做验证。
+
+线上研究台的“研究地图”集中关联库能力、同类生态、上游案例、《左耳听风》受控案例、能力资产、Stage 1.5–5B 演示和本仓库公开报告。当前《左耳听风》结论来自 119 篇第三方公开专栏代理文本，不是纸质书全文数字化或逐章审查。
 
 ## 当前结论
 

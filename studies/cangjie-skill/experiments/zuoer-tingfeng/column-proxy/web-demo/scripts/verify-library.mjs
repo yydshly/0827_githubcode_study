@@ -72,6 +72,9 @@ async function inspectSurface(browser, config) {
     controlledCases: await page.locator('[data-case-category="controlled"]').count(),
     capabilityAssets: await page.locator(".capability-asset-card").count(),
     bestDemo: await page.locator("#stage5b-case").count(),
+    researchMapPages: await page.locator(".research-page-link").count(),
+    researchReports: await page.locator(".research-report-list a").count(),
+    researchBoundary: await page.locator(".research-map-boundary").count(),
     horizontalOverflow: await page.evaluate(
       () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
     ),
@@ -98,6 +101,9 @@ async function inspectSurface(browser, config) {
   ensure(audit.controlledCases === 1, `${config.name}: controlled study is not uniquely identified`);
   ensure(audit.capabilityAssets === 4, `${config.name}: controlled study capability assets regressed`);
   ensure(audit.bestDemo === 1, `${config.name}: formal Skill demonstration regressed`);
+  ensure(audit.researchMapPages === 13, `${config.name}: research page map is incomplete`);
+  ensure(audit.researchReports === 7, `${config.name}: research report links are incomplete`);
+  ensure(audit.researchBoundary === 1, `${config.name}: proxy-corpus boundary is missing`);
   ensure(!audit.horizontalOverflow, `${config.name}: horizontal overflow detected`);
   ensure(audit.theme === config.colorScheme, `${config.name}: theme mismatch`);
   ensure(audit.consoleErrors.length === 0, `${config.name}: console errors detected`);
@@ -121,6 +127,11 @@ async function inspectSurface(browser, config) {
   if (config.ecosystemScreenshot) {
     await page.locator("#ecosystem").screenshot({
       path: path.join(evidenceRoot, config.ecosystemScreenshot),
+    });
+  }
+  if (config.mapScreenshot) {
+    await page.locator("#research-map").screenshot({
+      path: path.join(evidenceRoot, config.mapScreenshot),
     });
   }
   if (config.caseScreenshot) {
@@ -178,12 +189,70 @@ async function inspectCaseJourney(browser) {
     .getAttribute("href");
   ensure(controlledHref === "#capability-atlas", "controlled case does not bridge to local capability assets");
   ensure(
-    (await page.locator('#overview .button-primary').getAttribute("href")) === "#library",
-    "hero primary action does not lead to the library map",
+    (await page.locator('#overview .button-primary').getAttribute("href")) === "#research-map",
+    "hero primary action does not lead to the research map",
+  );
+  const heroSecondaryHrefs = await page.locator('#overview .button-secondary').evaluateAll((links) =>
+    links.map((link) => link.getAttribute("href")),
   );
   ensure(
-    (await page.locator('#overview .button-secondary').getAttribute("href")) === "#ecosystem",
-    "hero secondary action does not lead to the ecosystem comparison",
+    JSON.stringify(heroSecondaryHrefs) === JSON.stringify(["#library", "#ecosystem"]),
+    "hero secondary actions do not expose library and ecosystem routes",
+  );
+
+  const expectedMapHrefs = [
+    "#library",
+    "#ecosystem",
+    "#case-gallery",
+    "#our-case",
+    "#capability-atlas",
+    "#pipeline",
+    "#stage15",
+    "#stage2",
+    "#stage4",
+    "#stage5",
+    "#stage5b",
+    "#candidates",
+    "#capability",
+  ];
+  const observedMapHrefs = await page.locator(".research-page-link").evaluateAll((links) =>
+    links.map((link) => link.getAttribute("href")),
+  );
+  ensure(
+    JSON.stringify(observedMapHrefs) === JSON.stringify(expectedMapHrefs),
+    "research page map routes are incomplete or out of order",
+  );
+  for (const href of expectedMapHrefs) {
+    ensure((await page.locator(href).count()) === 1, `${href}: mapped section is missing or duplicated`);
+  }
+  const reportLinks = page.locator(".research-report-list a");
+  ensure((await reportLinks.count()) === 7, "research report center must expose seven reports");
+  ensure(
+    (await reportLinks.evaluateAll((links) =>
+      links.every(
+        (link) =>
+          link.href.startsWith("https://github.com/yydshly/0827_githubcode_study/blob/main/") &&
+          link.target === "_blank" &&
+          link.rel.includes("noreferrer"),
+      ),
+    )),
+    "research report links are not public, external, or safely targeted",
+  );
+  await page.goto(`${baseUrl}/#overview`, { waitUntil: "networkidle" });
+  await page.locator('[data-library-status="ready"]').waitFor();
+  let researchMapKeyboardFocus = false;
+  for (let index = 0; index < 8; index += 1) {
+    await page.keyboard.press("Tab");
+    researchMapKeyboardFocus = await page.evaluate(
+      () =>
+        document.activeElement?.getAttribute("href") === "#research-map" &&
+        document.activeElement.matches(":focus-visible"),
+    );
+    if (researchMapKeyboardFocus) break;
+  }
+  ensure(
+    researchMapKeyboardFocus,
+    "research map navigation does not expose keyboard focus",
   );
 
   const expectedEcosystem = { direct: 5, quality: 2, ecosystem: 2, all: 9 };
@@ -208,12 +277,25 @@ async function inspectCaseJourney(browser) {
     (await page.locator('.top-nav a[href="#ecosystem"]').count()) === 1,
     "top navigation does not expose the ecosystem comparison",
   );
+  ensure(
+    (await page.locator('.top-nav a[href="#research-map"]').count()) === 1,
+    "top navigation does not expose the research map",
+  );
   ensure(consoleErrors.length === 0, "case-filter journey produced console errors");
 
+  const researchReportCount = await reportLinks.count();
   await context.close();
   return {
     cases: { expected, observed, keyboardFilter: "controlled", controlledHref },
     ecosystem: { expected: expectedEcosystem, observed: observedEcosystem, keyboardFilter: "quality" },
+    researchMap: {
+      expectedPages: expectedMapHrefs.length,
+      observedMapHrefs,
+      reports: researchReportCount,
+      heroPrimary: "#research-map",
+      heroSecondaryHrefs,
+      keyboardFocus: researchMapKeyboardFocus,
+    },
     consoleErrors,
   };
 }
@@ -229,6 +311,7 @@ try {
       width: 1440,
       height: 1000,
       colorScheme: "light",
+      mapScreenshot: "research-map-desktop.png",
       overviewScreenshot: "library-overview-desktop.png",
       ecosystemScreenshot: "ecosystem-desktop.png",
       caseScreenshot: "library-cases-desktop.png",
@@ -248,6 +331,7 @@ try {
       width: 390,
       height: 844,
       colorScheme: "light",
+      mapScreenshot: "research-map-mobile.png",
       overviewScreenshot: "library-overview-mobile.png",
       ecosystemScreenshot: "ecosystem-mobile.png",
       caseScreenshot: "library-cases-mobile.png",
@@ -266,7 +350,7 @@ try {
   const report = {
     verifiedAt: new Date().toISOString(),
     url: baseUrl,
-    revision: 11,
+    revision: 12,
     status: "pass",
     inventory: {
       capabilities: 6,
@@ -276,6 +360,8 @@ try {
       ecosystemProjects: 9,
       adoptionLayers: 5,
       cases: 6,
+      researchMapPages: 13,
+      researchReports: 7,
     },
     surfaces,
     caseJourney: await inspectCaseJourney(browser),

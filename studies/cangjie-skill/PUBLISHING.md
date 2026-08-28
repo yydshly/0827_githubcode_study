@@ -3,6 +3,8 @@
 ## 线上入口
 
 - Web：<https://yydshly.github.io/0827_githubcode_study/cangjie-skill/>
+- 研究地图：<https://yydshly.github.io/0827_githubcode_study/cangjie-skill/#research-map>
+- 《左耳听风》受控案例：<https://yydshly.github.io/0827_githubcode_study/cangjie-skill/#our-case>
 - 门户：<https://yydshly.github.io/0827_githubcode_study/>
 - 上游固定版本：[`5f03a4c`](https://github.com/kangarooking/cangjie-skill/tree/5f03a4cd8b521673f7a67ca6279330ec943bb369)
 
@@ -28,6 +30,8 @@ docs/cangjie-skill/
 ```
 
 页面只使用相对路径，不依赖本地绝对地址、Node 服务或私有 API；因此本地目录预览和 GitHub Pages 子路径使用同一份运行时。
+
+Revision 12 的研究地图在单一页面内关联 13 个研究区段，并通过 GitHub `blob/main` 地址关联 7 份公开报告。页面和仓库首页都明确标注《左耳听风》使用的是第三方公开专栏代理语料，而非纸质书全文。
 
 ## 本地验证
 

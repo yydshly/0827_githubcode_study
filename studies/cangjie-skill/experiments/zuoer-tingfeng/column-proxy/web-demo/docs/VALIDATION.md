@@ -132,6 +132,16 @@ Revision 11 新增验收：
 - 视觉复核发现并修复生态筛选选中态使用未定义前景色变量导致标签不可见的问题；修复后浅色、深色、390px 与 reduced-motion 均通过；
 - 原 6 项库能力、8 类来源、6 个代表案例、4 项本地能力资产与 Stage 5B 完整演示无回归。
 
+Revision 12 新增验收：
+
+- 页面新增统一研究地图，精确关联 13 个既有区段：库能力、生态、代表案例、本地案例、能力资产、流水线、Stage 1.5、Stage 2、Stage 4、Stage 5A、Stage 5B、候选证据和能力试用；
+- 报告中心关联 7 份远端 GitHub 文档：研究总览、《左耳听风》实验报告、库能力说明、生态对照、上游案例目录、验证记录与发布复现；
+- 顶部导航和首屏主按钮均可进入研究地图，键盘 Tab 路径可见并正确落到目标区段；
+- 页面、根 README 与研究总览三处均明确当前案例基于 119 篇第三方公开专栏代理文本，不是纸质书全文数字化或逐章审查；
+- 1440 浅色、768 深色、390 浅色与 1024 reduced-motion 四个表面均稳定显示 13 个锚点、7 个报告和边界提示，无横向溢出或 console error；
+- `npm.cmd run check`、基础回归、Revision 9 展示专测与 Revision 10–12 库级专测全部通过，既有库、生态、案例、能力资产、Stage 与试用台无回归；
+- 人工复核桌面与移动端截图后，将第 13 个奇数卡片调整为整行，消除栅格空洞并保持移动端自然堆叠。
+
 结构化结果见 [validation.json](../evidence/validation.json)、[showcase-validation.json](../evidence/showcase-validation.json) 与 [library-validation.json](../evidence/library-validation.json)。
 
 ## 本地截图

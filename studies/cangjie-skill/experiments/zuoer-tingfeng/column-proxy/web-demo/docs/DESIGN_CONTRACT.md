@@ -171,6 +171,51 @@ Autonomy authorization: 用户明确要求直接汇总、整理并更新 Web。
 | 诚实边界 | 上游结构核对 ≠ 独立测试 | 项目状态与许可证风险单独注明；不以 GitHub 热度证明质量 | 新项目和无许可证项目有醒目局限说明 |
 | 响应式与主题 | 1440/768/390、light/dark/reduced-motion | 价值链和产品卡在宽窄视口保持顺序与可读性 | 无溢出、截断、不可达外链、主题或键盘回归 |
 
+## Revision 12：研究地图、文档中心与对外专题入口
+
+Entry mode: revision-led；用户确认保留统一长页面，但要求把中间形成的阶段页面和研究报告做好关联，并在仓库对外 README 中体现《左耳听风》专题。
+
+Request revision: 12。
+
+Target user and context: 已经跟随研究过程，希望从最终页面快速回到每个阶段、能力试用、验证报告与对外专题说明的决策者。
+
+Desired first impression: 研究内容没有被最终汇总页覆盖掉；所有阶段和报告都有清晰入口。
+
+Visual ambition: Editorial。
+
+Experience architecture: Editorial Flow。
+
+Visual constraints: 保持现有绿色研究台视觉、卡片语言、明暗主题和响应式节奏；不新增独立视觉系统。
+
+Information constraints: 区分“线上页面锚点”和“GitHub Markdown 报告”；明确《左耳听风》是专栏代理语料受控案例，不是纸质书全文研究。
+
+Operation constraints: 全部页面入口使用同页锚点，报告使用公开 GitHub 链接；无后端、无查询参数伪路由。
+
+State constraints: 锚点可直接访问，外部报告在新标签打开，键盘焦点和主题行为保持不变。
+
+Environment constraints: 本地规范入口 `http://127.0.0.1:4174`，发布入口 `/0827_githubcode_study/cangjie-skill/`。
+
+Primary journey: 顶部进入研究地图 → 选择阶段或专题 → 打开对应页面锚点或报告 → 可返回库级总览。
+
+User-defined phases: 关联现有页面；关联研究文档；在外部 README 增加《左耳听风》专题；重新发布。
+
+Required artifacts: `#research-map` 研究地图、阶段入口、报告入口、README 专题、Revision 12 浏览器验证、发布同步。
+
+Autonomy authorization: 用户明确确认“做好关联即可”，授权直接修改、验证、提交并部署。
+
+User-decision boundary: 不拆成多个独立应用，不重写既有研究结论，不扩展第二个正式 Skill。
+
+Observable completion criteria: 顶部导航可到研究地图；研究地图覆盖库、生态、案例、Stage 1.5/2/4/5/5B、候选池和能力试用；7 份核心报告可从页面打开；根 README 有《左耳听风》专题和线上/报告链接；1440/768/390、light/dark/reduced-motion、键盘与原旅程无回归。
+
+| 受影响层 | 保留 | 修订方向 | 验收标准 |
+| --- | --- | --- | --- |
+| 顶部导航 | 库、生态、案例、验证、演示五个入口 | 增加“研究地图”，窄屏仍可到达 | 研究地图在桌面与移动端均可直接进入 |
+| 信息架构 | 单页所有既有 Section | 增加一个紧凑索引，不复制正文 | 13 个关键页面锚点均有描述与有效链接 |
+| 文档关联 | GitHub 已有研究 Markdown | 页面增加报告中心，链接研究总览、能力、生态、案例、验证、发布说明 | 7 份核心文档均指向公开仓库路径 |
+| 对外 README | 项目索引中的一行记录 | 增加《左耳听风》专题，说明代理语料边界、已完成结果与访问入口 | 读者无需进入 studies 目录即可理解案例与边界 |
+| 响应式与主题 | 现有卡片、主题与焦点系统 | 地图卡片在宽窄视口保持阅读顺序和可点击区域 | 无溢出、重叠、低对比或键盘不可达 |
+| 发布 | GitHub Pages `docs/` 静态部署 | 同步源页面和发布副本，运行远端验证 | Pages 成功，远端入口和资产返回 200 |
+
 ## 明确不做
 
 - 不把其余候选自动合并成最终 Skill；

@@ -80,3 +80,10 @@
 | Revision 11 / 多表面 | 新生态旅程在 1440/768/390、明暗主题和 reduced-motion 可用 | ecosystem / matrix | 截图、无溢出、无 console error | 7–8 | pass | — |
 | Revision 11 / 既有回归 | 库能力、案例、本地能力资产和 Skill 演示不回归 | full journey | 三层既有回归 + 新生态专测 | 5–7 | pass | — |
 | Revision 11 / 工程交付 | 数据、结构校验、README、验证和交接一致 | scripts / docs / runtime | `npm.cmd run check`、三脚本全回归与终端审计 | 9 | pass | — |
+| Revision 12 / 研究地图 | 集中关联库级、案例、能力与 Stage 1.5–5B 页面 | research-map / all links | 13 个锚点链接、标题和描述 DOM 断言 | 3–5 | pass | — |
+| Revision 12 / 文档中心 | 页面关联研究总览、能力、生态、案例、验证与发布说明 | research-map / reports | 7 个公开 GitHub 报告链接 DOM 与 HTTP 检查 | 3–6 | pass | — |
+| Revision 12 / 顶部入口 | 顶部导航可直接进入研究地图 | top-nav / desktop-mobile | 可见性、键盘焦点和目标锚点 | 4,7 | pass | — |
+| Revision 12 / README 专题 | 仓库首页体现《左耳听风》受控研究页面与报告 | README.md | 专题正文、边界、线上和报告链接 | 9 | pass | — |
+| Revision 12 / 多表面 | 新关联层在 1440/768/390、明暗主题和 reduced-motion 可用 | research-map / matrix | 4 表面、无溢出、无 console error、键盘可达 | 7–8 | pass | — |
+| Revision 12 / 既有回归 | 库、生态、案例、能力资产、Stage 与试用台不回归 | full journey | `npm run check` 与三层浏览器回归 | 5–9 | pass | — |
+| Revision 12 / 发布 | 源页面、docs 副本、README、文档与 Pages 一致 | files / remote | 哈希一致、Actions 通过、远端 HTTP 200 | 9 | continue | 同步、提交、推送并验证远端 |

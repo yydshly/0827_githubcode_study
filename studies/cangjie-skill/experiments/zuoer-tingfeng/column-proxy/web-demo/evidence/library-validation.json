@@ -1,7 +1,7 @@
 {
-  "verifiedAt": "2026-08-28T12:18:43.113Z",
-  "url": "http://127.0.0.1:4180/cangjie-skill",
-  "revision": 11,
+  "verifiedAt": "2026-08-28T12:44:20.277Z",
+  "url": "http://127.0.0.1:4180/cangjie-skill/",
+  "revision": 12,
   "status": "pass",
   "inventory": {
     "capabilities": 6,
@@ -10,7 +10,9 @@
     "ecosystemLayers": 6,
     "ecosystemProjects": 9,
     "adoptionLayers": 5,
-    "cases": 6
+    "cases": 6,
+    "researchMapPages": 13,
+    "researchReports": 7
   },
   "surfaces": [
     {
@@ -36,6 +38,9 @@
       "controlledCases": 1,
       "capabilityAssets": 4,
       "bestDemo": 1,
+      "researchMapPages": 13,
+      "researchReports": 7,
+      "researchBoundary": 1,
       "horizontalOverflow": false,
       "theme": "light",
       "consoleErrors": []
@@ -63,6 +68,9 @@
       "controlledCases": 1,
       "capabilityAssets": 4,
       "bestDemo": 1,
+      "researchMapPages": 13,
+      "researchReports": 7,
+      "researchBoundary": 1,
       "horizontalOverflow": false,
       "theme": "dark",
       "consoleErrors": []
@@ -90,6 +98,9 @@
       "controlledCases": 1,
       "capabilityAssets": 4,
       "bestDemo": 1,
+      "researchMapPages": 13,
+      "researchReports": 7,
+      "researchBoundary": 1,
       "horizontalOverflow": false,
       "theme": "light",
       "consoleErrors": []
@@ -117,6 +128,9 @@
       "controlledCases": 1,
       "capabilityAssets": 4,
       "bestDemo": 1,
+      "researchMapPages": 13,
+      "researchReports": 7,
+      "researchBoundary": 1,
       "horizontalOverflow": false,
       "theme": "light",
       "consoleErrors": []
@@ -155,6 +169,31 @@
         "all": 9
       },
       "keyboardFilter": "quality"
+    },
+    "researchMap": {
+      "expectedPages": 13,
+      "observedMapHrefs": [
+        "#library",
+        "#ecosystem",
+        "#case-gallery",
+        "#our-case",
+        "#capability-atlas",
+        "#pipeline",
+        "#stage15",
+        "#stage2",
+        "#stage4",
+        "#stage5",
+        "#stage5b",
+        "#candidates",
+        "#capability"
+      ],
+      "reports": 7,
+      "heroPrimary": "#research-map",
+      "heroSecondaryHrefs": [
+        "#library",
+        "#ecosystem"
+      ],
+      "keyboardFocus": true
     },
     "consoleErrors": []
   }
