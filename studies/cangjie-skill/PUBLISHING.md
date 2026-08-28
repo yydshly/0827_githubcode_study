@@ -8,6 +8,8 @@
 - 门户：<https://yydshly.github.io/0827_githubcode_study/>
 - 上游固定版本：[`5f03a4c`](https://github.com/kangarooking/cangjie-skill/tree/5f03a4cd8b521673f7a67ca6279330ec943bb369)
 
+Revision 12 发布提交为 `3a6552c`。仓库验证和 GitHub Pages 工作流均通过，公网研究地图已用 1440 / 768 / 390 与 reduced-motion 四个真实 Chromium 表面复验。
+
 ## 发布映射
 
 GitHub Pages 从 `main` 分支的 `docs/` 构建。可运行源页面与线上目录保持一一映射：

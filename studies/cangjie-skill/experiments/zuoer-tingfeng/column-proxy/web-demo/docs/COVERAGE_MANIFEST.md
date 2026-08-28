@@ -86,4 +86,4 @@
 | Revision 12 / README 专题 | 仓库首页体现《左耳听风》受控研究页面与报告 | README.md | 专题正文、边界、线上和报告链接 | 9 | pass | — |
 | Revision 12 / 多表面 | 新关联层在 1440/768/390、明暗主题和 reduced-motion 可用 | research-map / matrix | 4 表面、无溢出、无 console error、键盘可达 | 7–8 | pass | — |
 | Revision 12 / 既有回归 | 库、生态、案例、能力资产、Stage 与试用台不回归 | full journey | `npm run check` 与三层浏览器回归 | 5–9 | pass | — |
-| Revision 12 / 发布 | 源页面、docs 副本、README、文档与 Pages 一致 | files / remote | 哈希一致、Actions 通过、远端 HTTP 200 | 9 | continue | 同步、提交、推送并验证远端 |
+| Revision 12 / 发布 | 源页面、docs 副本、README、文档与 Pages 一致 | files / remote | 哈希一致、Actions 通过、远端 HTTP 200 | 9 | pass | — |

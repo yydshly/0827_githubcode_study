@@ -141,6 +141,7 @@ Revision 12 新增验收：
 - 1440 浅色、768 深色、390 浅色与 1024 reduced-motion 四个表面均稳定显示 13 个锚点、7 个报告和边界提示，无横向溢出或 console error；
 - `npm.cmd run check`、基础回归、Revision 9 展示专测与 Revision 10–12 库级专测全部通过，既有库、生态、案例、能力资产、Stage 与试用台无回归；
 - 人工复核桌面与移动端截图后，将第 13 个奇数卡片调整为整行，消除栅格空洞并保持移动端自然堆叠。
+- 发布提交 `3a6552c` 的仓库验证与 GitHub Pages 工作流均成功；公网地址再次运行 Revision 12 专测，4 个表面、13 个区段、7 个报告、键盘焦点、无溢出与无 console error 全部通过。
 
 结构化结果见 [validation.json](../evidence/validation.json)、[showcase-validation.json](../evidence/showcase-validation.json) 与 [library-validation.json](../evidence/library-validation.json)。
 
