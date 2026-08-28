@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "1.0",
+  "caseId": "replace-with-anonymous-id",
+  "title": "脱敏事故标题",
+  "submittedAt": "YYYY-MM-DD",
+  "authorization": {
+    "authorizedForResearch": false,
+    "redacted": false,
+    "secretsRemoved": false,
+    "ownerConfirmedTechnicalLearningOnly": false
+  },
+  "incident": {
+    "stable": null,
+    "activeRisk": "unknown",
+    "startedAt": "unknown",
+    "recoveredAt": "unknown",
+    "affectedUsers": "unknown",
+    "businessImpact": "unknown",
+    "dataImpact": "unknown"
+  },
+  "systemContext": {
+    "services": [],
+    "dependencies": [],
+    "responsibleRoles": [],
+    "similarHistory": "unknown"
+  },
+  "timeline": [],
+  "evidence": [],
+  "temporaryActions": [],
+  "existingConclusions": {
+    "rootCauseCandidates": [],
+    "actionItems": [],
+    "statement": "未提供"
+  },
+  "execution": {
+    "status": "not-run",
+    "route": null,
+    "skillVersion": "0.1.1",
+    "startedAt": null,
+    "completedAt": null,
+    "durationMs": null,
+    "inputCharacters": null,
+    "outputCharacters": null,
+    "outputArtifact": null,
+    "reviewerArtifact": null
+  }
+}

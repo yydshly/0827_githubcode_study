@@ -1,0 +1,28 @@
+{
+  "verifiedAt": "2026-08-28T04:52:21.770Z",
+  "status": "pass",
+  "candidateId": "incident-learning-audit",
+  "caseCount": 18,
+  "distribution": {
+    "core": 8,
+    "insufficient": 3,
+    "active": 2,
+    "adjacent": 2,
+    "out": 3
+  },
+  "routeCoverage": [
+    "active_handoff",
+    "adjacent_transfer",
+    "evidence_gap",
+    "full_review",
+    "stop"
+  ],
+  "checks": {
+    "uniqueIds": true,
+    "uniquePrompts": true,
+    "allRoutesCovered": true,
+    "positiveAndNegativeInvariants": true
+  },
+  "limitation": "This validates the frozen Stage 1.5 contract suite, not independent model behavior.",
+  "errors": []
+}

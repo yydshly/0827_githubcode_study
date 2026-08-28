@@ -1,0 +1,4 @@
+interface:
+  display_name: "系统性故障学习审查"
+  short_description: "审查生产事故复盘是否真正形成可验证、可关闭的系统学习闭环"
+  default_prompt: "使用 $incident-learning-audit 审查这份已稳定生产事故的复盘材料，识别系统性原因、表面整改和缺失证据。"

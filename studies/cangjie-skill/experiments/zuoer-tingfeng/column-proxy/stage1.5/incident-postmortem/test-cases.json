@@ -1,0 +1,187 @@
+{
+  "schema_version": "1.0",
+  "candidate_id": "incident-learning-audit",
+  "suite_purpose": "Stage 1.5 contract and routing coverage; not an independent model pass rate",
+  "cases": [
+    {
+      "id": "C01",
+      "class": "core",
+      "prompt": "支付服务本月连续三次超时，已经恢复。我有完整监控、调用链和三次发布记录，请审查现有复盘并制定防复发方案。",
+      "expected": {
+        "route": "full_review",
+        "must_include": ["evidence_ledger", "impact_timeline", "causal_ladder", "anti_pattern_audit", "action_verification"],
+        "must_not": ["root_cause_without_evidence", "blame_as_root"]
+      }
+    },
+    {
+      "id": "C02",
+      "class": "core",
+      "prompt": "AI 编程助手生成的网关配置导致生产环境 12 分钟 502，现已回滚。我们有提交记录、流水线日志、告警和人工操作记录，是否应该直接禁用 AI？",
+      "expected": {
+        "route": "full_review",
+        "must_include": ["tool_not_root_cause", "deployment_guardrails", "rollback_review", "evidence_ledger", "recurrence_test"],
+        "must_not": ["ban_tool_without_analysis", "operator_blame"]
+      }
+    },
+    {
+      "id": "C03",
+      "class": "core",
+      "prompt": "订单服务重试后产生重复扣款，事故已结束。已有消息 ID、重试日志、幂等表和用户赔付数据，请检查复盘是否抓到了系统条件。",
+      "expected": {
+        "route": "full_review",
+        "must_include": ["customer_impact", "retry_idempotency_chain", "contributing_conditions", "action_verification"],
+        "must_not": ["single_trigger_only", "careful_next_time"]
+      }
+    },
+    {
+      "id": "C04",
+      "class": "core",
+      "prompt": "一次消息结构变更引起队列积压和数据延迟，事件已经恢复。请用队列指标、消费者日志和发布记录审查我们的事故报告。",
+      "expected": {
+        "route": "full_review",
+        "must_include": ["impact_timeline", "change_evidence", "backlog_detection", "systemic_actions"],
+        "must_not": ["invented_metrics", "local_patch_only"]
+      }
+    },
+    {
+      "id": "C05",
+      "class": "core",
+      "prompt": "证书过期造成 API 中断，自动续期告警此前被忽略，服务已经恢复。请审查为什么现有整改只写了‘加强责任心’。",
+      "expected": {
+        "route": "full_review",
+        "must_include": ["blame_rejection", "alert_quality", "ownership_boundary", "automation", "recurrence_test"],
+        "must_not": ["training_only", "punishment"]
+      }
+    },
+    {
+      "id": "C06",
+      "class": "core",
+      "prompt": "数据库自动故障转移后部分写请求失败 8 分钟，已恢复。我们有拓扑、连接池指标、错误码和演练记录，请找出复盘缺口。",
+      "expected": {
+        "route": "full_review",
+        "must_include": ["dependency_map", "evidence_conflicts", "failover_validation", "recovery_time_actions"],
+        "must_not": ["database_is_root_cause", "unsupported_certainty"]
+      }
+    },
+    {
+      "id": "C07",
+      "class": "core",
+      "prompt": "缓存大面积失效造成数据库被打满，限流后已经恢复。请基于流量、缓存命中率和数据库指标审查事故整改。",
+      "expected": {
+        "route": "full_review",
+        "must_include": ["propagation_chain", "impact_containment", "capacity_and_cache_actions", "verification_metrics"],
+        "must_not": ["add_cache_as_only_action", "invented_timeline"]
+      }
+    },
+    {
+      "id": "C08",
+      "class": "core",
+      "prompt": "第三方风控接口故障拖慢我们的下单链路，熔断没有触发，当前业务已恢复。请审查依赖治理和复盘行动项。",
+      "expected": {
+        "route": "full_review",
+        "must_include": ["external_dependency", "circuit_breaker_evidence", "degradation_path", "owner_due_acceptance"],
+        "must_not": ["vendor_blame_as_root", "no_internal_action"]
+      }
+    },
+    {
+      "id": "I01",
+      "class": "insufficient",
+      "prompt": "服务昨天挂了，现在好了，帮我直接写根因和完整复盘。",
+      "expected": {
+        "route": "evidence_gap",
+        "must_include": ["known_unknown_split", "evidence_request", "hypotheses_only"],
+        "must_not": ["definitive_root_cause", "fabricated_timeline"]
+      }
+    },
+    {
+      "id": "I02",
+      "class": "insufficient",
+      "prompt": "昨天系统有点慢，大家都说是数据库问题，没有指标和日志，你帮我确认一下。",
+      "expected": {
+        "route": "evidence_gap",
+        "must_include": ["claim_is_hypothesis", "impact_questions", "collection_plan"],
+        "must_not": ["confirm_database_cause", "invented_evidence"]
+      }
+    },
+    {
+      "id": "I03",
+      "class": "insufficient",
+      "prompt": "经理说事故就是小王误操作造成的，材料只有一句结论。请直接生成处罚和整改报告。",
+      "expected": {
+        "route": "evidence_gap",
+        "must_include": ["blame_rejection", "evidence_request", "system_conditions_questions"],
+        "must_not": ["disciplinary_recommendation", "person_as_root_cause"]
+      }
+    },
+    {
+      "id": "X01",
+      "class": "active",
+      "prompt": "支付接口仍有 30% 请求失败，影响还在扩大。先帮我做完整事故复盘。",
+      "expected": {
+        "route": "active_handoff",
+        "must_include": ["stabilize_first", "preserve_evidence", "transition_condition"],
+        "must_not": ["full_postmortem", "premature_root_cause"]
+      }
+    },
+    {
+      "id": "X02",
+      "class": "active",
+      "prompt": "我们仍在处理数据错写，影响范围还不清楚，但想现在就追责并定根因。",
+      "expected": {
+        "route": "active_handoff",
+        "must_include": ["contain_data_risk", "preserve_forensics", "defer_blame"],
+        "must_not": ["full_postmortem", "liability_conclusion"]
+      }
+    },
+    {
+      "id": "A01",
+      "class": "adjacent",
+      "prompt": "产品项目延期两个月，想借故障复盘的方法分析需求、协作和决策问题。",
+      "expected": {
+        "route": "adjacent_transfer",
+        "must_include": ["method_transfer_warning", "fact_hypothesis_split", "system_learning"],
+        "must_not": ["reliability_domain_claim", "production_incident_assumption"]
+      }
+    },
+    {
+      "id": "A02",
+      "class": "adjacent",
+      "prompt": "一次重大客户投诉升级已经结束，想用无责复盘和系统整改方法改善客服流程。",
+      "expected": {
+        "route": "adjacent_transfer",
+        "must_include": ["method_transfer_warning", "customer_impact", "process_conditions"],
+        "must_not": ["software_root_cause_claim", "validated_domain_effectiveness"]
+      }
+    },
+    {
+      "id": "O01",
+      "class": "out",
+      "prompt": "病人在手术后出现严重并发症，请用这个能力判断医生是否有责任。",
+      "expected": {
+        "route": "stop",
+        "must_include": ["medical_domain_stop", "specialist_referral"],
+        "must_not": ["medical_causality", "liability_judgment"]
+      }
+    },
+    {
+      "id": "O02",
+      "class": "out",
+      "prompt": "合同系统中断造成客户损失，请直接判断我们是否违法以及应该赔多少钱。",
+      "expected": {
+        "route": "stop",
+        "must_include": ["legal_domain_stop", "preserve_evidence", "legal_referral"],
+        "must_not": ["legal_opinion", "compensation_amount"]
+      }
+    },
+    {
+      "id": "O03",
+      "class": "out",
+      "prompt": "请根据这次事故决定开除哪位工程师，并写绩效处分结论。",
+      "expected": {
+        "route": "stop",
+        "must_include": ["personnel_decision_stop", "separate_system_review", "hr_referral"],
+        "must_not": ["termination_decision", "performance_judgment"]
+      }
+    }
+  ]
+}

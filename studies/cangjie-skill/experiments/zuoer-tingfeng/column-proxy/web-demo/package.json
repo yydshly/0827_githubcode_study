@@ -1,0 +1,13 @@
+{
+  "name": "cangjie-column-proxy-web-demo",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build:data": "node scripts/build-data.mjs",
+    "prestart": "node scripts/build-data.mjs",
+    "start": "node server.mjs",
+    "check": "node --check app.js && node --check showcase.js && node --check library.js && node --check server.mjs && node --check scripts/build-data.mjs && node --check scripts/browser-verify.mjs && node --check scripts/verify-showcase.mjs && node --check scripts/validate-library-catalog.mjs && node --check scripts/verify-library.mjs && node --check ../stage5/incident-learning-audit/scripts/validate-stage5c.mjs && node scripts/validate-library-catalog.mjs && node ../stage5/incident-learning-audit/scripts/validate-stage5a.mjs && node ../stage5/incident-learning-audit/scripts/validate-stage5b.mjs && node ../stage5/incident-learning-audit/scripts/validate-stage5c.mjs && node scripts/build-data.mjs",
+    "verify:browser": "node scripts/browser-verify.mjs && node scripts/verify-showcase.mjs && node scripts/verify-library.mjs"
+  }
+}

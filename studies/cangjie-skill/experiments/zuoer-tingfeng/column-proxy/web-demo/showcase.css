@@ -1,0 +1,604 @@
+:root {
+  --showcase-ink: #142027;
+  --showcase-text: #fffaf0;
+  --showcase-muted: #b9c6c8;
+  --showcase-line: rgba(255, 250, 240, 0.18);
+  --showcase-accent: #ef7650;
+}
+
+:root[data-theme="dark"] {
+  --showcase-ink: #091217;
+  --showcase-text: #f4f1e9;
+  --showcase-muted: #a9b7b8;
+  --showcase-line: rgba(244, 241, 233, 0.2);
+  --showcase-accent: #ff8b63;
+}
+
+.capability-atlas-section {
+  padding-block: clamp(72px, 8vw, 112px);
+}
+
+.capability-atlas-heading {
+  margin-bottom: 28px;
+}
+
+.capability-atlas-overview {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(420px, 0.85fr);
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.capability-atlas-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-lg);
+  background: var(--surface-raised);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.capability-atlas-stat {
+  min-width: 0;
+  padding: 22px;
+}
+
+.capability-atlas-stat + .capability-atlas-stat {
+  border-left: 1px solid var(--line);
+}
+
+.capability-atlas-stat strong,
+.capability-atlas-stat span {
+  display: block;
+}
+
+.capability-atlas-stat strong {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.3rem, 5vw, 4.5rem);
+  line-height: 0.92;
+  letter-spacing: -0.06em;
+}
+
+.capability-atlas-stat span {
+  margin-top: 12px;
+  font-weight: 750;
+}
+
+.capability-atlas-stat p {
+  margin: 5px 0 0;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.capability-maturity-legend {
+  padding: 24px;
+  color: var(--showcase-text);
+  border-radius: var(--radius-lg);
+  background: var(--showcase-ink);
+}
+
+.capability-legend-kicker {
+  display: block;
+  color: var(--showcase-accent);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.capability-maturity-legend > strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 1.08rem;
+}
+
+.capability-maturity-stages {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0;
+  padding: 0;
+  margin: 22px 0 0;
+  list-style: none;
+  counter-reset: maturity;
+}
+
+.capability-maturity-stages li {
+  position: relative;
+  min-width: 0;
+  padding-top: 25px;
+  color: var(--showcase-muted);
+  font-size: 0.67rem;
+  line-height: 1.35;
+  counter-increment: maturity;
+}
+
+.capability-maturity-stages li::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  width: 19px;
+  height: 19px;
+  place-items: center;
+  color: var(--showcase-ink);
+  background: var(--showcase-text);
+  border-radius: 50%;
+  content: counter(maturity);
+  font-size: 0.62rem;
+  font-weight: 850;
+}
+
+.capability-maturity-stages li:not(:last-child)::after {
+  position: absolute;
+  top: 9px;
+  left: 19px;
+  width: calc(100% - 19px);
+  height: 1px;
+  background: var(--showcase-line);
+  content: "";
+}
+
+.capability-atlas-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: start;
+  gap: 14px;
+}
+
+.capability-asset-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--surface-raised) 94%, transparent);
+}
+
+.capability-asset-card[data-capability-status="formal-skill"] {
+  border-color: var(--complete);
+  box-shadow: inset 0 4px 0 var(--complete), 0 18px 44px rgba(20, 118, 99, 0.12);
+}
+
+.capability-card-topline,
+.capability-maturity-head,
+.capability-contract-counts {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.capability-card-index {
+  color: var(--ink-faint);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.75rem;
+}
+
+.capability-status-badge {
+  padding: 5px 9px;
+  color: var(--locked);
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  background: var(--locked-soft);
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+[data-capability-status="formal-skill"] .capability-status-badge {
+  color: var(--complete);
+  background: var(--complete-soft);
+}
+
+.capability-asset-card h3 {
+  min-height: 2.5em;
+  margin: 18px 0 8px;
+  font-family: Georgia, "Times New Roman", "Microsoft YaHei", serif;
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
+  line-height: 1.22;
+}
+
+.capability-card-question {
+  min-height: 3.2em;
+  margin: 0;
+  color: var(--ink-soft);
+  font-weight: 650;
+  line-height: 1.55;
+}
+
+.capability-card-outcome {
+  min-height: 6.4em;
+  margin: 14px 0 20px;
+  padding: 14px 0;
+  border-block: 1px solid var(--line);
+  font-size: 0.88rem;
+}
+
+.capability-maturity-head {
+  align-items: baseline;
+  font-size: 0.75rem;
+}
+
+.capability-maturity-head span {
+  color: var(--ink-faint);
+}
+
+.capability-maturity-head strong {
+  text-align: right;
+}
+
+.capability-maturity-track {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 5px;
+  padding: 0;
+  margin: 10px 0 16px;
+  list-style: none;
+}
+
+.capability-maturity-track li {
+  height: 7px;
+  overflow: hidden;
+  color: transparent;
+  border-radius: 999px;
+  background: var(--page-deep);
+  font-size: 0;
+}
+
+.capability-maturity-track li[data-complete="true"] {
+  background: var(--complete);
+}
+
+.capability-contract-counts {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.capability-contract-counts span {
+  padding: 4px 7px;
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 0.68rem;
+}
+
+.capability-evidence-note {
+  min-height: 5.8em;
+  margin: 15px 0;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.capability-contract-details {
+  margin-top: auto;
+  border-top: 1px solid var(--line);
+}
+
+.capability-contract-details summary {
+  padding: 13px 0;
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.capability-contract-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.capability-detail-label,
+.capability-card-boundary span {
+  color: var(--accent-ink);
+  font-size: 0.66rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+}
+
+.capability-detail-list {
+  padding-left: 17px;
+  margin: 6px 0 0;
+  color: var(--ink-soft);
+  font-size: 0.76rem;
+}
+
+.capability-detail-list li + li {
+  margin-top: 4px;
+}
+
+.capability-card-boundary {
+  padding: 11px;
+  margin-top: 12px;
+  border-left: 3px solid var(--locked);
+  background: var(--locked-soft);
+}
+
+.capability-card-boundary p {
+  margin: 4px 0 0;
+  font-size: 0.75rem;
+  line-height: 1.55;
+}
+
+.capability-card-action {
+  width: 100%;
+  margin-top: 16px;
+}
+
+.capability-atlas-boundary {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 18px;
+  padding: 17px 20px;
+  margin-top: 14px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-md);
+}
+
+.capability-atlas-boundary p {
+  margin: 0;
+  color: var(--ink-soft);
+}
+
+.stage5b-demo-guide {
+  padding: clamp(22px, 3vw, 34px);
+  color: var(--showcase-text);
+  border-radius: var(--radius-lg);
+  background: var(--showcase-ink);
+  box-shadow: var(--shadow);
+}
+
+.stage5b-demo-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 24px;
+}
+
+.stage5b-demo-header h4 {
+  max-width: 720px;
+  margin: 5px 0 8px;
+  color: var(--showcase-text);
+  font-family: Georgia, "Times New Roman", "Microsoft YaHei", serif;
+  font-size: clamp(1.55rem, 2.35vw, 2.15rem);
+  line-height: 1.12;
+}
+
+.stage5b-demo-header p {
+  max-width: 720px;
+  margin: 0;
+  color: var(--showcase-muted);
+}
+
+.stage5b-demo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.stage5b-demo-actions .button-secondary {
+  color: var(--showcase-text);
+  border-color: var(--showcase-line);
+  background: transparent;
+}
+
+.stage5b-demo-input {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 18px;
+  padding: 18px 0;
+  margin: 26px 0 0;
+  color: var(--showcase-text);
+  border-block: 1px solid var(--showcase-line);
+}
+.stage5b-demo-actions .button-primary {
+  color: #142027;
+  border-color: var(--showcase-accent);
+  background: var(--showcase-accent);
+}
+
+
+.stage5b-demo-input span {
+  color: var(--showcase-accent);
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+}
+
+.stage5b-demo-input p {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", "Microsoft YaHei", serif;
+  font-size: clamp(1.05rem, 2vw, 1.38rem);
+  line-height: 1.48;
+}
+
+.stage5b-demo-snapshot {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border-bottom: 1px solid var(--showcase-line);
+}
+
+.stage5b-demo-snapshot article {
+  min-width: 0;
+  padding: 18px 12px 18px 0;
+}
+
+.stage5b-demo-snapshot article + article {
+  padding-left: 16px;
+  border-left: 1px solid var(--showcase-line);
+}
+
+.stage5b-demo-snapshot strong,
+.stage5b-demo-snapshot span {
+  display: block;
+}
+
+.stage5b-demo-snapshot strong {
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  line-height: 1.15;
+}
+
+.stage5b-demo-snapshot span {
+  margin-top: 5px;
+  color: var(--showcase-muted);
+  font-size: 0.7rem;
+}
+
+.stage5b-demo-path {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 7px;
+  margin-top: 18px;
+}
+
+.stage5b-demo-path-button {
+  display: grid;
+  min-width: 0;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  color: var(--showcase-muted);
+  border: 1px solid var(--showcase-line);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+
+.stage5b-demo-path-button:hover,
+.stage5b-demo-path-button[aria-current="step"] {
+  color: var(--showcase-text);
+  border-color: var(--showcase-accent);
+  background: rgba(239, 118, 80, 0.12);
+}
+
+.stage5b-demo-path-button span {
+  color: var(--showcase-accent);
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.67rem;
+}
+
+.stage5b-demo-path-button strong {
+  min-width: 0;
+  font-size: 0.76rem;
+}
+
+.stage5c-gate {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 0.7fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 18px;
+  padding-top: 18px;
+  margin-top: 18px;
+  border-top: 1px solid var(--showcase-line);
+}
+
+.stage5c-gate-kicker {
+  color: var(--showcase-accent);
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+}
+
+.stage5c-gate strong {
+  color: var(--showcase-text);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.stage5c-gate p {
+  margin: 0;
+  color: var(--showcase-muted);
+  font-size: 0.78rem;
+}
+
+.stage5b-demo-guide + .stage5b-comparison {
+  margin-top: 18px;
+}
+
+@media (max-width: 1100px) {
+  .capability-atlas-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .capability-atlas-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stage5b-demo-header {
+    grid-template-columns: 1fr;
+  }
+
+  .stage5b-demo-actions {
+    justify-content: flex-start;
+  }
+
+  .stage5c-gate {
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+
+  .stage5b-demo-path {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .capability-atlas-stats,
+  .capability-atlas-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .capability-atlas-stat + .capability-atlas-stat {
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  .capability-maturity-stages li {
+    font-size: 0;
+  }
+
+  .capability-asset-card h3,
+  .capability-card-question,
+  .capability-card-outcome,
+  .capability-evidence-note {
+    min-height: 0;
+  }
+
+  .capability-atlas-boundary,
+  .stage5b-demo-input {
+    grid-template-columns: 1fr;
+  }
+
+  .stage5b-demo-actions,
+  .stage5b-demo-actions .button {
+    width: 100%;
+  }
+
+  .stage5b-demo-snapshot {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .stage5b-demo-snapshot article + article {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .stage5b-demo-snapshot article:nth-child(even) {
+    padding-left: 12px;
+    border-left: 1px solid var(--showcase-line);
+  }
+
+  .stage5b-demo-path {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .capability-asset-card,
+  .stage5b-demo-path-button {
+    transition: none;
+  }
+}

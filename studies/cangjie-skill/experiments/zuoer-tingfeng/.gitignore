@@ -1,0 +1,3 @@
+source/*
+!source/README.md
+column-proxy/web-demo/evidence/*.png

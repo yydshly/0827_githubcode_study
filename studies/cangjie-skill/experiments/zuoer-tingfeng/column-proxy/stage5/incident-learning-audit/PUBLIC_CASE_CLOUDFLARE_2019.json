@@ -1,0 +1,223 @@
+{
+  "stage": "5B",
+  "status": "pass-public-case-audit",
+  "skill": "incident-learning-audit",
+  "version": "0.1.1",
+  "case": {
+    "id": "cloudflare-waf-2019-07-02",
+    "title": "Cloudflare 2019-07-02 WAF 全球中断",
+    "kind": "真实公开事故",
+    "state": "已稳定",
+    "route": "full_review",
+    "impact": "Cloudflare 的核心代理、CDN 与 WAF 功能发生全球中断；客户访问 Cloudflare 域名时看到 502。官方称流量一度下降 80%，核心影响约 27 分钟。",
+    "scopeBoundary": "只审计 Cloudflare 已公开材料的复盘质量；不访问内部系统，不判断个人责任，也不把公开材料缺失自动解释为组织内部没有证据。"
+  },
+  "sources": [
+    {
+      "id": "postmortem",
+      "label": "Cloudflare 官方事故复盘",
+      "published": "2019-07-12",
+      "url": "https://blog.cloudflare.com/details-of-the-cloudflare-outage-on-july-2-2019/",
+      "supports": "影响、时间线、技术机制、11 项系统脆弱点和事故后一周公布的行动。"
+    },
+    {
+      "id": "followup",
+      "label": "Cloudflare 官方 WAF 后续工程文章",
+      "published": "2020-07-01",
+      "url": "https://blog.cloudflare.com/making-the-waf-40-faster/",
+      "supports": "确认 2019 年 7 月已从基于 PCRE 的引擎迁移到受 RE2 启发的线性时间方案，并报告尾部执行时间异常下降。"
+    }
+  ],
+  "routingModes": [
+    {
+      "id": "full_review",
+      "label": "完整审查",
+      "scenario": "事故已恢复，提供官方复盘、时间线、技术证据和整改清单。",
+      "decision": "使用 Skill",
+      "allowed": "完整输出证据、因果、整改与学习闭环；缺失项保留为未知。",
+      "forbidden": "不能把坏正则或编写者直接写成唯一根因。"
+    },
+    {
+      "id": "evidence_gap",
+      "label": "证据缺口",
+      "scenario": "只剩一句“工程师写坏了正则”，日志、指标和变更记录明确不可得。",
+      "decision": "有限使用",
+      "allowed": "建立账本和取证优先级，保留可验证假设。",
+      "forbidden": "不能宣布确定根因或精确责任。"
+    },
+    {
+      "id": "active_handoff",
+      "label": "活动事故交接",
+      "scenario": "全球 502 仍在扩大，用户仍受影响。",
+      "decision": "触发阶段门",
+      "allowed": "输出当前风险、恢复目标、待保存证据和转入复盘条件。",
+      "forbidden": "不能用完整复盘拖延恢复，也不替代恢复执行。"
+    },
+    {
+      "id": "adjacent_transfer",
+      "label": "相邻域迁移",
+      "scenario": "没有生产事故，只想复盘 WAF 项目延期。",
+      "decision": "迁移方法",
+      "allowed": "迁移学习闭环，并标明未经可靠性场景验证。",
+      "forbidden": "不能声称本 Skill 已在项目管理域验证。"
+    },
+    {
+      "id": "stop",
+      "label": "停止归责",
+      "scenario": "要求依据公开博客决定处分哪位工程师。",
+      "decision": "停止",
+      "allowed": "保全事实并建议由合适的人事、法律与管理角色处理。",
+      "forbidden": "不能作人员责任认定或处分建议。"
+    }
+  ],
+  "preamble": {
+    "mode": "full_review",
+    "applicability": "技术事故已经稳定，官方材料包含影响、时间线、监控/发布证据、临时动作和既有整改，足以建立完整账本。",
+    "currentState": "已稳定；WAF 在 14:52 UTC 恢复全球启用。",
+    "forbiddenInferences": [
+      "不能从公开博客推断个人过失、纪律责任或未公开的组织动机。",
+      "不能把文章未列负责人、复查日期解释为 Cloudflare 内部不存在这些信息。",
+      "不能把一次后续引擎迁移证明外推为所有整改均已完成或同类风险归零。"
+    ]
+  },
+  "comparison": {
+    "shallow": "一条写坏的正则表达式耗尽 CPU，导致全球故障。",
+    "system": "直接触发是灾难性回溯；全球影响还依赖无复杂度保证的引擎、被移除的 CPU 保护、缺少性能测试、非紧急规则绕过分阶段发布、秒级全球分发、慢回滚和控制面自依赖等条件共同汇合。",
+    "value": "Skill 把“修正这条正则”扩展为可验证的多层风险模型，并进一步检查行动是否真的可以关闭。"
+  },
+  "steps": [
+    {
+      "id": "01",
+      "title": "事故摘要与影响",
+      "kind": "summary",
+      "lead": "影响有证据，范围数字仍遵守来源边界。",
+      "items": [
+        { "label": "用户症状", "value": "访问 Cloudflare 域名时出现 502", "sourceId": "postmortem" },
+        { "label": "服务范围", "value": "核心代理、CDN 与 WAF 功能全球受影响", "sourceId": "postmortem" },
+        { "label": "流量影响", "value": "官方事件记录称一度失去 80% 流量", "sourceId": "postmortem" },
+        { "label": "核心影响时长", "value": "13:42 部署至 14:09 流量恢复，约 27 分钟", "sourceId": "postmortem" },
+        { "label": "数据影响", "value": "公开材料未给出数据完整性结论，保留未知", "sourceId": null }
+      ]
+    },
+    {
+      "id": "02",
+      "title": "证据账本",
+      "kind": "ledger",
+      "lead": "事实、推断和未知分开；公开材料没有发现需要裁决的直接冲突。",
+      "entries": [
+        { "id": "E01", "type": "fact", "strength": "强", "statement": "13:42 UTC 自动部署 WAF 规则，约三分钟后外部合成测试首先告警。", "sourceId": "postmortem", "next": "可由变更单、TeamCity 与 PagerDuty 记录复核。" },
+        { "id": "E02", "type": "fact", "strength": "强", "statement": "WAF 规则中的灾难性回溯使 HTTP/HTTPS 处理 CPU 接近 100%。", "sourceId": "postmortem", "next": "性能数据、strace 和错误日志在官方复盘中相互印证。" },
+        { "id": "E03", "type": "fact", "strength": "强", "statement": "既有测试覆盖拦截与放行正确性，但不检测规则的失控 CPU 消耗。", "sourceId": "postmortem", "next": "检查当时测试定义与性能阈值。" },
+        { "id": "E04", "type": "fact", "strength": "强", "statement": "WAF 规则按 SOP 可直接全球发布，未走 DOG、PIG、Canary 的常规软件发布链。", "sourceId": "postmortem", "next": "核对当时 SOP 和该变更的审批记录。" },
+        { "id": "E05", "type": "fact", "strength": "中", "statement": "2020 后续文章确认 WAF 在 2019 年 7 月从 PCRE 迁移到受 RE2 启发的方案。", "sourceId": "followup", "next": "该来源只支持引擎迁移及相关性能观测。" },
+        { "id": "E06", "type": "inference", "strength": "中", "statement": "秒级全球分发把局部规则缺陷放大成全球同时失效，是影响半径放大器而非独立根因。", "sourceId": "postmortem", "next": "用分阶段发布模拟对照影响范围。" },
+        { "id": "E07", "type": "unknown", "strength": "—", "statement": "公开材料未提供每项行动的指定负责人、统一验收证据、失败条件和复查日期。", "sourceId": null, "next": "查阅内部行动跟踪记录；不能推断这些记录不存在。" },
+        { "id": "E08", "type": "unknown", "strength": "—", "statement": "除引擎迁移外，所选公开来源不足以逐项确认分阶段发布、状态页自动化和控制面离线能力的最终验收。", "sourceId": null, "next": "为每项行动补发布记录、演练或指标对照。" }
+      ],
+      "conflicts": []
+    },
+    {
+      "id": "03",
+      "title": "用户影响时间线",
+      "kind": "timeline",
+      "lead": "按事件—观察—决策—动作—结果组织，不把时间先后直接当因果。",
+      "events": [
+        { "time": "13:31", "event": "WAF 规则 PR 合并并获批", "observation": "变更进入既有流程", "action": "等待构建与测试", "result": "进入自动发布链", "sourceId": "postmortem" },
+        { "time": "13:37", "event": "TeamCity 构建与功能测试通过", "observation": "未发现拦截/放行功能错误", "action": "系统给予绿灯", "result": "性能风险未被测试暴露", "sourceId": "postmortem" },
+        { "time": "13:42", "event": "规则开始全球自动部署", "observation": "变更通过 Quicksilver 秒级扩散", "action": "无分阶段限制", "result": "CPU 在全球边缘节点耗尽", "sourceId": "postmortem" },
+        { "time": "13:45", "event": "首个外部 WAF 合成测试告警", "observation": "随后出现多服务失败、流量下降、502 与各地 CPU 告警", "action": "SRE 宣布 P0 并升级", "result": "跨团队响应启动", "sourceId": "postmortem" },
+        { "time": "14:00", "event": "确认 WAF 是故障组件", "observation": "CPU 数据、strace 与错误日志指向 WAF", "action": "排除攻击假设", "result": "准备全局停用 WAF", "sourceId": "postmortem" },
+        { "time": "14:07", "event": "执行 global terminate", "observation": "内部 Access、Jira 与构建系统访问受阻，旁路不熟练", "action": "停用单一 WAF 组件", "result": "开始恢复", "sourceId": "postmortem" },
+        { "time": "14:09", "event": "流量与 CPU 恢复正常", "observation": "其他保护机制继续运行", "action": "转入 WAF 恢复验证", "result": "核心用户影响结束", "sourceId": "postmortem" },
+        { "time": "14:52", "event": "WAF 全球重新启用", "observation": "单城市、隔离付费流量完成正反验证", "action": "确认回滚与修复", "result": "完整功能恢复", "sourceId": "postmortem" }
+      ]
+    },
+    {
+      "id": "04",
+      "title": "因果阶梯",
+      "kind": "causes",
+      "lead": "不是机械五问，而是对每条关键因果同时给出证据与证伪方式。",
+      "causes": [
+        { "level": "直接触发", "candidate": "新 WAF 规则包含会发生巨大回溯的正则。", "evidence": "规则、CPU 曲线与复现实验", "strength": "强", "falsifier": "移除该规则后 CPU 和流量仍不恢复。" },
+        { "level": "故障机制", "candidate": "基于 PCRE 的回溯引擎没有复杂度保证，已移除的 CPU 保护没有限制失控执行。", "evidence": "官方机制分析与保护被误删记录", "strength": "强", "falsifier": "在线引擎存在有效复杂度上限或执行预算且当时正常生效。" },
+        { "level": "工程控制", "candidate": "CI 验证功能正确性，却没有规则级 CPU 性能剖析。", "evidence": "测试范围说明", "strength": "强", "falsifier": "当时已有能拦截该规则的性能阈值且本次通过阈值。" },
+        { "level": "发布控制", "candidate": "非紧急规则按 SOP 绕过 DOG/PIG/Canary，并由 Quicksilver 秒级全球发布。", "evidence": "SOP、发布架构与 p99 2.29 秒分发数据", "strength": "强", "falsifier": "规则先在小流量阶段运行且异常仍无法被观察。" },
+        { "level": "恢复能力", "candidate": "回滚需完整构建两次，控制面依赖受影响边缘，旁路和凭据状态又拖慢恢复。", "evidence": "14:02—14:07 处置记录与 11 项脆弱点", "strength": "强", "falsifier": "独立控制面和演练过的旁路可在目标时限内完成停用。" },
+        { "level": "目标与边界", "candidate": "快速响应安全威胁的目标，被同一套流程错误地扩展到非紧急规则，缺少速度与爆炸半径的显式门。", "evidence": "官方对紧急响应价值和 SOP 例外的并列说明", "strength": "中", "falsifier": "当时规则属于必须立即全球上线的在途主动攻击，且风险决策有记录。" }
+      ]
+    },
+    {
+      "id": "05",
+      "title": "四项反模式审查",
+      "kind": "antipatterns",
+      "lead": "审查的是整改结构，不凭几个关键词否定行动。",
+      "items": [
+        { "name": "归责替代治理", "status": "未见", "basis": "官方明确列出 11 项汇合条件，并强调单一根因会遮蔽现实。", "rewrite": "继续保持系统条件与个人行为分离。" },
+        { "name": "局部补丁", "status": "已部分避免", "basis": "既检查 3,868 条规则，也迁移引擎、补性能测试和修改发布 SOP。", "rewrite": "人工全量检查只能作临时遏制，长期验收应落到自动约束。" },
+        { "name": "复杂度增殖", "status": "待验证", "basis": "独立控制面、紧急旁路与发布例外有必要，但也会增加运行路径。", "rewrite": "为每条旁路定义演练、权限存活和失效回退，而不是只增加一条手工路径。" },
+        { "name": "不可验收", "status": "存在", "basis": "公开行动多为 Done、ETA 或方向描述，普遍缺负责人、验收证据、失败条件和复查日期。", "rewrite": "把每项行动改写为风险机制 + owner + 日期 + 可观察验收 + 失败条件 + 复发测试。" }
+      ]
+    },
+    {
+      "id": "06",
+      "title": "分层整改表",
+      "kind": "actions",
+      "lead": "不把“官方宣布”自动等同于“按本 Skill 可以关闭”。",
+      "actions": [
+        { "id": "A01", "action": "重新引入正则过量 CPU 保护", "mechanism": "限制单条规则的资源耗尽", "owner": "待指定", "priority": "P0", "due": "官方称已完成", "acceptance": "需要故障正则回放证明预算能中止执行且不影响正常规则", "failure": "正常流量误杀或保护未在所有边缘生效", "publicEvidence": "2019 复盘称 Done", "closure": "不可关闭：缺公开验收与复发验证" },
+        { "id": "A02", "action": "为所有规则引入性能剖析", "mechanism": "在发布前拦截超预算规则", "owner": "待指定", "priority": "P0", "due": "2019 复盘 ETA 7 月 19 日", "acceptance": "CI 对历史故障规则稳定失败，并记录 CPU/时延预算", "failure": "测试环境无法代表边缘输入或阈值可被绕过", "publicEvidence": "所选来源未验证最终完成", "closure": "不可关闭" },
+        { "id": "A03", "action": "从 PCRE 迁移到受 RE2 启发的线性时间引擎", "mechanism": "从机制上消除灾难性回溯", "owner": "待指定", "priority": "P0", "due": "2019 复盘 ETA 7 月 31 日", "acceptance": "同类输入执行时间随输入规模线性增长；尾部异常下降", "failure": "语义不兼容、内存缓存失控或回退到旧引擎", "publicEvidence": "2020 后续确认 2019 年 7 月迁移，并观察到 p95/p99 异常下降", "closure": "部分可关闭：实现与直接观测有证据，复发测试和复查日期仍未知" },
+        { "id": "A04", "action": "非紧急 WAF 规则采用分阶段发布", "mechanism": "缩小缺陷爆炸半径并提前观察", "owner": "待指定", "priority": "P0", "due": "待指定", "acceptance": "故障规则在 DOG/PIG/Canary 阶段被拦截，全球受影响比例为零", "failure": "紧急例外被日常使用或阶段信号不含 CPU", "publicEvidence": "2019 复盘承诺修改 SOP；所选来源未验证执行", "closure": "不可关闭" },
+        { "id": "A05", "action": "建立不依赖受影响边缘的 Dashboard/API 紧急路径", "mechanism": "避免控制面与数据面共因失效", "owner": "待指定", "priority": "P1", "due": "待指定", "acceptance": "边缘不可用演练中授权人员在目标时限内完成停用", "failure": "旁路凭据过期、权限过宽或路径未演练", "publicEvidence": "2019 复盘列为计划", "closure": "不可关闭" },
+        { "id": "A06", "action": "自动更新状态页并演练旁路", "mechanism": "缩短外部沟通与内部恢复延迟", "owner": "待指定", "priority": "P1", "due": "待指定", "acceptance": "演练中状态页在目标时间内更新，旁路成功且审计记录完整", "failure": "自动化依赖同一故障域或产生错误状态", "publicEvidence": "2019 复盘列为计划", "closure": "不可关闭" }
+      ]
+    },
+    {
+      "id": "07",
+      "title": "学习闭环",
+      "kind": "closure",
+      "lead": "实现一项行动不等于关闭整个事故学习。",
+      "unknownQuestions": [
+        "每项行动的负责人、最终截止时间和复查日期是什么？",
+        "分阶段发布是否对非紧急规则强制生效，紧急例外如何审计？",
+        "全球流量下降告警与状态页的目标时延在整改后变化了多少？",
+        "控制面旁路和凭据存活是否经过定期演练？"
+      ],
+      "reviewDate": "公开材料未提供，待指定",
+      "recurrenceTest": "在隔离环境投放历史灾难性正则：CI 应拒绝；若绕过 CI，DOG/PIG/Canary 应在全球发布前中止；控制面旁路应在目标时限内可用。",
+      "expectedChange": "部署前拦截率 100%；全球影响范围为 0；异常发现与停用时间达到预设 SLO；状态页按目标时延更新。",
+      "closable": ["A03 的引擎迁移实现与尾部执行时间改善，可由 2020 官方文章部分确认。"],
+      "notClosable": ["A01、A02、A04、A05、A06 缺少所选公开来源中的完整验收记录。", "整个事故学习缺少统一复查日期与综合复发演练证据。"]
+    },
+    {
+      "id": "08",
+      "title": "结论",
+      "kind": "conclusion",
+      "lead": "因果分析质量高，但公开行动记录尚不足以满足关闭合同。",
+      "verdict": "尚未形成学习闭环",
+      "reason": "官方复盘避免了个人归责和单一根因，证据、时间线与多层脆弱点都很强；但多数行动在公开材料中缺负责人、验收证据、失败条件、统一复查日期和复发验证。",
+      "next": "把六项行动补成可验收合同，并公开或内部留存一次覆盖 CI、分阶段发布、控制面旁路和状态沟通的联合复发演练结果。"
+    }
+  ],
+  "score": {
+    "requestedForDemonstration": true,
+    "total": 86,
+    "threshold": 80,
+    "dimensions": [
+      { "name": "阶段与路由", "score": 15, "max": 15, "evidence": "事故已稳定且材料足够，full_review 路由明确，禁止推断完整。" },
+      { "name": "证据纪律", "score": 20, "max": 20, "evidence": "官方材料把监控、发布、处置和机制证据串联，并明确多项未知边界。" },
+      { "name": "因果深度", "score": 25, "max": 25, "evidence": "列出 11 项汇合脆弱点，不停在坏正则或个人失误。" },
+      { "name": "整改可执行性", "score": 17, "max": 25, "evidence": "行动覆盖机制、测试、发布与恢复，但多数公开项缺 owner、完整验收和失败条件。" },
+      { "name": "学习与风险边界", "score": 9, "max": 15, "evidence": "后续引擎迁移可验证；统一复查日期、综合复发演练与其他行动关闭证据不足。" }
+    ],
+    "note": "超过研究暂定线只表示复盘质量较高，不表示事故行动已经关闭。"
+  },
+  "claims": {
+    "publicRealIncidentDemonstrated": true,
+    "publicCaseExternalValidity": true,
+    "organizationExternalValidity": false,
+    "liveWebAgent": false,
+    "stage5Complete": false,
+    "completeSkillDemonstration": true
+  }
+}

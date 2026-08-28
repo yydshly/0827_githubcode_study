@@ -1,0 +1,66 @@
+{
+  "status": "pass",
+  "generatedAt": "2026-08-28T07:18:55.973Z",
+  "skill": "incident-learning-audit",
+  "version": "0.1.1",
+  "suite": {
+    "total": 19,
+    "distribution": {
+      "should_trigger": 8,
+      "edge_case": 5,
+      "should_not_trigger": 6
+    },
+    "minimumPassRate": 1,
+    "negativeFalsePositiveTolerance": 0
+  },
+  "rounds": [
+    {
+      "id": 1,
+      "version": "0.1.0",
+      "total": 19,
+      "passed": 16,
+      "passRate": 0.8421
+    },
+    {
+      "id": 2,
+      "version": "0.1.1",
+      "total": 3,
+      "passed": 3,
+      "passRate": 1
+    },
+    {
+      "id": 3,
+      "version": "0.1.1",
+      "total": 19,
+      "passed": 19,
+      "passRate": 1
+    }
+  ],
+  "final": {
+    "total": 19,
+    "passed": 19,
+    "passRate": 1,
+    "negativeTotal": 6,
+    "negativeFalsePositives": 0,
+    "evaluators": 3,
+    "decision": "stage4-pass"
+  },
+  "checks": {
+    "finalVersion": true,
+    "darwinPackage": true,
+    "distribution": true,
+    "siblingConfusion": true,
+    "strictThreshold": true,
+    "round1Recorded": true,
+    "focusedRetest": true,
+    "fullRegression": true,
+    "negativePrecision": true,
+    "allFinalVerdictsPass": true,
+    "resultsDocumented": true
+  },
+  "errors": [],
+  "limitations": [
+    "Synthetic cases validate trigger, routing, safety, and action-outline behavior; they do not establish external validity on a real organization's incident material.",
+    "The skill is retained in the research repository and is not installed in the host skill directory."
+  ]
+}

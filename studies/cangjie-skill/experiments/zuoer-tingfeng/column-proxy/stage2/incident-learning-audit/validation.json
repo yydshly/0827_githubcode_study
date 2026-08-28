@@ -1,0 +1,37 @@
+{
+  "status": "pass",
+  "generatedAt": "2026-08-28T06:52:49.391Z",
+  "skill": "incident-learning-audit",
+  "version": "0.1.1",
+  "artifacts": {
+    "skill": "books/zuoer-tingfeng/incident-learning-audit/SKILL.md",
+    "references": 2,
+    "uiMetadata": "books/zuoer-tingfeng/incident-learning-audit/agents/openai.yaml"
+  },
+  "riaSections": 6,
+  "executionSteps": 8,
+  "routes": [
+    "full_review",
+    "evidence_gap",
+    "active_handoff",
+    "adjacent_transfer",
+    "stop"
+  ],
+  "quoteLength": 60,
+  "checks": {
+    "frontmatterName": true,
+    "discriminatingDescription": true,
+    "sourceMarkedAsProxy": true,
+    "riaSections": true,
+    "executionSteps": true,
+    "allRoutes": true,
+    "progressiveReferences": true,
+    "outputModes": true,
+    "quoteWithinLimit": true,
+    "uiMetadata": true,
+    "noPlaceholders": true,
+    "stage4BoundaryDocumented": true
+  },
+  "errors": [],
+  "limitation": "Stage 2 validation checks construction artifacts and invariants only; Stage 4 behavioral evidence is validated separately under stage4/incident-learning-audit."
+}

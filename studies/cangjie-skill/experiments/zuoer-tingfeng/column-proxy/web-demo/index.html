@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Cangjie Skill 库级能力与生态地图：解释它如何把多类长内容转化为 Agent Skills，比较同类转换、治理、评测、标准和分发产品，并汇总上游代表案例与《左耳听风》受控验证。"
+    />
+    <title>Cangjie Skill · 能力与案例研究台</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./showcase.css" />
+    <link rel="stylesheet" href="./library.css" />
+    <script>
+      (() => {
+        const stored = localStorage.getItem("cangjie-demo-theme");
+        const preferredDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.dataset.theme =
+          stored || (preferredDark ? "dark" : "light");
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到主要内容</a>
+
+    <header class="site-header">
+      <a class="brand" href="#overview" aria-label="返回研究台首页">
+        <span class="brand-mark" aria-hidden="true">倉</span>
+        <span>
+          <strong>Cangjie Skill 研究台</strong>
+          <small>Library Map · Ecosystem · Cases</small>
+        </span>
+      </a>
+
+      <nav class="top-nav" aria-label="页面导航">
+        <a href="#library">库能力</a>
+        <a href="#ecosystem">生态对照</a>
+        <a href="#case-gallery">优秀案例</a>
+        <a href="#our-case">我们的验证</a>
+        <a href="#stage5b">Skill 演示</a>
+      </nav>
+
+      <button
+        class="icon-button theme-toggle"
+        id="theme-toggle"
+        type="button"
+        aria-label="切换深浅主题"
+        aria-pressed="false"
+      >
+        <span class="theme-icon" aria-hidden="true"></span>
+        <span class="theme-label">深色</span>
+      </button>
+    </header>
+
+    <main id="main">
+      <section class="hero section-shell" id="overview" aria-labelledby="hero-title">
+        <div class="hero-main">
+          <div class="eyebrow-row">
+            <span class="eyebrow">CANGJIE SKILL / LIBRARY MAP 2026.08.28</span>
+            <span class="status-dot status-pilot">META SKILL · 8 SOURCE TYPES · 7 STAGES</span>
+          </div>
+          <h1 id="hero-title">
+            高价值长内容，<br />
+            <span>编译成可调用 Agent Skills。</span>
+          </h1>
+          <p class="hero-thesis" id="hero-thesis" data-scope="library">
+            它不是摘要器或自动化 SDK。它把方法、判断、步骤和边界组织成 Agent 能发现、执行、组合和测试的能力单元；完整落地需要与来源解析、Skill 治理、行为评测和分发工具组合。
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#library">先看库能力</a>
+            <a class="button button-secondary" href="#ecosystem">对照同类产品</a>
+          </div>
+        </div>
+
+        <aside class="gate-card" aria-labelledby="gate-title">
+          <div>
+            <span class="gate-kicker">WHAT THIS REPOSITORY IS</span>
+            <h2 id="gate-title">方法工厂，不是自动化 SDK</h2>
+            <p>
+              仓库提供元 Skill、RIA-TV++ 规范、5 个提取器和模板；真正的阅读、推理、测试与安装由宿主 Agent 执行。
+            </p>
+          </div>
+          <div class="gate-lock gate-pilot" aria-label="七个阶段构成长内容到 Skill 的方法流水线">
+            <span aria-hidden="true">7 STAGES</span>
+            <strong>从整体理解到安装交付</strong>
+          </div>
+          <p class="gate-note">
+            <strong>视频和播客必须先有字幕或转写文本</strong>；PDF、OCR、ASR 和事实核验由外部系统负责。
+          </p>
+        </aside>
+      </section>
+
+      <section class="section-shell library-section" id="library" aria-labelledby="library-title" data-library-status="loading">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">00A / LIBRARY CAPABILITY MAP</span>
+            <h2 id="library-title">先理解库，再理解某一本书</h2>
+          </div>
+          <p>
+            Cangjie Skill 是一套把长内容蒸馏为 Agent Skills 的工程方法：以完整语料为输入，用并行提取、三重验证和压力测试，把知识变成可执行能力。
+          </p>
+        </div>
+
+        <div class="library-summary" id="library-summary" aria-live="polite">
+          <div class="loading-line">正在加载库定位与规模……</div>
+        </div>
+
+        <div class="library-subsection-heading">
+          <div>
+            <span class="library-micro-label">SIX CORE CAPABILITIES</span>
+            <h3>这个库真正提供的六项能力</h3>
+          </div>
+          <p>每项能力都回答一个不同的问题，并明确产物和边界；它们组合起来才构成 Skill Factory。</p>
+        </div>
+        <div class="library-capability-grid" id="library-capabilities">
+          <div class="loading-line">正在加载六项核心能力……</div>
+        </div>
+
+        <div class="library-subsection-heading">
+          <div>
+            <span class="library-micro-label">EIGHT SOURCE TYPES</span>
+            <h3>书籍只是八类输入之一</h3>
+          </div>
+          <p>关键条件不是“是不是一本书”，而是能否取得合法、完整、可追溯的文本语料。</p>
+        </div>
+        <div class="library-source-grid" id="library-source-types">
+          <div class="loading-line">正在加载来源类型……</div>
+        </div>
+
+        <div class="library-subsection-heading">
+          <div>
+            <span class="library-micro-label">QUALITY-GATED PIPELINE</span>
+            <h3>七道质量门，把摘要推进到能力</h3>
+          </div>
+          <p>每一阶段都有明确产物和退出条件；测试失败应回到构造阶段，不用措辞包装成“已完成”。</p>
+        </div>
+        <div id="library-pipeline">
+          <div class="loading-line">正在加载七阶段流水线……</div>
+        </div>
+
+        <div class="library-subsection-heading">
+          <div>
+            <span class="library-micro-label">RESPONSIBILITY BOUNDARY</span>
+            <h3>仓库、Agent 与外部系统各自负责什么</h3>
+          </div>
+          <p>这是理解可落地性的关键：仓库定义方法，宿主执行工作流，外部系统补齐获取、转写、核验与治理。</p>
+        </div>
+        <div class="library-responsibility-grid" id="library-responsibilities">
+          <div class="loading-line">正在加载责任边界……</div>
+        </div>
+
+        <div class="library-subsection-heading">
+          <div>
+            <span class="library-micro-label">FIT CHECK</span>
+            <h3>什么时候值得用，什么时候不该用</h3>
+          </div>
+          <p>它最适合含有稳定方法论、判断规则和重复任务的高价值长内容；不应替代检索、摘要或合规审查。</p>
+        </div>
+        <div class="library-suitability-grid" id="library-suitability">
+          <div class="loading-line">正在加载适配判断……</div>
+        </div>
+      </section>
+
+      <section class="section-shell ecosystem-section" id="ecosystem" aria-labelledby="ecosystem-title">
+        <div class="section-heading ecosystem-heading">
+          <div>
+            <span class="eyebrow">00B / ECOSYSTEM COMPARISON</span>
+            <h2 id="ecosystem-title">同类库不是一种产品，而是一条生产链</h2>
+          </div>
+          <p>
+            有的负责解析 PDF 和视频，有的负责判断什么值得成为能力，有的负责构造、评测、标准或分发。把它们放在同一条链上，才能看清谁是替代、谁是互补。
+          </p>
+        </div>
+
+        <div class="ecosystem-position">
+          <span class="library-micro-label">OUR POSITION</span>
+          <strong>Cangjie Skill 的差异化位置：方法识别与能力蒸馏</strong>
+          <p>它不需要自己完成所有来源解析、评测运行和市场分发；最合理的路线是保留五路提取与三重验证，再组合其他工具的工程能力。</p>
+        </div>
+
+        <div class="library-subsection-heading ecosystem-subheading">
+          <div>
+            <span class="library-micro-label">SIX-LAYER VALUE CHAIN</span>
+            <h3>从原始资料到可分发 Skill</h3>
+          </div>
+          <p>六层分别回答：怎样读进来、怎样变成能力、怎样治理、怎样证明有效、怎样兼容、怎样被发现。</p>
+        </div>
+        <div class="ecosystem-pipeline" id="ecosystem-pipeline">
+          <div class="loading-line">正在加载生态生产链……</div>
+        </div>
+
+        <div class="library-subsection-heading ecosystem-subheading">
+          <div>
+            <span class="library-micro-label">NINE LIBRARIES & PRODUCTS</span>
+            <h3>直接同类、质量工具与生态基础设施</h3>
+          </div>
+          <p>每项都说明最强能力、不能替代什么以及对我们的采用价值；“项目存在”不等于已经通过我们的独立验证。</p>
+        </div>
+        <div class="ecosystem-toolbar">
+          <div class="ecosystem-filters" id="ecosystem-filters" aria-label="按生态角色筛选同类项目"></div>
+          <p class="ecosystem-count" id="ecosystem-count" aria-live="polite">正在整理同类项目……</p>
+        </div>
+        <div class="ecosystem-grid" id="ecosystem-grid">
+          <div class="loading-line">正在加载同类库与产品……</div>
+        </div>
+
+        <div class="ecosystem-adoption" aria-labelledby="ecosystem-adoption-title">
+          <div class="ecosystem-adoption-heading">
+            <span class="library-micro-label">RECOMMENDED COMBINATION</span>
+            <h3 id="ecosystem-adoption-title">对我们的五层组合建议</h3>
+            <p>这是研究路线，不是已完成集成。每一层必须独立固定版本、权限、评测和回滚边界。</p>
+          </div>
+          <div class="ecosystem-adoption-stack" id="ecosystem-adoption-stack">
+            <div class="loading-line">正在加载推荐组合……</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-shell library-case-section" id="case-gallery" aria-labelledby="case-gallery-title">
+        <div class="section-heading library-case-heading">
+          <div>
+            <span class="eyebrow">00C / REPRESENTATIVE CASES</span>
+            <h2 id="case-gallery-title">上游已经展示过的，不止单本书</h2>
+          </div>
+          <p>按来源过滤代表案例。所有上游数字来自公开仓库结构核查；“公开展示”不等于我们已独立复跑其全部压力测试。</p>
+        </div>
+        <div class="library-case-toolbar">
+          <div class="library-case-filters" id="library-case-filters" aria-label="按来源筛选案例"></div>
+          <p class="library-case-count" id="library-case-count" aria-live="polite">正在整理代表案例……</p>
+        </div>
+        <div class="library-case-grid" id="library-case-grid">
+          <div class="loading-line">正在加载案例目录……</div>
+        </div>
+      </section>
+
+      <section class="section-shell our-case-section" id="our-case" aria-labelledby="our-case-title">
+        <div class="our-case-bridge">
+          <div class="our-case-copy">
+            <span class="eyebrow">00D / OUR CONTROLLED STUDY</span>
+            <h2 id="our-case-title">《左耳听风》是我们的深度验证，不是库的全部</h2>
+            <p>
+              我们用 119 篇第三方专栏镜像做代理语料，提取 247 个候选，整理为 4 项能力方向；其中 `incident-learning-audit` 已完成 19 / 19 压测、项目安装与 Cloudflare 公开事故审计。纸质书仍保留独立 Book Track。
+            </p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#capability-atlas">查看我们的能力资产</a>
+              <a class="button button-secondary" href="#stage5b">进入完整 Skill 演示</a>
+            </div>
+          </div>
+          <div class="our-case-metrics">
+            <div class="metric-rail" id="metric-rail" aria-label="候选类型统计">
+              <div class="loading-line">正在生成五路统计……</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-shell capability-atlas-section" id="capability-atlas" aria-labelledby="capability-atlas-title">
+        <div class="section-heading capability-atlas-heading">
+          <div>
+            <span class="eyebrow">01 / CAPABILITY ASSETS</span>
+            <h2 id="capability-atlas-title">已经整理出的能力，不再藏在研究流程里</h2>
+          </div>
+          <p>
+            四项能力都明确了适用问题、必要输入、预期输出与停止边界；成熟度单独标记，让“正式 Skill”和“候选能力”一眼可分。
+          </p>
+        </div>
+        <div id="capability-atlas-summary" aria-live="polite">
+          <div class="loading-line">正在生成能力资产与成熟度总览……</div>
+        </div>
+        <div class="capability-atlas-grid" id="capability-atlas-grid">
+          <div class="loading-line">正在整理四项能力……</div>
+        </div>
+        <div class="capability-atlas-boundary">
+          <strong>当前资产口径</strong>
+          <p>1 项正式 Skill 已完成真实公开案例演示；3 项候选能力仅表示方法协议已整理，不能冒充已通过独立验证。</p>
+        </div>
+      </section>
+
+      <section class="section-shell stage5b-section" id="stage5b" aria-labelledby="stage5b-title">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">02 / BEST SKILL DEMONSTRATION</span>
+            <h2 id="stage5b-title">最佳演示：从一句事故描述，到可验收的学习闭环</h2>
+          </div>
+          <p>
+            Cloudflare 2019 WAF 全球中断：沿“输入—路由—证据—因果—行动—闭环”六站推进，再进入完整八段审计。事实链接官方来源，推断和未知单独标记。
+          </p>
+        </div>
+        <div id="stage5b-case" aria-live="polite"><div class="loading-line">正在加载真实公开事故审计……</div></div>
+      </section>
+
+
+      <section class="section-shell pipeline-section" id="pipeline" aria-labelledby="pipeline-title">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">03 / RESEARCH PIPELINE</span>
+            <h2 id="pipeline-title">现在走到哪里</h2>
+          </div>
+          <p>
+            每个阶段都是质量门。已完成的节点可以回查，锁住的节点不会被视觉包装成“已完成”。
+          </p>
+        </div>
+        <div class="pipeline" id="pipeline-list" aria-label="研究流水线"></div>
+      </section>
+
+      <section class="section-shell stage15-section" id="stage15" aria-labelledby="stage15-title">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">04 / VALIDATION PILOT</span>
+            <h2 id="stage15-title">第一条候选，没有被直接做成 Skill</h2>
+          </div>
+          <p>
+            Stage 1.5 的作用不是给候选盖章，而是用跨域、预测力和独特性把常识剥掉，只保留真正改变判断的部分。
+          </p>
+        </div>
+        <div id="stage15-pilot" aria-live="polite">
+          <div class="loading-line">正在加载首个三重验证结果……</div>
+        </div>
+      </section>
+
+      <section class="section-shell stage2-section" id="stage2" aria-labelledby="stage2-title">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">05 / SKILL CONSTRUCTION</span>
+            <h2 id="stage2-title">候选现在有了可执行的身体</h2>
+          </div>
+          <p>
+            Stage 2 把通过验证的方法单元写成 Agent 可发现、可路由、可判停的运行协议。这里展示构造证据；行为证据在下一节单独给出。
+          </p>
+        </div>
+        <div id="stage2-build" aria-live="polite">
+          <div class="loading-line">正在加载首个正式 Skill 构造结果……</div>
+        </div>
+      </section>
+
+      <section class="section-shell stage4-section" id="stage4" aria-labelledby="stage4-title">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">06 / INDEPENDENT PRESSURE TEST</span>
+            <h2 id="stage4-title">不是一次考满分，而是让失败改写 Skill</h2>
+          </div>
+          <p>
+            评测 Agent 看不到题型、答案或评分标准。页面保留首轮失败、定向修订与最终全量回归，避免只展示一个无法解释的通过率。
+          </p>
+        </div>
+        <div id="stage4-test" aria-live="polite">
+          <div class="loading-line">正在加载三轮独立压力测试证据……</div>
+        </div>
+      </section>
+
+      <section class="section-shell stage5-section" id="stage5" aria-labelledby="stage5-title">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">07 / PROJECT INSTALL & HOST SMOKE</span>
+            <h2 id="stage5-title">现在它不只“存在”，已经能被 Codex 找到</h2>
+          </div>
+          <p>
+            Stage 5A 把通过压力测试的 v0.1.1 安装到当前仓库，再用全新只读临时进程验证显式调用、语义触发和不应触发的边界。
+          </p>
+        </div>
+        <div id="stage5-install" aria-live="polite">
+          <div class="loading-line">正在加载项目级安装与宿主调用证据……</div>
+        </div>
+      </section>
+
+
+      <section class="section-shell architecture-section" aria-labelledby="architecture-title">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">08 / KNOWLEDGE SHAPE</span>
+            <h2 id="architecture-title">不是摘要，是四层能力结构</h2>
+          </div>
+          <p>
+            独立提取结果显示，职业、学习、工程与领导力不是四份目录，而是一条由个人能力到系统影响的递进链。
+          </p>
+        </div>
+        <div class="architecture-grid" id="architecture-grid"></div>
+      </section>
+
+      <section class="section-shell candidate-section" id="candidates" aria-labelledby="candidates-title">
+        <div class="section-heading candidate-heading">
+          <div>
+            <span class="eyebrow">09 / EVIDENCE BROWSER</span>
+            <h2 id="candidates-title">查看 247 条可追溯候选</h2>
+          </div>
+          <p>
+            搜索标题、来源、摘要或标签；打开任一条查看它为什么被提取。除首个故障复盘聚类外，其余候选尚未执行 V1/V2/V3。
+          </p>
+        </div>
+
+        <div class="candidate-toolbar" aria-label="候选筛选">
+          <label class="search-field" for="candidate-search">
+            <span class="search-mark" aria-hidden="true"></span>
+            <span class="sr-only">搜索候选</span>
+            <input
+              id="candidate-search"
+              type="search"
+              placeholder="搜索：故障、知识地图、领导力、幂等……"
+              autocomplete="off"
+            />
+            <kbd>/</kbd>
+          </label>
+          <button class="text-button" id="reset-filters" type="button">清除筛选</button>
+        </div>
+
+        <div class="filter-row" id="type-filters" aria-label="按候选类型筛选"></div>
+
+        <div class="result-meta" aria-live="polite">
+          <span id="result-count">正在加载候选……</span>
+          <span>点击条目查看证据与边界字段</span>
+        </div>
+
+        <div class="candidate-grid" id="candidate-grid" data-testid="candidate-grid"></div>
+        <div class="empty-state" id="empty-state" hidden>
+          <span aria-hidden="true">∅</span>
+          <h3>没有匹配的候选</h3>
+          <p>换一个关键词，或清除当前类型筛选。</p>
+        </div>
+        <button class="load-more" id="load-more" type="button" hidden>
+          再显示 18 条
+        </button>
+      </section>
+
+      <section class="section-shell capability-section" id="capability" aria-labelledby="capability-title">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">10 / CAPABILITY SANDBOX</span>
+            <h2 id="capability-title">它怎样从“书”变成“可调用能力”</h2>
+          </div>
+          <p>
+            输入一个真实问题。研究台会先判断它是否属于能力适用域，再决定完整执行、只迁移方法或停止路由；它不会把确定性沙盒伪装成 AI 回答。
+          </p>
+        </div>
+
+        <div class="skill-trial">
+          <form class="skill-input-panel" id="skill-form" novalidate>
+            <div>
+              <span class="trial-kicker">SKILL PROTOCOL / LOCAL SANDBOX</span>
+              <h3>把一个真实问题交给它</h3>
+              <p>
+                选择示例或直接输入。这里演示的是 Skill 的执行协议：需要什么、调用什么、交付什么、哪里不能下结论。
+              </p>
+            </div>
+
+            <div class="example-prompts" id="example-prompts" aria-label="载入示例问题"></div>
+
+            <div class="fit-legend" aria-label="能力适用域状态">
+              <span data-fit="core">核心域</span>
+              <span data-fit="adjacent">相邻域</span>
+              <span data-fit="out">域外停止</span>
+            </div>
+
+            <label class="skill-problem-field" for="skill-problem">
+              <span>你的问题</span>
+              <textarea
+                id="skill-problem"
+                name="problem"
+                rows="6"
+                maxlength="360"
+                aria-describedby="skill-input-hint skill-error"
+                placeholder="例如：支付服务连续超时，刚刚恢复，怎样复盘并制定防复发方案？"
+              >支付服务本月连续三次超时，刚刚恢复，帮我复盘并制定防复发方案。</textarea>
+            </label>
+
+            <div class="skill-input-meta">
+              <span id="skill-input-hint">建议说明对象、现象、目标与已有材料</span>
+              <span id="skill-char-count">0 / 360</span>
+            </div>
+            <p class="skill-error" id="skill-error" role="alert" hidden></p>
+
+            <button class="skill-run-button" id="skill-run" type="submit">
+              <span>运行协议演示</span>
+              <span aria-hidden="true">↗</span>
+            </button>
+          </form>
+
+          <section
+            class="skill-output skill-output-idle"
+            id="skill-output"
+            aria-live="polite"
+            aria-labelledby="skill-output-title"
+            tabindex="-1"
+          >
+            <div class="skill-idle-mark" aria-hidden="true">01 → 04</div>
+            <div>
+              <span class="eyebrow">WAITING FOR A PROBLEM</span>
+              <h3 id="skill-output-title">一次试跑会展开四层结果</h3>
+              <p>输入缺口、候选证据、交付清单、质量边界。结果不会替你编造日志、指标或事实。</p>
+            </div>
+          </section>
+        </div>
+
+        <div class="trial-disclaimer">
+          <strong>适用域门</strong>
+          <p>核心域完整试跑；相邻域只迁移方法并等待跨域验证；域外问题停止执行。这里仍是浏览器本地的确定性组合沙盒，不运行实时 Agent；上一节展示的是已记录的真实 Codex 宿主调用证据。</p>
+        </div>
+
+        <div class="route-reference-heading">
+          <span class="eyebrow">ROUTE REFERENCE</span>
+          <h3>查看四条候选能力模板</h3>
+        </div>
+
+        <div class="route-workbench">
+          <div class="route-selector" id="route-selector" role="tablist" aria-label="选择问题场景"></div>
+          <div
+            class="route-result"
+            id="route-result"
+            role="tabpanel"
+            tabindex="0"
+            aria-live="polite"
+          ></div>
+        </div>
+      </section>
+
+      <section class="section-shell boundary-section" aria-labelledby="boundary-title">
+        <div class="boundary-lead">
+          <span class="eyebrow">11 / HONEST BOUNDARY</span>
+          <h2 id="boundary-title">能力的可信度，来自知道哪里还不能下结论。</h2>
+        </div>
+        <div class="boundary-columns">
+          <article>
+            <span class="boundary-index">已证明</span>
+            <h3>结构化与可追溯</h3>
+            <p>119 篇已完成五路扫描；247 条均有类型、来源和短引文，字段与 ID 已审计。</p>
+          </article>
+          <article>
+            <span class="boundary-index">已完整演示一条</span>
+            <h3>Stage 5C 接入已就绪，不等于组织内认证</h3>
+            <p>脱敏模板、授权门、验收协议和自动校验已经就绪；当前仍是 0 份组织案例，组织内效度、DIGEST 与跨项目分发尚未完成。</p>
+          </article>
+          <article>
+            <span class="boundary-index">不会伪装</span>
+            <h3>代理语料不是纸质书</h3>
+            <p>当前结果只属于第三方专栏镜像；纸质书仍保留独立 Book Track。</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div>
+        <strong>Cangjie Skill · 能力与案例研究台</strong>
+        <p>库级能力、同类产品生态、上游代表案例与《左耳听风》受控验证的本地汇总。</p>
+      </div>
+          <div class="footer-meta">
+        <span>PINNED COMMIT</span>
+        <code id="commit-id">f2a1a74c…</code>
+      </div>
+    </footer>
+
+    <dialog class="detail-dialog" id="detail-dialog" aria-labelledby="detail-title">
+      <div class="dialog-shell">
+        <header class="dialog-header">
+          <div>
+            <span class="eyebrow" id="detail-type">CANDIDATE</span>
+            <h2 id="detail-title">候选详情</h2>
+          </div>
+          <button class="icon-button dialog-close" id="dialog-close" type="button" aria-label="关闭详情">
+            <span aria-hidden="true">×</span>
+          </button>
+        </header>
+        <div class="dialog-body" id="dialog-body"></div>
+      </div>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+    <script type="module" src="./app.js"></script>
+    <script type="module" src="./showcase.js"></script>
+    <script type="module" src="./library.js"></script>
+  </body>
+</html>

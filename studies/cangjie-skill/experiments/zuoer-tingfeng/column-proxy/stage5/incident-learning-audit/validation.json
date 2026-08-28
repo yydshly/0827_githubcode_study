@@ -1,0 +1,110 @@
+{
+  "stage": "5A",
+  "checkedAt": "2026-08-28T15:31:30+08:00",
+  "status": "pass-with-runtime-observation",
+  "scope": "project-level controlled install and host discovery smoke",
+  "officialDiscoveryRule": {
+    "location": "$REPO_ROOT/.agents/skills",
+    "source": "https://developers.openai.com/codex/skills"
+  },
+  "installation": {
+    "scope": "REPO",
+    "sourcePath": "studies/cangjie-skill/experiments/zuoer-tingfeng/column-proxy/books/zuoer-tingfeng/incident-learning-audit",
+    "targetPath": ".agents/skills/incident-learning-audit",
+    "skill": "incident-learning-audit",
+    "version": "0.1.1",
+    "filesMatched": 6,
+    "filesTotal": 6,
+    "allHashesMatch": true,
+    "files": [
+      {
+        "file": "SKILL.md",
+        "sha256": "BF326C868C0AA67DDEC22062409B7CDB74ADCFC7D6F88A9306778C779B550BBA"
+      },
+      {
+        "file": "test-prompts.json",
+        "sha256": "9BAADC817F5BA15236F2910AC0EBC1BA956BE0188FDD5021C91499EB8E2063F8"
+      },
+      {
+        "file": "test-results.md",
+        "sha256": "8F1F88D8F49B76D6CFBDA57743DA5C5F3EFB80663BA75DE247EBD33C7FFCD517"
+      },
+      {
+        "file": "agents/openai.yaml",
+        "sha256": "AD99E685AED30537F56C15069FF26DB759255FD3A3BB34F83885BD1F0E077B02"
+      },
+      {
+        "file": "references/evidence-and-routing.md",
+        "sha256": "D4AAD562D694156947B3EF2A2EAEB591592987393BB8C7DE93C7EFE48CD7C508"
+      },
+      {
+        "file": "references/output-contract.md",
+        "sha256": "16210C003B633F082F950EB43A34C205837A102EBD76713B262E67CA18E79DA1"
+      }
+    ]
+  },
+  "hostInvocations": [
+    {
+      "id": "explicit-discovery",
+      "process": "new ephemeral read-only Codex CLI",
+      "invocation": "explicit",
+      "skillNamedInPrompt": true,
+      "selectedSkill": "incident-learning-audit",
+      "skillFile": "E:\\0827_codex_project\\.agents\\skills\\incident-learning-audit\\SKILL.md",
+      "version": "0.1.1",
+      "route": "full_review",
+      "referencesRead": [
+        "evidence-and-routing.md"
+      ],
+      "result": "pass"
+    },
+    {
+      "id": "implicit-incident-trigger",
+      "process": "new ephemeral read-only Codex CLI",
+      "invocation": "implicit",
+      "skillNamedInPrompt": false,
+      "selectedSkill": "incident-learning-audit",
+      "skillFile": "E:\\0827_codex_project\\.agents\\skills\\incident-learning-audit\\SKILL.md",
+      "version": "0.1.1",
+      "route": "full_review",
+      "firstAction": "建立证据账本，将操作失误降为直接诱因候选",
+      "result": "pass"
+    },
+    {
+      "id": "negative-architecture-boundary",
+      "process": "new ephemeral read-only Codex CLI",
+      "invocation": "implicit-negative",
+      "skillNamedInPrompt": false,
+      "selectedSkill": null,
+      "incidentLearningAuditUsed": false,
+      "route": null,
+      "result": "pass"
+    }
+  ],
+  "fullOutput": {
+    "artifact": "DEMO_FULL_REVIEW.md",
+    "kind": "contract-faithful synthetic exemplar",
+    "sections": 8,
+    "inventedOwnersOrDates": false,
+    "nestedCliAttempts": 2,
+    "nestedCliFinalMessages": 0,
+    "observation": "Both nested runs loaded SKILL.md and the required references, then produced no final body across multiple 30-second polls and were manually interrupted."
+  },
+  "runtimeObservations": [
+    {
+      "severity": "non-blocking",
+      "kind": "skills-context-budget",
+      "observation": "Codex reported that installed skill descriptions were shortened to fit the skills context budget; this skill was still discovered in explicit and implicit tests."
+    },
+    {
+      "severity": "benchmark-required",
+      "kind": "long-form-latency",
+      "observation": "Short discovery and routing outputs completed; two nested full-review outputs did not return a final message before manual interruption."
+    }
+  ],
+  "stage5Complete": false,
+  "digestComplete": false,
+  "realIncidentExternalValidity": false,
+  "userGlobalInstallPerformed": false,
+  "pluginDistributionPerformed": false
+}

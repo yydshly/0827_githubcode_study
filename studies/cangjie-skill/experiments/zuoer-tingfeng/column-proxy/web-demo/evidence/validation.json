@@ -1,0 +1,196 @@
+{
+  "verifiedAt": "2026-08-28T12:17:52.056Z",
+  "url": "http://127.0.0.1:4180/cangjie-skill",
+  "status": "pass",
+  "surfaces": [
+    {
+      "viewport": "1440x1000",
+      "colorScheme": "light",
+      "reducedMotion": "no-preference",
+      "status": 200,
+      "title": "Cangjie Skill · 能力与案例研究台",
+      "bodyCharacters": 23460,
+      "errorOverlays": 0,
+      "consoleErrors": [],
+      "initialCandidateCards": 18,
+      "horizontalOverflow": false,
+      "theme": "light",
+      "reducedMotionMatches": false
+    },
+    {
+      "viewport": "768x1024",
+      "colorScheme": "dark",
+      "reducedMotion": "no-preference",
+      "status": 200,
+      "title": "Cangjie Skill · 能力与案例研究台",
+      "bodyCharacters": 23431,
+      "errorOverlays": 0,
+      "consoleErrors": [],
+      "initialCandidateCards": 18,
+      "horizontalOverflow": false,
+      "theme": "dark",
+      "reducedMotionMatches": false
+    },
+    {
+      "viewport": "390x844",
+      "colorScheme": "light",
+      "reducedMotion": "no-preference",
+      "status": 200,
+      "title": "Cangjie Skill · 能力与案例研究台",
+      "bodyCharacters": 23396,
+      "errorOverlays": 0,
+      "consoleErrors": [],
+      "initialCandidateCards": 18,
+      "horizontalOverflow": false,
+      "theme": "light",
+      "reducedMotionMatches": false
+    },
+    {
+      "viewport": "1024x768",
+      "colorScheme": "light",
+      "reducedMotion": "reduce",
+      "status": 200,
+      "title": "Cangjie Skill · 能力与案例研究台",
+      "bodyCharacters": 23431,
+      "errorOverlays": 0,
+      "consoleErrors": [],
+      "initialCandidateCards": 18,
+      "horizontalOverflow": false,
+      "theme": "light",
+      "reducedMotionMatches": true
+    }
+  ],
+  "skillSurfaces": [
+    {
+      "viewport": "1440x1000",
+      "colorScheme": "light",
+      "fit": "core",
+      "title": "系统性故障学习审查",
+      "evidenceCount": 4,
+      "stageCount": 4,
+      "horizontalOverflow": false,
+      "consoleErrors": []
+    },
+    {
+      "viewport": "390x844",
+      "colorScheme": "light",
+      "fit": "core",
+      "title": "系统性故障学习审查",
+      "evidenceCount": 4,
+      "stageCount": 4,
+      "horizontalOverflow": false,
+      "consoleErrors": []
+    },
+    {
+      "viewport": "1440x1000",
+      "colorScheme": "light",
+      "fit": "out",
+      "title": "当前候选能力不适用",
+      "evidenceCount": 0,
+      "stageCount": 0,
+      "horizontalOverflow": false,
+      "consoleErrors": []
+    }
+  ],
+  "interactions": {
+    "metrics": [
+      "框架16%39可迁移的思考、决策与推理结构",
+      "原则44%108原子规则、检查项与行动断言",
+      "案例20%50过去应用、跨语境证据与结果",
+      "反例12%30失败机制、预警信号与边界",
+      "术语8%20作者特定用法与共享词典"
+    ],
+    "stage15Pilot": {
+      "originalDecision": "reject-as-standalone",
+      "revisedDecision": "confirmed-for-stage2",
+      "verificationCards": 3,
+      "testCaseTotal": 18,
+      "userConfirmationGate": "passed"
+    },
+    "stage2Build": {
+      "skill": "incident-learning-audit",
+      "version": "0.1.1",
+      "status": "static-pass",
+      "riaParts": 6,
+      "runtimeRoutes": 5,
+      "progressiveReferences": 2,
+      "installedInStage5A": true
+    },
+    "stage4PressureTest": {
+      "version": "0.1.1",
+      "status": "behavior-pass",
+      "rounds": 3,
+      "finalPassed": 19,
+      "finalTotal": 19,
+      "negativeFalsePositives": 0,
+      "repairs": 3,
+      "installedInStage5A": true
+    },
+    "stage5Install": {
+      "version": "0.1.1",
+      "status": "repo-install-pass",
+      "installScope": "REPO",
+      "filesMatched": 6,
+      "hostInvocations": 3,
+      "negativeFalsePositives": 0,
+      "outputSections": 8,
+      "detailsKeyboard": true,
+      "stage5Complete": false
+    },
+    "stage5PublicCase": {
+      "status": "pass-public-case-audit",
+      "case": "cloudflare-waf-2019-07-02",
+      "officialSources": 2,
+      "routeModes": 5,
+      "outputSections": 8,
+      "ledgerTypes": [
+        "fact",
+        "inference",
+        "unknown"
+      ],
+      "causes": 6,
+      "actions": 6,
+      "score": 86,
+      "conclusion": "尚未形成学习闭环",
+      "completeSkillDemonstration": true,
+      "organizationExternalValidity": false,
+      "stage5Complete": false
+    },
+    "searchedCount": 18,
+    "principleResult": "匹配 108 条 · 当前显示 18 条",
+    "detailOpened": true,
+    "escapeClosed": true,
+    "focusReturned": true,
+    "routeKeyboardNavigation": true,
+    "skillTrialValidation": true,
+    "skillTrialKeyboardSubmit": true,
+    "skillTrialRoutes": [
+      "incident",
+      "learn",
+      "architecture",
+      "leadership"
+    ],
+    "capabilityFitStates": [
+      "core",
+      "adjacent",
+      "out",
+      "out-to-core"
+    ],
+    "skillTrialEvidenceCount": 4,
+    "skillTrialEvidenceFocusReturned": true,
+    "slashShortcut": true,
+    "themeToggle": "light -> dark",
+    "keyboardFocus": {
+      "tag": "A",
+      "id": null,
+      "outlineStyle": "solid",
+      "outlineWidth": "3px"
+    },
+    "consoleErrors": []
+  },
+  "errorState": {
+    "visibleErrors": 5,
+    "resultLabel": "数据不可用",
+    "expectedMissingResource": true
+  }
+}

@@ -1,0 +1,76 @@
+# Web Demo Handoff
+
+## 当前状态
+
+Web 演示 Revision 11 已实现并通过真实 Chromium 验收。首屏继续把仓库定位为“长内容到 Agent Skills 的方法工厂”，并新增完整生态对照：**6 项库能力、8 类输入、7 个内部阶段、6 层外部生产链、9 个同类/相邻项目、5 层采用建议和 6 个代表案例**。Cangjie 被准确放在“方法识别与能力蒸馏”层；Skill Seekers、book-to-skill、skill-factory、agent-skill-eval、Agent Skills Standard、Anthropic Skills、skills.sh 与 doc2skill 分别补齐解析、知识打包、治理、评测、标准、参考和分发。所有外部项目都标注能力、不能替代项、采用价值、核对口径与风险。《左耳听风》继续作为本地深度验证承接 4 项能力方向、1 个正式 Skill、3 个候选能力及 Stage 0–5C 证据链。
+
+## 运行路径
+
+1. `npm.cmd start` 会先从相邻 `candidates/` 的五份 Markdown 重建 `data/research.json`。
+2. `server.mjs` 只监听 `127.0.0.1:4174`，不访问外部网络；4173 属于本机另一个研究项目。
+3. 数据构建同时读取 Stage 1.5、Stage 2、Stage 4、Stage 5A 与 Stage 5B 的结构化证据；除既有不变量外，还要求 Stage 5B 具备两份官方来源、五模式、八段输出、三类证据、六条因果、六项行动合同和受控结论。
+4. 浏览器先渲染库定位、来源地图和责任边界，再展示生态生产链、9 项筛选对照与五层组合建议；随后进入公开案例、本地能力资产、六级成熟度与 Stage 5B 完整演示。
+5. 用户输入真实问题后，适用域门先判断核心域、相邻域或域外，再决定是否进入学习、故障、架构或领导力模板。
+6. 核心域完整执行；相邻域只迁移方法并标记尚待验证；域外问题停止路由、隐藏候选证据并建议切换专业来源。
+
+## 关键边界
+
+- 语料是 119 篇第三方专栏代理文本，不是纸质书全文。
+- 上游案例的数字来自公开仓库结构与 README/INDEX 核对；除本地案例外，本研究没有独立复跑其全部压力测试。
+- 同类项目描述来自其官方仓库或标准页核对；未安装或执行这些第三方工具，推荐组合是研究路线，不是已完成集成。
+- `noahnan-max/book-to-skill` 当前没有开源许可证；`skills.sh` 的收录、排行或安装量不构成质量与安全证明。
+- 页面使用的是 Stage 1 转化资产与短证据片段，不打包原始正文。
+- Stage 1.5 区只表示首个候选聚类的人工三重验证和测试合同，不是独立 Agent 行为通过率。
+- Stage 2 区只表示正式 Skill 文件、引用和 UI 元数据已经构造并通过静态验证。
+- Stage 4 区表示合成合同上的独立触发、路由、边界和行动提纲压力测试通过；它自身不证明宿主安装或真实事故外部效度。
+- Stage 5A 区表示当前仓库已经安装并被真实 Codex 宿主发现；不表示用户全局安装、插件发布、完整 DIGEST 或真实组织事故认证。
+- Stage 5B 区证明首个 Skill 能完整审计一个真实公开事故；它不等于用户组织内部效度，也不证明所有公开整改已经关闭。
+- 四条路线用于演示“候选如何组合为问题解决路径”，不是生成式 AI 后端；结果不会编造日志、指标或组织事实。
+- 适用域门是确定性的本地规则，只负责防止当前候选能力被越界调用；它不是领域分类器或专业意见替代品。
+- 下一质量门是 1–3 份合法、脱敏、获授权的用户组织事故材料与长输出性能基准；有至少三个正式核心 Skill 后再建立 Stage 3 关系图和完整 DIGEST。
+
+## 维护入口
+
+- 数据规则：`scripts/build-data.mjs`
+- 库能力与案例数据：`data/library-catalog.json`
+- 研究台交互：`app.js`
+- 能力展示层：`showcase.js`
+- 库能力与案例展示层：`library.js`
+- 基础视觉系统：`styles.css`
+- 能力展示视觉：`showcase.css`
+- 库级展示视觉：`library.css`
+- 既有浏览器回归：`scripts/browser-verify.mjs`
+- Revision 9 专测：`scripts/verify-showcase.mjs`
+- Revision 10 专测：`scripts/verify-library.mjs`
+- 库目录结构校验：`scripts/validate-library-catalog.mjs`
+- 同类生态研究：`../../../../../ECOSYSTEM_COMPARISON.md`
+- Stage 5C 就绪度：`../stage5/incident-learning-audit/scripts/validate-stage5c.mjs`
+- 设计契约：`docs/DESIGN_CONTRACT.md`
+- 覆盖状态：`docs/COVERAGE_MANIFEST.md`
+
+若 Stage 1 候选文件变化，先运行 `npm.cmd run check` 重建并校验精确计数，再执行浏览器验收。
+
+## 本次完成
+
+- Stage 4 三轮原始输出、主代理评分、失败修订和机器校验已固化；
+- Stage 5A 报告、8 节复盘示例、结构化验证和可复跑哈希脚本已固化；
+- Web Revision 9 已增加能力资产总览、六级成熟度、卡片行动、六站最佳路径和价值快照；
+- Web Revision 10 已增加库能力地图、来源选择指导、责任边界、上游代表案例与筛选器；
+- Web Revision 11 已增加六层生态生产链、9 项同类/相邻产品对照、分类筛选和五层组合建议；
+- `npm.cmd run check` 和三层真实 Chromium 全矩阵通过；
+- 最终证据包含既有全回归，以及能力资产/最佳演示桌面与手机截图、四表面专测、焦点路径和 `showcase-validation.json`。
+- 新增库级桌面/手机截图、案例筛选键盘路径和 `library-validation.json`；
+- 新增生态桌面/手机截图、生态筛选键盘路径，并把 Revision 11 结构证据写入同一个 `library-validation.json`；
+- Stage 5C 接入包已经建立；空案例状态会明确输出 `intake-ready-awaiting-authorized-cases`，不会伪报组织效度通过。
+
+## 尚未执行
+
+- 没有安装到用户级或全局 Skill 目录，也没有发布插件；
+- 已建立一个真实公开事故案例的外部效度；Stage 5C 接入基础已就绪，但尚未收到获授权、脱敏的用户组织事故材料；
+- 两次嵌套 CLI 完整长输出均在加载参考后长期无最终正文并被人工中断，尚未建立延迟与 token 基线；
+- Stage 3 关系图等待第二个正式 Skill；
+- 其余 246 条候选未完成全量 Stage 1.5。
+
+## 下一次首先做什么
+
+当前生态汇总范围已经关闭。若下一轮进入工程集成，第一步应把 Skill Seekers 作为独立研究子项目固定版本，验证“多来源输入 → 稳定、可追溯文本合同”，不要直接安装到全局环境；Skill 本身的下一质量门仍是 1–3 份合法、脱敏、获授权的组织事故材料。当前浏览器工作台是可验证的确定性回放，不是生产 Agent。

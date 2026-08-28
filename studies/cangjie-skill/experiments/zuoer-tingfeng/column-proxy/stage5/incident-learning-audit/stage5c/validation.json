@@ -1,0 +1,14 @@
+{
+  "stage": "5C",
+  "skill": "incident-learning-audit",
+  "version": "0.1.1",
+  "status": "intake-ready-awaiting-authorized-cases",
+  "minimumCases": 1,
+  "recommendedCases": 3,
+  "casesReceived": 0,
+  "casesAudited": 0,
+  "casesReviewed": 0,
+  "organizationExternalValidity": false,
+  "stage5Complete": false,
+  "updatedAt": "2026-08-28T18:55:00+08:00"
+}

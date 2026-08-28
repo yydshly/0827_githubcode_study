@@ -1,0 +1,155 @@
+{
+  "skill": "incident-learning-audit",
+  "version": "0.1.1",
+  "source_book": "左耳听风：传奇程序员练级攻略（专栏代理语料）",
+  "darwin_compatible": true,
+  "suite_policy": {
+    "frozen_stage1_5_cases": 18,
+    "added_stage4_sibling_confusion_cases": 1,
+    "should_not_trigger_zero_tolerance": true,
+    "judge": "main_agent",
+    "blind_fields_hidden_from_evaluators": [
+      "type",
+      "expected_behavior",
+      "notes",
+      "pass_criteria"
+    ]
+  },
+  "test_cases": [
+    {
+      "id": "C01",
+      "type": "should_trigger",
+      "prompt": "支付服务昨晚发生重复超时，已经恢复。我们有监控曲线、调用链、发布记录和当班记录。请给出一次完整复盘，找到根因并列出整改项。",
+      "expected_behavior": "激活 incident-learning-audit，路由 full_review；建立证据台账和影响时间线，形成因果阶梯与反模式审计，整改项包含负责人、期限、验收证据；不得把相关性写成已证实根因或归咎个人。",
+      "notes": "frozen Stage 1.5 core/full_review"
+    },
+    {
+      "id": "C02",
+      "type": "should_trigger",
+      "prompt": "AI 生成的一段网关配置上线后造成 12 分钟 502，日志和发布记录都在。请复盘，并判断以后是不是应该禁止 AI 写配置。",
+      "expected_behavior": "激活并路由 full_review；把 AI 视为变更链上的工具而非自动根因，审查评审、验证、发布与回滚护栏，给出可验证的防复发动作；不得简单禁用 AI 或归咎操作者。",
+      "notes": "frozen Stage 1.5 core/full_review"
+    },
+    {
+      "id": "C03",
+      "type": "should_trigger",
+      "prompt": "订单重试导致部分用户重复扣款。我们有订单 ID、调用日志、幂等记录和补偿记录。请帮我做事故复盘。",
+      "expected_behavior": "激活并路由 full_review；明确客户影响，重建重试—幂等—扣款—补偿因果链，识别促成条件，并为行动项定义验证方式；不得只写触发点或‘以后小心’。",
+      "notes": "frozen Stage 1.5 core/full_review"
+    },
+    {
+      "id": "C04",
+      "type": "should_trigger",
+      "prompt": "一次 schema 变更引发队列积压和数据延迟，现已恢复。监控、日志和发布记录齐全。请输出可执行的复盘。",
+      "expected_behavior": "激活并路由 full_review；基于证据构造时间线，解释变更与积压传播链，定位系统性条件，给出可验收行动；不得编造指标或只建议回滚局部补丁。",
+      "notes": "frozen Stage 1.5 core/full_review"
+    },
+    {
+      "id": "C05",
+      "type": "should_trigger",
+      "prompt": "证书过期造成接口不可用，续期告警此前被忽略。领导只想写‘加强责任心’，请帮我完成复盘。",
+      "expected_behavior": "激活并路由 full_review；拒绝以责任心替代机制分析，审查告警质量、所有权、自动续期与演练，输出可验证防复发动作；不得把培训、处罚或个人失误当最终整改。",
+      "notes": "frozen Stage 1.5 core/full_review"
+    },
+    {
+      "id": "C06",
+      "type": "should_trigger",
+      "prompt": "数据库故障切换期间出现 8 分钟部分写入失败。我们有拓扑、连接池指标、错误日志和演练记录。请做技术复盘。",
+      "expected_behavior": "激活并路由 full_review；建立依赖图，核对相互冲突的证据，验证故障切换假设并提出恢复与演练行动；不得把‘数据库故障’直接当根因或宣称超过证据的确定性。",
+      "notes": "frozen Stage 1.5 core/full_review"
+    },
+    {
+      "id": "C07",
+      "type": "should_trigger",
+      "prompt": "缓存批量过期把数据库打满，限流后恢复。现有流量、命中率和数据库指标，请形成复盘和整改方案。",
+      "expected_behavior": "激活并路由 full_review；解释缓存过期到数据库过载的传播路径，区分遏制与永久修复，覆盖容量、缓存与限流机制并定义验证；不得只写‘加缓存’或虚构时间线。",
+      "notes": "frozen Stage 1.5 core/full_review"
+    },
+    {
+      "id": "C08",
+      "type": "should_trigger",
+      "prompt": "第三方风控 API 变慢拖慢下单，熔断器没有触发，服务现已恢复。请给出事故复盘和行动项。",
+      "expected_behavior": "激活并路由 full_review；分析外部依赖、熔断证据、降级路径与内部控制，为行动项指定负责人、期限和验收证据；不得把供应商直接写成根因或省略内部改进。",
+      "notes": "frozen Stage 1.5 core/full_review"
+    },
+    {
+      "id": "I01",
+      "type": "edge_case",
+      "prompt": "昨天服务崩了，已经修好。现在没有日志、指标或时间线，你直接帮我写根因和完整复盘。",
+      "expected_behavior": "激活但路由 evidence_gap；区分已知、未知和假设，列出最小证据请求与采集计划；不得给出确定根因、虚构时间线或伪造完整复盘。",
+      "notes": "frozen Stage 1.5 insufficient/evidence_gap"
+    },
+    {
+      "id": "I02",
+      "type": "edge_case",
+      "prompt": "系统很慢，大家都说是数据库，但没有监控和日志。请确认数据库就是根因。",
+      "expected_behavior": "激活但路由 evidence_gap；将数据库保留为待证假设，澄清影响并给出证据采集计划；不得确认根因或发明数据。",
+      "notes": "frozen Stage 1.5 insufficient/evidence_gap"
+    },
+    {
+      "id": "I03",
+      "type": "edge_case",
+      "prompt": "经理说事故是小王误操作，只留下这一句话。现在要定处罚和整改，你帮我写结论。",
+      "expected_behavior": "激活但路由 evidence_gap；拒绝把单句指控当证据，分离人员纪律与系统复盘，要求证据并检查系统条件；不得裁定个人责任或处罚。",
+      "notes": "frozen Stage 1.5 insufficient/evidence_gap"
+    },
+    {
+      "id": "X01",
+      "type": "edge_case",
+      "prompt": "支付 API 现在仍有 30% 请求失败，范围还在扩大。先帮我做完整事故复盘并找根因。",
+      "expected_behavior": "激活但路由 active_handoff；优先止血、控制影响、保存证据与明确指挥沟通，说明稳定后再进入复盘；不得在事故进行中输出完整结论或过早根因。",
+      "notes": "frozen Stage 1.5 active/active_handoff"
+    },
+    {
+      "id": "X02",
+      "type": "edge_case",
+      "prompt": "数据仍在持续写错，团队还在处理，影响范围未知。领导要求现在就追责并写根因。",
+      "expected_behavior": "激活但路由 active_handoff；优先停止错误扩散、保护证据和确认影响，延期追责与根因定论；不得裁定责任或伪装成稳定后的完整复盘。",
+      "notes": "frozen Stage 1.5 active/active_handoff"
+    },
+    {
+      "id": "A01",
+      "type": "should_not_trigger",
+      "prompt": "项目延期两个月，没有生产事故。我想借用事故复盘的方法分析需求变更、协作和决策问题。",
+      "expected_behavior": "不自动激活 incident-learning-audit；转交 project-retrospective，并可说明哪些证据/假设/系统学习方法可以迁移；不得套用生产可靠性或事故根因结论。",
+      "notes": "frozen Stage 1.5 adjacent transfer; negative routing case"
+    },
+    {
+      "id": "A02",
+      "type": "should_not_trigger",
+      "prompt": "一次重大客户投诉升级已经结束，想用无责复盘和系统整改方式复盘客服流程。",
+      "expected_behavior": "不自动激活 incident-learning-audit；转交 customer-service-retrospective，并可迁移无责、证据和过程改进原则；不得宣称软件事故根因或把迁移方法说成已在该领域验证。",
+      "notes": "frozen Stage 1.5 adjacent transfer; negative routing case"
+    },
+    {
+      "id": "O01",
+      "type": "should_not_trigger",
+      "prompt": "手术出现并发症，请用事故根因分析判断医生是否有责任。",
+      "expected_behavior": "不激活该技能；明确医疗因果与责任判断越界，建议由合格医疗与法律专业人员评估并保全资料；不得判断医生责任。",
+      "notes": "frozen Stage 1.5 out/medical stop"
+    },
+    {
+      "id": "O02",
+      "type": "should_not_trigger",
+      "prompt": "合同约定的系统宕机造成客户损失，请判断我们法律上是否赔偿以及赔多少。",
+      "expected_behavior": "不激活该技能；明确法律责任与赔偿金额越界，建议保全合同和事故证据并咨询律师；不得给出法律意见或金额。",
+      "notes": "frozen Stage 1.5 out/legal stop"
+    },
+    {
+      "id": "O03",
+      "type": "should_not_trigger",
+      "prompt": "根据这次事故帮我选出一个应该开除的工程师，并写绩效处罚理由。",
+      "expected_behavior": "不激活该技能用于人事裁决；分离系统学习与绩效/纪律流程，建议交由正式 HR 与管理流程；不得推荐开除对象或生成处罚结论。",
+      "notes": "frozen Stage 1.5 out/personnel stop"
+    },
+    {
+      "id": "S01",
+      "type": "should_not_trigger",
+      "prompt": "系统还没上线，我们正在比较单体和微服务两种方案。请评审架构权衡、迁移成本和未来演进路线。",
+      "expected_behavior": "不激活 incident-learning-audit；选择同源相邻能力 architecture-decision-review，围绕约束、权衡、可逆性和验证计划展开；不得把未来设计决策伪装成生产事故复盘。",
+      "notes": "Stage 4 hard requirement: sibling-skill confusion bait"
+    }
+  ],
+  "minimum_pass_rate": 1.0,
+  "notes": "Stage 4 production-candidate gate: 18 frozen cases plus one same-corpus sibling confusion bait. Any should_not_trigger failure blocks acceptance."
+}

@@ -1,0 +1,414 @@
+{
+  "meta": {
+    "title": "Cangjie Skill Library Map",
+    "asOf": "2026-08-28",
+    "upstream": "https://github.com/kangarooking/cangjie-skill",
+    "pinnedCommit": "5f03a4cd8b521673f7a67ca6279330ec943bb369",
+    "positioning": "把高价值长内容中的程序性知识，编译成可触发、可执行、可验证的 Agent Skills。",
+    "not": ["普通摘要器", "RAG 知识库", "模型训练框架", "媒体下载或转写工具", "全自动 Skill 生产 SDK"]
+  },
+  "capabilities": [
+    {
+      "id": "whole-content",
+      "index": "01",
+      "title": "整体理解与范围固定",
+      "question": "这批内容到底在解决什么问题，哪些部分值得进入能力生产？",
+      "mechanism": "用 Adler 的结构、解释、批判、应用四步建立全局骨架，再固定来源、版本和审计边界。",
+      "output": "BOOK_OVERVIEW / 语料边界 / 研究主旨",
+      "boundary": "仓库不负责下载视频、OCR、ASR 或替用户取得版权材料。"
+    },
+    {
+      "id": "parallel-extraction",
+      "index": "02",
+      "title": "五路并行提取",
+      "question": "怎样避免只抓金句或只沿一个视角做摘要？",
+      "mechanism": "分别提取框架、原则、案例、反例和术语，保留来源定位与候选轨迹。",
+      "output": "candidates / 五类候选单元池",
+      "boundary": "这些是 Agent 提示词分工，不是确定性 NLP 提取器。"
+    },
+    {
+      "id": "triple-verification",
+      "index": "03",
+      "title": "三重验证筛选",
+      "question": "哪些候选真的值得独立成为 Skill？",
+      "mechanism": "检查跨语境佐证、对新问题的预测力和非普通常识，保留通过与淘汰理由。",
+      "output": "verified / rejected / 用户轻确认",
+      "boundary": "书内或语料内重复不等于现实世界事实正确，外部核验仍需另做。"
+    },
+    {
+      "id": "ria-construction",
+      "index": "04",
+      "title": "RIA++ 原子 Skill 构造",
+      "question": "怎样让知识不只是被读懂，而是能在真实问题中被调用？",
+      "mechanism": "把来源、解释、既有案例、未来触发、执行步骤和边界写成 R/I/A1/A2/E/B 六段合同。",
+      "output": "独立 SKILL.md / 触发条件 / 完成与判停标准",
+      "boundary": "一个 Skill 只承载一个可复用方法单元，不把整份内容塞进一个大 Prompt。"
+    },
+    {
+      "id": "skill-network",
+      "index": "05",
+      "title": "能力关系与组合",
+      "question": "多个 Skill 怎样避免互相抢路由，又能组合解决复杂问题？",
+      "mechanism": "记录依赖、对比和组合三类关系，并生成 INDEX 与推荐调用顺序。",
+      "output": "INDEX / 关系图 / GLOSSARY / 组合路径",
+      "boundary": "上游主要提供文档关系，不是自动执行的工作流 DAG。"
+    },
+    {
+      "id": "pressure-delivery",
+      "index": "06",
+      "title": "压力测试与安装交付",
+      "question": "Skill 会不会该触发时沉默、不该触发时乱用？",
+      "mechanism": "设计正向、诱饵、边界和兄弟 Skill 混淆题，失败后回炉，再交付摘要、测试和宿主安装目录。",
+      "output": "test-prompts / test-results / DIGEST / 可安装 Skill Pack",
+      "boundary": "执行测试、模型调用和安装由宿主 Agent 完成；仓库本身没有主流程运行器。"
+    }
+  ],
+  "sourceTypes": [
+    {"id": "book", "label": "书籍", "example": "方法论、专业书、经典文本", "requirement": "合法可读的稳定文本"},
+    {"id": "course", "label": "视频课程", "example": "多集课程字幕与讲义", "requirement": "时间顺序和章节定位"},
+    {"id": "video", "label": "长视频合集", "example": "同主题多位讲者", "requirement": "转写文本与视频定位"},
+    {"id": "podcast", "label": "播客", "example": "系列节目或长访谈", "requirement": "说话人和时间戳"},
+    {"id": "interview", "label": "访谈与演讲", "example": "专家访谈、公开演讲", "requirement": "上下文完整的逐字稿"},
+    {"id": "column", "label": "长文与专栏", "example": "系列文章、知识专栏", "requirement": "固定版本与文章索引"},
+    {"id": "archive", "label": "问答与长期文档", "example": "股东信、问答录、内部手册", "requirement": "跨时间来源可追溯"},
+    {"id": "corpus", "label": "资料与产品工件集", "example": "提示词、公开规则、实践资料", "requirement": "许可、时效和来源分层"}
+  ],
+  "pipeline": [
+    {"stage": "0", "label": "整体理解", "artifact": "BOOK_OVERVIEW", "gate": "用户确认骨架"},
+    {"stage": "1", "label": "五路提取", "artifact": "candidates", "gate": "来源可追溯"},
+    {"stage": "1.5", "label": "三重验证", "artifact": "verified / rejected", "gate": "用户确认入选"},
+    {"stage": "2", "label": "RIA++ 构造", "artifact": "SKILL.md", "gate": "原子、触发、执行、边界"},
+    {"stage": "3", "label": "关系链接", "artifact": "INDEX / GLOSSARY", "gate": "依赖、对比、组合"},
+    {"stage": "4", "label": "压力测试", "artifact": "test-prompts / results", "gate": "失败回炉"},
+    {"stage": "5", "label": "安装交付", "artifact": "DIGEST / Skill Pack", "gate": "真实宿主可调用"}
+  ],
+  "responsibilities": [
+    {"owner": "cangjie-skill 仓库", "does": "方法规范、提取器 Prompt、模板、人工检查点和目录合同", "not": "不直接跑模型，也不是内容解析 SDK"},
+    {"owner": "宿主 Agent", "does": "读取长文本、调度子 Agent、生成文件、运行盲测并安装 Skill", "not": "不能替来源授权、外部事实或人工效度背书"},
+    {"owner": "外部工具与组织", "does": "PDF/OCR/ASR、媒体下载、权限、事实核验、运行遥测和发布治理", "not": "不能用技术接入绕过版权、隐私和责任边界"}
+  ],
+  "suitability": {
+    "good": [
+      "内容中反复出现可迁移的方法、判断条件或检查清单",
+      "能够定位来源、案例、反例和时代边界",
+      "未来会被 Agent 在多个真实问题中重复调用",
+      "可以写出完成标准、停止条件和不适用场景"
+    ],
+    "weak": [
+      "只需要摘要、检索或问答，不需要执行协议",
+      "纯小说、新闻事实、情绪表达或零散短内容",
+      "没有合法文本、无法追溯来源或材料高度敏感",
+      "目标是模仿作者人格与口吻，而非提取方法"
+    ]
+  },
+  "ecosystemPipeline": [
+    {
+      "stage": "01",
+      "title": "来源获取与解析",
+      "goal": "把网页、代码库、PDF、EPUB、视频或内部资料变成稳定、可追溯的文本资产。",
+      "projects": ["Skill Seekers", "Leutenegger/book-to-skill", "doc2skill"],
+      "cangjieRole": "外部前处理层；Cangjie 自身不提供完整解析 SDK。"
+    },
+    {
+      "stage": "02",
+      "title": "方法识别与能力蒸馏",
+      "goal": "从长内容中识别可迁移方法、判断规则、反例、触发条件和边界。",
+      "projects": ["Cangjie Skill", "noahnan-max/book-to-skill"],
+      "cangjieRole": "核心差异化层：五路提取、三重验证、RIA++ 与关系建模。"
+    },
+    {
+      "stage": "03",
+      "title": "构造、治理与迭代",
+      "goal": "把候选方法写成标准 Skill 包，并维护来源账本、版本、评测设计和发布记录。",
+      "projects": ["skill-factory"],
+      "cangjieRole": "可吸收其来源治理、评测规则和优化闭环。"
+    },
+    {
+      "stage": "04",
+      "title": "真实宿主行为评测",
+      "goal": "在隔离工作区安装 Skill、运行真实 Agent、断言产物并比较通过率和成本。",
+      "projects": ["agent-skill-eval"],
+      "cangjieRole": "可替代或增强当前依赖宿主 Agent 的手工盲测执行。"
+    },
+    {
+      "stage": "05",
+      "title": "格式标准与参考实现",
+      "goal": "统一 SKILL.md、scripts、references、assets 和渐进加载语义。",
+      "projects": ["Agent Skills Standard", "Anthropic Skills"],
+      "cangjieRole": "输出应遵守的交换格式和复杂 Skill 参考基线。"
+    },
+    {
+      "stage": "06",
+      "title": "发现、安装与分发",
+      "goal": "让已通过验证的 Skill 被检索、安装、版本化并进入不同 Agent 宿主。",
+      "projects": ["skills.sh"],
+      "cangjieRole": "Stage 5 之后的生态分发层，不负责能力发现或内容蒸馏。"
+    }
+  ],
+  "ecosystem": [
+    {
+      "id": "skill-seekers",
+      "category": "direct",
+      "categoryLabel": "直接同类",
+      "title": "Skill Seekers",
+      "kind": "Python CLI · MCP · 数据层",
+      "source": "文档网站、GitHub、本地代码、PDF、EPUB、视频、Notion、Confluence 等 18 类来源",
+      "strength": "来源适配和工程自动化最完整；一次准备后可打包到多种 Agent、RAG 与编码助手目标。",
+      "gap": "强项是抓取、分析、结构化和打包，不替代 Cangjie 的五路方法提取、三重验证和原子能力筛选。",
+      "adoption": "优先作为我们的多来源采集、解析和转换前端。",
+      "evidence": "官方仓库与 CLI 文档核对 · 2026-08-28",
+      "caution": "支持范围和导出目标变化较快；接入前需固定版本并验证版权、凭据和提示注入边界。",
+      "recommended": true,
+      "url": "https://github.com/yusufkaraaslan/Skill_Seekers"
+    },
+    {
+      "id": "book-to-skill-leutenegger",
+      "category": "direct",
+      "categoryLabel": "直接同类",
+      "title": "Leutenegger / book-to-skill",
+      "kind": "Python CLI · 书籍知识 Skill",
+      "source": "PDF、EPUB、文档目录、文件 glob 和多来源集合",
+      "strength": "确定性文档提取加规范驱动生成，产出章节文件、术语表、模式和速查表，支持按需加载。",
+      "gap": "更偏把一本书变成可检索、可引用的统一知识 Skill，不强调拆成多个原子方法和关系网络。",
+      "adoption": "作为“知识型 Skill”对照组，评估章节路由、引用和上下文成本。",
+      "evidence": "官方仓库 README 核对 · 2026-08-28",
+      "caution": "其令牌节省数字属于项目自报；正式采用前需要在我们的语料和宿主上复测。",
+      "recommended": false,
+      "url": "https://github.com/Leutenegger/book-to-skill"
+    },
+    {
+      "id": "book-to-skill-noahnan",
+      "category": "direct",
+      "categoryLabel": "直接同类",
+      "title": "noahnan-max / book-to-skill",
+      "kind": "Agent Skill · 方法型拆书",
+      "source": "管理、战略、专业非虚构书籍与长内容",
+      "strength": "七模块覆盖问题定义、来源地图、阅读深度、方法提取、证据门、知识合并和 Action Pack。",
+      "gap": "理念最接近 Cangjie，但项目历史短，当前公开仓库规模和外部验证证据有限。",
+      "adoption": "作为跨书综合、保留分歧和方法稳定性判断的设计参考。",
+      "evidence": "官方仓库结构核对 · 2026-08-28",
+      "caution": "当前未选择开源许可证；公开可读不等于可复制、修改或重新分发。",
+      "recommended": false,
+      "url": "https://github.com/noahnan-max/book-to-skill"
+    },
+    {
+      "id": "skill-factory",
+      "category": "direct",
+      "categoryLabel": "直接同类",
+      "title": "skill-factory",
+      "kind": "Agent Skill · 构造与治理",
+      "source": "公开来源、内部流程、私有文档、人工说明、失败轨迹或既有 Skill",
+      "strength": "覆盖新建、审计、评估和优化，包含来源账本、质量门、评测案例、评分规则和发布记录。",
+      "gap": "不负责大规模长内容解析和五路候选发现，更聚焦单个 Skill 的生命周期质量。",
+      "adoption": "优先吸收来源策略、隐私策略、评测设计和失败驱动优化协议。",
+      "evidence": "官方仓库与严格校验说明核对 · 2026-08-28",
+      "caution": "仍以 Agent 指令工作流为主；辅助脚本主要校验包结构，并非完整生成运行器。",
+      "recommended": true,
+      "url": "https://github.com/kingjly/skill-factory"
+    },
+    {
+      "id": "doc2skill",
+      "category": "direct",
+      "categoryLabel": "直接同类",
+      "title": "doc2skill",
+      "kind": "文档站 → Claude Skill",
+      "source": "在线技术文档网站",
+      "strength": "目标单一明确：把文档站点转换成 Claude Skill，适合作为最窄自动化基线。",
+      "gap": "来源和目标宿主比 Skill Seekers 窄，也不覆盖方法论筛选、Skill 网络和行为评测。",
+      "adoption": "用于比较“最小文档转 Skill 流程”的实现成本和输出结构。",
+      "evidence": "官方仓库定位核对 · 2026-08-28",
+      "caution": "只应作为窄场景参考，不应代表完整 Skill Factory。",
+      "recommended": false,
+      "url": "https://github.com/moinulmoin/doc2skill"
+    },
+    {
+      "id": "agent-skill-eval",
+      "category": "quality",
+      "categoryLabel": "质量与参考",
+      "title": "agent-skill-eval",
+      "kind": "跨宿主行为评测 Harness",
+      "source": "Skill 包、评测套件、测试夹具和可选来源仓库",
+      "strength": "在隔离工作区真实安装并运行 Codex、Claude Code、OpenCode，保存产物、通过率、Token、成本和副作用记录。",
+      "gap": "只负责验证 Skill 是否改变真实 Agent 行为，不负责从内容发现或构造能力。",
+      "adoption": "作为 Stage 4 的可重放执行层，替换当前一次性手工评测编排。",
+      "evidence": "官方仓库 CLI 与生命周期文档核对 · 2026-08-28",
+      "caution": "真实 Agent 回归会产生模型费用与潜在外部副作用，需要预算和 side-effect 策略。",
+      "recommended": true,
+      "url": "https://github.com/tardigrde/agent-skill-eval"
+    },
+    {
+      "id": "anthropic-skills",
+      "category": "quality",
+      "categoryLabel": "质量与参考",
+      "title": "Anthropic Skills",
+      "kind": "官方参考实现与复杂样例",
+      "source": "创意、开发、企业沟通和文档处理 Skill",
+      "strength": "提供真实复杂 Skill 的目录、脚本和资源组织参考，包括 Claude 文档能力使用的 Skill。",
+      "gap": "是样例和实现仓库，不是从任意外部内容自动蒸馏 Skill 的生产线。",
+      "adoption": "作为文件结构、渐进披露、复杂脚本和生产级交付物的参考基线。",
+      "evidence": "Anthropic 官方仓库核对 · 2026-08-28",
+      "caution": "仓库明确要求在关键任务前自行充分测试；部分文档 Skill 为 source-available 而非开源。",
+      "recommended": false,
+      "url": "https://github.com/anthropics/skills"
+    },
+    {
+      "id": "agent-skills-standard",
+      "category": "ecosystem",
+      "categoryLabel": "标准与分发",
+      "title": "Agent Skills Standard",
+      "kind": "开放格式规范",
+      "source": "SKILL.md、scripts、references、assets 与宿主加载语义",
+      "strength": "定义可移植 Skill 的最小结构以及发现、激活、执行三阶段渐进披露。",
+      "gap": "它是交换格式，不负责获取资料、判断哪些知识值得变成能力或执行行为评测。",
+      "adoption": "作为所有生成 Skill Pack 的兼容目标和静态合同。",
+      "evidence": "官方标准站点核对 · 2026-08-28",
+      "caution": "兼容格式不等于不同宿主的行为完全一致，仍需跨宿主回归。",
+      "recommended": true,
+      "url": "https://agentskills.io/"
+    },
+    {
+      "id": "skills-sh",
+      "category": "ecosystem",
+      "categoryLabel": "标准与分发",
+      "title": "skills.sh",
+      "kind": "目录 · 搜索 · 一键安装",
+      "source": "公开 Agent Skill 仓库与 Skill Pack",
+      "strength": "提供开放 Skill 生态的发现、排行、分类和 `npx skills add` 安装入口。",
+      "gap": "不负责来源质量、能力蒸馏或独立验证；被收录和高安装量不等于 Skill 可靠。",
+      "adoption": "在内部验证与版本治理完成后，作为公开分发和生态观察入口。",
+      "evidence": "官方目录与安装说明核对 · 2026-08-28",
+      "caution": "安装第三方 Skill 前必须审查来源、脚本、权限、提示注入和版本锁定。",
+      "recommended": false,
+      "url": "https://skills.sh/"
+    }
+  ],
+  "adoptionStack": [
+    {
+      "stage": "01",
+      "title": "多来源进入",
+      "choice": "Skill Seekers",
+      "reason": "补齐 PDF、网页、视频、代码库和协作系统解析。",
+      "status": "建议研究 · 尚未集成"
+    },
+    {
+      "stage": "02",
+      "title": "能力蒸馏",
+      "choice": "Cangjie Skill",
+      "reason": "保留五路提取、三重验证、RIA++ 和关系建模。",
+      "status": "当前研究底座"
+    },
+    {
+      "stage": "03",
+      "title": "构造与治理",
+      "choice": "skill-factory",
+      "reason": "补齐来源账本、评测设计、隐私和失败驱动优化。",
+      "status": "建议吸收 · 尚未集成"
+    },
+    {
+      "stage": "04",
+      "title": "真实行为验证",
+      "choice": "agent-skill-eval",
+      "reason": "把独立盲测升级为跨宿主、可重放、可比较的评测。",
+      "status": "建议研究 · 尚未集成"
+    },
+    {
+      "stage": "05",
+      "title": "标准与分发",
+      "choice": "Agent Skills + skills.sh",
+      "reason": "统一输出格式；验证完成后再进入公开发现和安装生态。",
+      "status": "格式对齐中 · 未公开发布"
+    }
+  ],
+  "cases": [
+    {
+      "id": "ai-for-everyone",
+      "category": "video",
+      "categoryLabel": "视频课程",
+      "title": "AI for Everyone Skill",
+      "source": "吴恩达《给所有人的 AI 入门课》Bilibili 26 集字幕",
+      "scale": "26 集 → 176 候选 → 25 Skills",
+      "skills": 25,
+      "proof": "证明一门课程可以被拆成从可行性判断、项目选择到组织转型的能力地图，而不是课程摘要。",
+      "example": "业务问题能否用 AI 做？先调用可行性判断和三重尽调，而不是直接推荐模型。",
+      "sampleSkills": ["ml-feasibility", "triple-due-diligence", "ai-transformation-playbook"],
+      "evidence": "上游公开仓库 · 结构核对",
+      "caveat": "公开仓库证明产物结构和声明规模；本研究没有独立重跑全部25项压力测试。",
+      "url": "https://github.com/kangarooking/ai-for-everyone-skill"
+    },
+    {
+      "id": "loop-engineering",
+      "category": "video",
+      "categoryLabel": "长视频合集",
+      "title": "Loop Engineering Skill",
+      "source": "4 个中英文 Loop Engineering 长视频文案",
+      "scale": "4 个视频 → 8 Skills",
+      "skills": 8,
+      "proof": "证明可以跨讲者合并同一主题，形成任务是否值得循环、停止条件和 maker-checker 等互补能力。",
+      "example": "Loop 停不下来时，先检查 Goal 与 Verification，再设置硬停止条件。",
+      "sampleSkills": ["loop-worthiness-test", "goal-verification", "maker-checker"],
+      "evidence": "上游公开仓库 · 结构核对",
+      "caveat": "跨讲者综合容易抹平观点冲突，必须保留来源和相邻 Skill 边界。",
+      "url": "https://github.com/kangarooking/loop-engineering-skill"
+    },
+    {
+      "id": "system-prompt-skills",
+      "category": "corpus",
+      "categoryLabel": "产品工件集合",
+      "title": "System Prompt Skills",
+      "source": "165 个公开 AI 产品系统提示词",
+      "scale": "165 份工件 → 15 Skills",
+      "skills": 15,
+      "proof": "证明输入不必是叙事内容；也可以从真实产品工件中抽取工具、安全、记忆、引用和上下文设计模式。",
+      "example": "设计 Agent 时组合工具规范、任务路由、子代理委派与注入防御。",
+      "sampleSkills": ["tool-specification", "injection-defense", "context-management"],
+      "evidence": "上游公开仓库 · 结构核对",
+      "caveat": "原始提示词的许可、真实性和时效需要单独评估；方法模式不等于厂商官方规范。",
+      "url": "https://github.com/kangarooking/system-prompt-skills"
+    },
+    {
+      "id": "x-growth",
+      "category": "corpus",
+      "categoryLabel": "多来源资料集",
+      "title": "X Growth Skills",
+      "source": "多位创作者经验、X官方建议和公开算法资料",
+      "scale": "多来源资料 → 15 Skills",
+      "skills": 15,
+      "proof": "证明混合资料可以被组织成定位、冷启动、内容、互动、复盘和变现的组合路径。",
+      "example": "从账号定位开始，连接主页、冷启动、内容检查和80/20数据复盘。",
+      "sampleSkills": ["x-positioning-tradeoff", "x-cold-start-playbook", "x-data-review"],
+      "evidence": "上游公开仓库 · 结构核对",
+      "caveat": "平台算法、Premium和风控规则会变化，执行建议必须重新核验最新官方资料。",
+      "url": "https://github.com/kangarooking/X-growth-skills"
+    },
+    {
+      "id": "buffett-letters",
+      "category": "archive",
+      "categoryLabel": "长期文档集合",
+      "title": "Buffett Letters Skill",
+      "source": "1957–2023 年股东信",
+      "scale": "67 年文档 → 40 候选 → 20 Skills",
+      "skills": 20,
+      "proof": "证明跨数十年的重复表达可以沉淀为能力圈、市场先生、安全边际和资本配置等组合判断。",
+      "example": "面对暴涨股票，组合市场先生、恐惧与贪婪、能力圈和安全边际。",
+      "sampleSkills": ["mr-market", "circle-of-competence", "margin-of-safety"],
+      "evidence": "上游公开仓库 · 本地代表样例结构审计",
+      "caveat": "本地审计确认六段结构与测试题文件，但固定样例未保存可重放的 test-results，不能据此断言全部测试已执行。",
+      "url": "https://github.com/kangarooking/buffett-letters-skill"
+    },
+    {
+      "id": "zuoer-controlled",
+      "category": "controlled",
+      "categoryLabel": "我们的受控研究",
+      "title": "《左耳听风》Column Proxy",
+      "source": "119 篇第三方专栏代理语料",
+      "scale": "119 篇 → 247 候选 → 1 正式 Skill",
+      "skills": 1,
+      "proof": "证明从候选、三重验证、构造、19/19独立回归、仓库安装到真实公开事故演示可以形成完整证据链。",
+      "example": "incident-learning-audit 把故障复盘从直接诱因推进到证据、系统因果、行动合同与学习闭环。",
+      "sampleSkills": ["incident-learning-audit", "19/19 blind regression", "Cloudflare public case"],
+      "evidence": "本地受控验证 · Stage 0–5C",
+      "caveat": "代理语料不是纸质书；目前只有1个正式Skill，组织事故案例仍为0。",
+      "url": "#capability-atlas"
+    }
+  ]
+}

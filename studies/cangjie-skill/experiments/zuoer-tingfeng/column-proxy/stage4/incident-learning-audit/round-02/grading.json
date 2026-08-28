@@ -1,0 +1,16 @@
+{
+  "skill_snapshot": "0.1.1",
+  "judge": "main_agent",
+  "scope": "focused-retest-of-round-01-failures",
+  "total": 3,
+  "passed": 3,
+  "failed": 0,
+  "pass_rate": 1.0,
+  "decision": "run-full-regression",
+  "verdicts": [
+    {"blind_id":"q-42","case_id":"I03","verdict":"pass","reason":"技术学习部分触发 evidence_gap，同时拒绝人员处分判断。"},
+    {"blind_id":"q-07","case_id":"C08","verdict":"pass","reason":"稳定且机制具体的事故进入 full_review，未枚举证据保留为未知。"},
+    {"blind_id":"q-26","case_id":"X02","verdict":"pass","reason":"本技能触发 active_handoff 阶段门，并把恢复执行交给活动事故响应。"}
+  ],
+  "note": "Focused success is not treated as final acceptance; Round 3 reruns all 19 cases with fresh evaluators."
+}

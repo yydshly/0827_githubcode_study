@@ -1,0 +1,9 @@
+{
+  "capabilities": [
+    {"name": "incident-learning-audit", "description": "稳定后的软件、服务、数据、发布或基础设施事故学习审计。"},
+    {"name": "architecture-decision-review", "description": "尚未发生生产事故时，评审架构约束、权衡、可逆性、迁移成本与验证计划。"},
+    {"name": "project-retrospective", "description": "复盘项目延期、需求变化、协作和决策流程。"},
+    {"name": "customer-service-retrospective", "description": "复盘客服投诉升级、服务过程和流程改进。"},
+    {"name": "formal-professional-referral", "description": "医疗、法律或正式人事裁决等需要持证专业人员或正式组织流程的请求。"}
+  ]
+}

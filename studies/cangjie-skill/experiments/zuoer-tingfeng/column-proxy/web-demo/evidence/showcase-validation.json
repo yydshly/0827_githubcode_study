@@ -1,0 +1,94 @@
+{
+  "verifiedAt": "2026-08-28T12:18:19.054Z",
+  "url": "http://127.0.0.1:4180/cangjie-skill",
+  "revision": 9,
+  "status": "pass",
+  "capabilityInventory": {
+    "total": 4,
+    "formalSkills": 1,
+    "candidateCapabilities": 3,
+    "maturityGates": 6
+  },
+  "nextGate": {
+    "stage": "5C",
+    "intakeInfrastructureReady": true,
+    "organizationCases": 0,
+    "organizationExternalValidity": false
+  },
+  "surfaces": [
+    {
+      "viewport": "1440x1000",
+      "colorScheme": "light",
+      "reducedMotion": "no-preference",
+      "cards": 4,
+      "formal": 1,
+      "candidates": 3,
+      "formalGates": 6,
+      "candidateGates": 1,
+      "demoStations": 6,
+      "snapshotItems": 5,
+      "stage5cGate": 1,
+      "horizontalOverflow": false,
+      "consoleErrors": []
+    },
+    {
+      "viewport": "768x1024",
+      "colorScheme": "dark",
+      "reducedMotion": "no-preference",
+      "cards": 4,
+      "formal": 1,
+      "candidates": 3,
+      "formalGates": 6,
+      "candidateGates": 1,
+      "demoStations": 6,
+      "snapshotItems": 5,
+      "stage5cGate": 1,
+      "horizontalOverflow": false,
+      "consoleErrors": []
+    },
+    {
+      "viewport": "390x844",
+      "colorScheme": "light",
+      "reducedMotion": "no-preference",
+      "cards": 4,
+      "formal": 1,
+      "candidates": 3,
+      "formalGates": 6,
+      "candidateGates": 1,
+      "demoStations": 6,
+      "snapshotItems": 5,
+      "stage5cGate": 1,
+      "horizontalOverflow": false,
+      "consoleErrors": []
+    },
+    {
+      "viewport": "1024x768",
+      "colorScheme": "light",
+      "reducedMotion": "reduce",
+      "cards": 4,
+      "formal": 1,
+      "candidates": 3,
+      "formalGates": 6,
+      "candidateGates": 1,
+      "demoStations": 6,
+      "snapshotItems": 5,
+      "stage5cGate": 1,
+      "horizontalOverflow": false,
+      "consoleErrors": []
+    }
+  ],
+  "journey": {
+    "candidateAction": "learn -> 技术学习规划",
+    "formalAction": "incident -> full_review / output 01",
+    "stations": [
+      "evidence",
+      "cause",
+      "action",
+      "closure"
+    ],
+    "conclusion": "尚未形成学习闭环",
+    "score": 86,
+    "focusManaged": true,
+    "consoleErrors": []
+  }
+}

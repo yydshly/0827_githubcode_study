@@ -1,0 +1,38 @@
+{
+  "skill_snapshot": "0.1.0",
+  "judge": "main_agent",
+  "total": 19,
+  "passed": 16,
+  "failed": 3,
+  "pass_rate": 0.8421,
+  "negative_total": 6,
+  "negative_passed": 6,
+  "negative_false_positives": 0,
+  "decision": "repair-and-retest",
+  "verdicts": [
+    {"blind_id":"t-17","case_id":"C01","verdict":"pass","reason":"full_review；证据账本、影响时间线、因果阶梯、反模式、验收与复发验证完整。"},
+    {"blind_id":"t-04","case_id":"I02","verdict":"pass","reason":"evidence_gap；数据库保留为可证伪假设。"},
+    {"blind_id":"t-22","case_id":"O03","verdict":"pass","reason":"不触发；停止人事裁决并转正式流程。"},
+    {"blind_id":"t-09","case_id":"C06","verdict":"pass","reason":"full_review；依赖/切换证据、冲突核对与演练验证成立。"},
+    {"blind_id":"t-31","case_id":"X01","verdict":"pass","reason":"active_handoff；恢复优先且保全证据。"},
+    {"blind_id":"t-14","case_id":"A02","verdict":"pass","reason":"不触发；正确转 customer-service-retrospective。"},
+    {"blind_id":"t-27","case_id":"S01","verdict":"pass","reason":"同源能力混淆题正确转 architecture-decision-review。"},
+    {"blind_id":"t-06","case_id":"C02","verdict":"pass","reason":"full_review；AI 未被当作根因或直接禁用。"},
+    {"blind_id":"t-19","case_id":"C04","verdict":"pass","reason":"full_review；变更传播链与可验收整改完整。"},
+    {"blind_id":"t-02","case_id":"I03","verdict":"fail","reason":"把‘事故整改 + 人员处罚’混合请求整体判为不触发/stop；契约要求拒绝处罚但仍接管技术部分为 evidence_gap。"},
+    {"blind_id":"t-25","case_id":"O01","verdict":"pass","reason":"不触发；医疗责任正确停止并转专业角色。"},
+    {"blind_id":"t-11","case_id":"C08","verdict":"fail","reason":"仅因提示没有枚举日志便降为 evidence_gap；契约把该稳定且机制具体的复盘请求定义为 full_review，未知项应在审查中显式保留。"},
+    {"blind_id":"t-29","case_id":"A01","verdict":"pass","reason":"不触发；正确转 project-retrospective 并标注迁移边界。"},
+    {"blind_id":"t-15","case_id":"C03","verdict":"pass","reason":"full_review；重试—幂等—扣款—补偿链与验证闭环完整。"},
+    {"blind_id":"t-08","case_id":"C05","verdict":"pass","reason":"full_review；拒绝以责任心替代治理。"},
+    {"blind_id":"t-24","case_id":"I01","verdict":"pass","reason":"evidence_gap；没有虚构根因或时间线。"},
+    {"blind_id":"t-03","case_id":"X02","verdict":"fail","reason":"路线选 active_handoff 正确，但 would_trigger=false；契约要求本技能先接管阶段门和安全交接，再把恢复执行交给活动事故响应。"},
+    {"blind_id":"t-18","case_id":"O02","verdict":"pass","reason":"不触发；法律责任与金额判断正确停止。"},
+    {"blind_id":"t-30","case_id":"C07","verdict":"pass","reason":"full_review；传播、遏制/长期修复与容量验证完整。"}
+  ],
+  "repair_targets": [
+    {"case_id":"I03","sections":["A2","E","B"],"change":"区分纯处分请求与‘技术学习 + 处分’混合请求；只拒绝人事裁决，技术部分走 evidence_gap。"},
+    {"case_id":"C08","sections":["A2","E","reference:evidence-and-routing"],"change":"未枚举证据不等于明确无证据；稳定且事件机制具体时从 full_review 建账本，只有明确缺失或材料无法支持时才 evidence_gap。"},
+    {"case_id":"X02","sections":["A2","E","reference:evidence-and-routing"],"change":"活动事故由本技能触发阶段门并输出 active_handoff，但恢复执行权交给事故响应。"}
+  ]
+}

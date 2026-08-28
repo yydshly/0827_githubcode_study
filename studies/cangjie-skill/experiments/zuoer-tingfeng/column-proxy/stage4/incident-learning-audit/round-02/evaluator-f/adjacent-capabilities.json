@@ -1,0 +1,8 @@
+{
+  "capabilities": [
+    {"name": "incident-learning-audit", "description": "软件、服务、数据、发布或基础设施事故的阶段门、复盘准备和系统学习审计。"},
+    {"name": "active-incident-response", "description": "执行事故止损、恢复、指挥和状态沟通。"},
+    {"name": "architecture-decision-review", "description": "评审未来架构约束、权衡、迁移和验证计划。"},
+    {"name": "formal-professional-referral", "description": "医疗、法律或正式人事裁决等专业流程。"}
+  ]
+}
